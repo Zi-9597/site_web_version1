@@ -1,0 +1,54 @@
+.logo_lille
+{
+
+    
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.u_lille
+{
+    width: 100%;
+    max-width: 400px;
+
+    height: auto;
+}
+
+.logo_ulille
+{
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    display: block;
+}
+
+.u_assoc
+{
+    width: 100%;
+    max-width: 180px;
+}
+
+.logo_assoc
+{
+    width: 100%;
+    max-width: 160px;
+    height: auto;
+}
+
+@media (max-width:1200px) {
+
+    .u_lille
+    {
+    
+        width: 40%;
+    }
+    .u_assoc
+    {
+        width: 40%;
+    }
+    
+}

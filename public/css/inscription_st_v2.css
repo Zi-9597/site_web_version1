@@ -1,0 +1,403 @@
+form
+{
+
+    display: flex;
+    justify-content: center;
+
+}
+
+
+/*Ensemble du container du formulaire d'inscription */
+
+
+.container-formulaire
+{
+    background: #ffffff;
+    
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px 15px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    margin: 80px auto;
+    font-family: 'Nunito', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    
+
+}
+
+/*Partie Description Texte */
+.descritpion-inscription
+{
+    width: 100%;
+    border: #7d3c98;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+  
+}
+
+.titre_h1
+{
+    background: linear-gradient(135deg, #8e44ad, #9766e0);
+   
+    width: 100%;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.descritpion-inscription h1
+{ 
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Nunito';
+    margin-bottom: 1%;
+    text-align: center;
+}
+
+.descirption-courte
+{
+    background: linear-gradient(135deg, #c993df, #9766e0);
+    width: 100%;
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.descirption-courte > p
+{
+   font-size: 27px;
+   margin-bottom: 20px;
+}
+.descritpion-inscription ul
+{
+    font-size: 25px;
+}
+/* Container Formulaire de l'ensemble du formulaire hormis le téléphone et date de naissance*/
+#formulaire-id-inscription {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+.formulaire-element i {
+    font-size: 22px;
+    color: #9766e0;
+    margin-right: 10px;
+}
+
+
+
+
+.formulaire-element:focus-within {
+    border-color: #7d3ae2;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(151, 102, 224, 0.3);
+}
+
+.formulaire-element:not(#naissance-date,#tel-form,#password-form) 
+{
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #fafafa;
+    transition: all 0.3s ease;
+    gap : 30px;
+
+}
+
+.formulaire-element:not(#naissance-date,#tel-form,#password-form) > div 
+{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    gap : 5px;
+}
+
+
+label {
+    font-size: 20px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 6px;
+}
+/*Naissance , Mot de passe et Numéro de téléphone gestion de design*/
+#naissance-date , #tel-form
+{
+ 
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #ddd;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #fafafa;
+    transition: all 0.3s ease;
+    gap : 30px;
+    align-items: center;
+
+}
+#naissance-date > div , #container-phone
+{
+    display: flex;
+    width: 50%;
+    height: 100px;
+    align-items: center;
+    gap : 15px;
+}
+
+
+#element-naissance , #element-tel
+{
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+
+#check-phone
+{
+    display: flex;
+    padding-left: 15px;
+    margin-left: 20px;
+    gap : 20px;
+    align-items: center;
+}
+/*Mot de passe gestion */
+
+#password-form
+{
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #ddd;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #fafafa;
+    transition: all 0.3s ease;
+    gap : 8px;
+    align-items: center;
+
+
+}
+
+#container_mdp
+{
+    display: flex;
+    
+    height: 100px;
+    width: 100%;
+    margin-bottom: 5px;
+    align-items: center;
+    gap : 15px;
+    font-size: 20px;
+    font-family: 'Nunito';
+  
+
+    
+}
+#element-mdp
+{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+
+#det_mdp
+{
+    font-size: 20px;
+    font-family: 'Nunito';
+    width: 85%;
+  
+
+  
+}
+#det_mdp > ul
+{
+    color: red;
+    font-size: 18px;
+}   
+
+#det_mdp > p
+{
+    font-size: 20px;
+} 
+/* Déplacement des paragraphes du bas teleĥone et naissance*/
+#naissance-date > p
+{
+    margin-left: 35px;
+    font-size: 20px;
+    color: red;
+
+}
+
+#p_mail
+{
+    margin-left: 10px;
+    font-size: 20px;
+    color: red;
+}
+
+#check-phone > p 
+{
+    font-size: 18px;
+}
+
+#check-phone > input
+{
+    transform: scale(1.3);
+}
+#bon_num
+{
+    color: red;
+    margin-left: 34px;
+    font-size: 20px;
+    display: none;
+   
+
+}
+
+#button_submit {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #9766e0, #8e44ad);
+    color: #fff;
+}
+
+#button_submit:hover:enabled {
+    background: linear-gradient(135deg, #7d3c98, #6c3483);
+    transform: translateY(-2px);
+}
+
+
+/* Bouton désactivé */
+#button_submit:disabled {
+    background: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+    width: 100%;
+}
+
+/* General balise html */
+input:not(#tel-available)
+{
+    border: transparent;
+    outline: none;
+    font-size: 20px;
+  
+    background: transparent;
+    border-radius: 8px;
+    padding: 10px;
+
+
+}
+
+input:hover
+{
+    border-color: #8e44ad;
+    box-shadow: 0 0 8px rgba(142, 68, 173, 0.4);
+}
+input:focus {
+    outline: none;
+    border-color: #8e44ad;
+    box-shadow: 0 0 10px rgba(142, 68, 173, 0.6);
+}
+
+/* Style général du select */
+select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 19px;
+    font-family: 'Nunito', sans-serif;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+select:hover {
+    border-color: #8e44ad;
+    box-shadow: 0 0 8px rgba(142, 68, 173, 0.4);
+}
+
+select:focus {
+    outline: none;
+    border-color: #8e44ad;
+    box-shadow: 0 0 10px rgba(142, 68, 173, 0.6);
+}
+
+
+
+.button_submit
+{
+    height: 80px;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+    
+
+}
+
+.button_submit > button
+{
+    width: 50%;
+    border-radius: 8px;
+    height: 60%;
+    transition: background-color 0.3s ease-out;
+    background-color: aliceblue;
+    color: rgb(17, 17, 218);
+    font-size: 20px;
+    font-family: 'Nunito';
+    font-weight: bold;
+
+
+}
+
+.button_submit > button:hover
+{
+   cursor: pointer;
+   background-color: rgb(17, 17, 218);
+   color: white;
+
+}
+@media only screen and (max-width: 1400px) {
+    
+    .container-formulaire , #formulaire-id-inscription , .descritpion-inscription , .button_submit
+    {
+        width: 100%;
+     
+    }
+
+  }
+ 

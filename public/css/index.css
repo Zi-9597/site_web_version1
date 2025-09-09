@@ -1,0 +1,146 @@
+
+*{
+    outline: 0;
+    border: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    appearance: 0;
+    text-decoration: none;
+}
+
+/*On définit le fond de la page web (qu'onn peut le changer dans background color */
+body
+{
+    background-color: rgba(101, 168, 207, 0.836);
+    overflow-x: hidden;
+}
+
+body.active
+{
+    overflow: hidden;
+}
+/*On met tous les liens hypertextes en noirs */
+a{
+    color: black;
+}
+
+/* Début de la mise en forme de la barre de navigation */
+.nav_2
+{
+    
+    position: fixed;
+    display: flex;
+    width: 350px;
+    height: 650px;
+    overflow-y: auto;
+    z-index: 9999;
+    opacity: 0;
+    box-shadow:0 1rem 1rem rgba(0,0,0,0.5);
+    transform: translateX(-100%);
+    transition: all 0.5s ease-out;
+    display: flex;
+    flex-direction: column;
+    background-color:  rgb(16, 83, 226);;
+    
+}
+
+.nav_2_show
+{
+    opacity: 1;
+    transform: translateX(0%);
+
+}
+
+.nav_2 > span
+{
+
+    display: flex;
+   
+    flex : 0 0 80px;
+    
+    margin-bottom: 10px; /* Optional: spacing between spans */
+    box-sizing: border-box; 
+    
+}
+
+
+.nav_2 > span > a
+{
+    display: flex; /* Use flex to align text */
+    align-items: center; /* Vertically center text */
+    justify-content: center; /* Horizontally center text */
+    font-family: 'Nunito';
+    font-size: 20px;
+    width: 100%;
+    transition: background-color 0.5s ease-out;
+   
+}
+
+.nav_2 > span > a:hover
+{
+    background-color: azure;
+    border-radius: 10px;
+    color :rgb(16, 83, 226)
+}
+
+.reseau_sociaux
+{
+    display: flex;
+    gap : 5px;
+}
+
+.insc_conn_nav2
+{
+    display: flex;
+    gap : 15px;
+}
+/* Permettant de bloquer et ajouter une couche noir au niveau de la page web quand la fenêtre est réduite etque la personne appuie sur le boutton connection
+inscription */
+
+.overlay
+{
+    position: fixed;
+    top : 0; 
+    left : 0;
+    display: none;
+    z-index: 10;
+    background-color: rgba(0,0,0,0.2);
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+
+}
+
+.overlay.active
+{
+    display: block;
+    opacity: 1;
+}
+
+.container
+{
+    overflow-y: scroll;
+}
+
+@media only screen and (max-width: 1200px) {
+    
+    .list_nav_1
+    {
+        display: none;
+    }
+  }
+
+@media only screen and (max-height: 700px) {
+    
+    .nav_2
+    {
+        height: 250px;
+    }
+
+    .nav2 > span > a
+    {
+        font-size: 25px;
+    }
+  }
