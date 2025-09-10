@@ -97,7 +97,7 @@
                         <textarea id="desc-event" name="desc_event" rows="3" placeholder="Décrivez brièvement l'événement..." maxlength="500" required></textarea>
                     </div>
                 </div>
-                <p id="char-count">0 / 500 caractères</p>
+                <p id="char-count">0 / 250 caractères</p>
             </div>
 
           <!-- Catégorie -->
@@ -119,8 +119,9 @@
           <div class="button_submit">
               <button type="submit" id="button_submit" disabled>Ajouter l'événement</button>
           </div>
-
+        
       </form>
+      <script src="public/js/formulaire_evenmt.js"></script>
   </div>
 
 

@@ -165,7 +165,7 @@ input, textarea, select {
 }
 
 #button_submit {
-    width: 60%;
+    width: 100%;
     padding: 14px;
     border-radius: 10px;
     border: none;
