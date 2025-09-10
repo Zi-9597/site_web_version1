@@ -106,6 +106,7 @@
               <div>
                   <label for="categorie">Catégorie</label>
                   <select id="categorie" name="categorie">
+                      <option value="" selected disabled hidden>Sélectionner</option>
                       <option value="sport">Sport</option>
                       <option value="culture">Culture</option>
                       <option value="formation">Formation</option>
