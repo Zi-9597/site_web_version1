@@ -20,6 +20,7 @@
     
    
     <script src="public/js/gestion_slidebar_1.js"></script>
+    
     <?php
     // Simple test to display "ancien" on the page
         require_once "require_db.php";
