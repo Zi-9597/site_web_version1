@@ -43,7 +43,7 @@
                 <li> <a href="/?dest=goodies&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Goodies </a> </li>
             </ul>
             <div class="container_conn_insc">
-                <div class="connection_inscription_bloc"><a href="/?dest=parametres">
+                <div class="connection_inscription_bloc"><a href="/?dest=parametres&id_user=<?php echo htmlspecialchars($id_comb) ;?>">
                     <svg class="svg_conn" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                         <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                         <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
@@ -51,7 +51,7 @@
                     <span class="connect_span connect_span_comm">  <?php echo htmlspecialchars($nom_prenom); ?> </span></a> 
                 </div>
                 
-                <div class="connection_inscription_bloc" id="inscri"><a href="/?dest=logout" class="logout_btn">
+                <div class="connection_inscription_bloc" id="inscri"><a href="/" class="logout_btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" 
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" 
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 

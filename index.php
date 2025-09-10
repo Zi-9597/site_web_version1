@@ -11,7 +11,9 @@
             "add_subscriber" => "templates/externe/add_subscriber.php",
             "info_conn"      => "templates/externe/info_conn.php",
             "success"        => "templates/externe/success.php",
-            "acceuil"        => "templates/externe/acceuil_site.php" // default page
+            "acceuil"        => "templates/externe/acceuil_site.php", // default page
+            "parametres"     => "templates/externe/commun/parametres.php",
+            "dep_evenmt"     => "templates/externe/membre/depot_event.php"
         ];
 
         // 1. Get the dest param (fallback = acceuil)

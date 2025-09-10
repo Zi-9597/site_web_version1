@@ -1,0 +1,210 @@
+body {
+
+    font-family: 'Nunito', sans-serif;
+}
+
+/* Container principal */
+.container-formulaire {
+    background: #ffffff;
+    width: 100%;
+    max-width: 1000px;
+    padding: 25px 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    margin: 60px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Bandeau titre */
+.descritpion-evenement {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    text-align: center;
+    color: #fff;
+
+}
+
+.titre_h1 {
+    background: linear-gradient(135deg, #8e44ad, #9766e0);
+    width: 100%;
+    padding: 20px;
+}
+
+.titre_h1 h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+/* Texte de description sous le titre */
+.descirption-courte {
+    background: linear-gradient(135deg, #c993df, #9766e0);
+    width: 100%;
+    padding: 20px;
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.descirption-courte p {
+    font-size: 20px;
+    margin: 0;
+    color: #fff;
+    line-height: 1.6;
+}
+
+/* Formulaire */
+#formulaire-evenement {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Champs généraux */
+.formulaire-element {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 14px;
+    border-radius: 10px;
+    background: #fafafa;
+    transition: all 0.3s ease;
+    gap: 15px;
+}
+
+/* Effet focus sur le conteneur */
+.formulaire-element:focus-within {
+    border-color: #8e44ad;
+    box-shadow: 0 0 10px rgba(151, 102, 224, 0.3);
+    background: #fff;
+}
+
+.formulaire-element i {
+    font-size: 22px;
+    color: #9766e0;
+}
+
+/* Labels et inputs */
+label {
+    font-size: 20px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 6px;
+}
+
+input, textarea, select {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    background: transparent;
+    padding: 8px;
+    border-radius: 6px;
+    font-family: 'Nunito', sans-serif;
+    transition: all 0.3s ease;
+}
+
+
+/* Bloc spécifique à la date */
+
+
+
+#event-date > div , #desc-evenmt > div
+{
+    display: flex;
+    width: 50%;
+    height: 100px;
+    align-items: center;
+    gap : 15px;
+}
+
+#desc-evenmt
+{
+    height: 200px;
+    max-height: 150px;
+    gap : 25px;
+}
+#element-date , #element-desc
+{
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+
+
+#event-date > p  , #desc-evenmt > p
+{
+    color : red;
+    font-size: 20px;
+}
+
+/* Bloc spécifique à la description */
+
+
+
+/* Textarea spécifique */
+
+
+/* Bouton */
+.button_submit {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#button_submit {
+    width: 60%;
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    background: linear-gradient(135deg, #9766e0, #8e44ad);
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+
+/* Bouton désactivé */
+#button_submit:disabled {
+    background: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+    width: 100%;
+}
+
+/* Facultatif : éviter tout effet hover */
+#button_submit:disabled:hover {
+    background: #ccc;
+    color: #666;
+}
+
+#button_submit:hover {
+    background: linear-gradient(135deg, #7d3c98, #6c3483);
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .container-formulaire, #formulaire-evenement {
+        width: 100%;
+    }
+
+    #button_submit {
+        width: 90%;
+    }
+}
