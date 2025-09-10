@@ -20,6 +20,7 @@ Il permet notamment :
 - La **gestion et participation aux événements** (séminaires, ateliers, sorties, etc.)  
 - La **diffusion d’offres de stages, alternances et emplois**  
 - L’accès à une **galerie souvenirs** (photos, vidéos, projets passés)  
+  *(à faire lorsqu'on sera décommissionné des serveurs de l’université de Lille)*  
 - Un **formulaire de contact** pour échanger avec l’association  
 
 ---
@@ -43,7 +44,7 @@ Le projet est structuré en plusieurs dossiers, chacun ayant un rôle précis :
   - **`commun/`** → Éléments réutilisables (barre de navigation, pied de page, en-têtes, etc.)  
 
 - **`config/`**  
-  Paramètres de configuration (ex. connexion base de données).  
+  Paramètres de configuration (ex. : connexion base de données).  
 
 - **`includes/`**  
   Scripts PHP réutilisables : fonctions, gestion de la sécurité, logique d’authentification.  
