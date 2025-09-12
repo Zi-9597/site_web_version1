@@ -1,0 +1,68 @@
+/* Conteneur global des résultats */
+.container-resultats {
+  margin: 40px auto;
+  max-width: 950px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 30px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Titre */
+.container-resultats h2 {
+  color: #8e44ad;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #8e44ad;
+  padding-bottom: 8px;
+  font-family: 'Nunito', sans-serif;
+}
+
+/* Zone des résultats (colonne + scroll) */
+#resultats {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 400px;     /* fixe la hauteur max */
+  overflow-y: auto;      /* scroll vertical si trop d’éléments */
+  padding-right: 8px;    /* espace pour la scrollbar native */
+}
+
+/* Carte d'événement */
+.event-card {
+  background: #fff;
+  border-left: 6px solid #8e44ad; /* bord violet permanent */
+  border-radius: 10px;
+  padding: 15px 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.4s ease;
+  animation: fadeSlide 0.4s ease;
+}
+
+/* Titre de l’événement */
+.event-card h3 {
+  margin: 0 0 10px;
+  color: #8e44ad;
+  font-size: 20px;
+}
+
+/* Texte des infos */
+.event-card p {
+  margin: 4px 0;
+  color: #333;
+  font-size: 17px;
+}
+
+/* Effet hover : halo violet doux et progressif */
+.event-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 10px rgba(142, 68, 173, 0.4), 
+              0 0 25px rgba(142, 68, 173, 0.6);
+}
+
+/* Animation apparition */
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

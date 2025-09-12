@@ -13,7 +13,10 @@
             "success"        => "templates/externe/success.php",
             "acceuil"        => "templates/externe/acceuil_site.php", // default page
             "parametres"     => "templates/externe/commun/parametres.php",
-            "dep_evenmt"     => "templates/externe/membre/depot_event.php"
+            "dep_evenmt"     => "templates/externe/membre/depot_event.php",
+            "add_event"      =>  "templates/externe/ajouter_evenement.php",
+            "rech_event"    =>  "templates/externe/membre/access_event.php",
+            "fetch_data"     => "templates/externe/search_event.php"
         ];
 
         // 1. Get the dest param (fallback = acceuil)
