@@ -75,7 +75,7 @@
 
         <span><a href="/?dest=acceuil&id_user=<?php echo htmlspecialchars($id_comb) ;?>">  Acceuil  </a></span>
         <span> <a href="/?dest=actualite&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Actualité </a></span>
-        <span> <a href="/?dest=evenements&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Évenements </a> </span>
+        <span> <a href="/?dest=rech_event&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Évenements </a> </span>
         <span> <a href="/?dest=dep_offre&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Dépôt d'offre de contrat </a> </span>
         <span> <a href="/?dest=dep_evenmt&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Dépôt évenmentiel </a> </span>
         <span><a href="/?dest=offre&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Offres d'emploi </a> </span>

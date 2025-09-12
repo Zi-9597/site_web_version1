@@ -95,6 +95,36 @@
             return $stmt->fetch();
         }
 
+        
+        public static function addEvent(array $data): bool
+        {
+            $pdo = self::getInstance();
+            $sql_add = "INSERT INTO evenements 
+            (nom_event, date_event, lieu_event, desc_event, categorie, id_membre, url_form , date_creation)
+            VALUES 
+            (:nom_event, :date_event, :lieu_event, :desc_event, :categorie, :id_membre, :url_form , :date_creation)";
+
+
+            $stmt = $pdo->prepare($sql_add); 
+            
+            return $stmt->execute($data);
+            
+        }
+
+        public static function fetc_event(string $my_sql , array $data): ?array
+        {
+            $pdo = self::getInstance();
+            
+
+            $stmt = $pdo->prepare($my_sql);
+            $stmt->execute($data);
+
+    
+            return $stmt->fetchAll();
+        }
+
+
+
 
 
         

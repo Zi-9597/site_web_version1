@@ -79,6 +79,13 @@ body {
     background: #fafafa;
     transition: all 0.3s ease;
     gap: 15px;
+   
+   
+}
+
+#formulaire-url > div
+{
+    width: 100%;
 }
 
 /* Effet focus sur le conteneur */
@@ -101,6 +108,10 @@ label {
     margin-bottom: 6px;
 }
 
+#select_categories
+{
+    width: 50%;
+}
 input, textarea, select {
     width: 100%;
     border: none;
@@ -111,9 +122,17 @@ input, textarea, select {
     border-radius: 6px;
     font-family: 'Nunito', sans-serif;
     transition: all 0.3s ease;
+
 }
 
 
+
+
+select
+{
+    background-color: #aaa;
+    width: 100%;
+}
 /* Bloc spécifique à la date */
 
 

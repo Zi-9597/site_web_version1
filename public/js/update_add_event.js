@@ -29,12 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Bouton de soumission du formulaire
         submitButton: document.getElementById("button_submit"),
 
-        form_event : document.getElementById("formulaire-evenement")
+        form_event : document.getElementById("formulaire-evenement"),
+
+        box_div : document.getElementById("box_present")
     };
 
     
 
-    elements.desc_event.max
+  
 
     // Désactive le bouton de soumission par défaut pour éviter une soumission prématurée.
     elements.submitButton.disabled = true;
@@ -46,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Expression régulière pour vérifier le format JJ/MM/AAAA
         const regex = /\b(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}\b/;
-
+        
         // Vérifie que la valeur respecte le format attendu
         if (regex.test(event_date_Value)) {
             // Découpe la chaîne (ex : "10/09/2025") en [jour, mois, année]
@@ -126,9 +128,95 @@ document.addEventListener('DOMContentLoaded', () => {
             valid_description &&
             elements.nom_event.value.trim() !== "" &&
             elements.lieu_event.value.trim() !== "";
-        console.log(isValid)
         elements.submitButton.disabled = !isValid; // Active ou désactive le bouton
     }
+
+    // Fonction pour afficher un message sous le bouton
+    function showMessage(type, formData) {
+        elements.box_div.innerHTML = ""; // vider avant de réafficher
+
+        const msgBox = document.createElement("div");
+
+        // Styles
+        msgBox.style.marginTop = "15px";
+        msgBox.style.padding = "12px 16px";
+        msgBox.style.borderRadius = "8px";
+        msgBox.style.backgroundColor = "#fff";
+        msgBox.style.fontFamily = "'Nunito', sans-serif";
+        msgBox.style.fontSize = "16px";
+        msgBox.style.color = "#333";
+        msgBox.style.opacity = "0";
+        msgBox.style.transition = "opacity 0.5s ease";
+        msgBox.style.borderLeft = `6px solid ${type === "success" ? "#28a745" : "#dc3545"}`;
+
+        // Récupérer champs
+        const nom  = formData.get("nom_event");
+        const date = formData.get("date");
+        const lieu = formData.get("lieu_event");
+
+        msgBox.innerHTML = `
+            <strong style="color:${type === "success" ? "#28a745" : "#dc3545"}">
+                ${type === "success" ? "✅ Événement ajouté" : "❌ Erreur"}
+            </strong><br>
+            <span>Nom : ${nom || "-"}</span><br>
+            <span>Date : ${date || "-"}</span><br>
+            <span>Lieu : ${lieu || "-"}</span>
+        `;
+
+        elements.box_div.appendChild(msgBox);
+
+        // Apparition
+        setTimeout(() => { msgBox.style.opacity = "1"; }, 50);
+
+        // Disparition après 5s
+        setTimeout(() => {
+            msgBox.style.opacity = "0";
+            setTimeout(() => {
+                msgBox.style.display = "none";
+                msgBox.remove();
+            }, 500);
+        }, 5000);
+    }
+    elements.form_event.addEventListener("submit" , e=>
+    {
+
+        e.preventDefault();
+
+        const params =  new URLSearchParams(window.location.search); 
+        const data_form = new FormData(elements.form_event);
+
+        const user_id = params.get("id_user"); 
+
+        const url = `/?dest=add_event&id_user=${encodeURIComponent(user_id)}`; 
+
+        fetch(url , 
+        {
+            method: "POST",
+            body : data_form
+
+        })
+        .then(response =>
+        {
+            if(!(response.ok))
+            {
+                throw new Error(`Server problem ... : ${response.status}`);
+            }
+
+            showMessage("success", data_form);
+            resetForm();
+            elements.submitButton.disabled = true;
+        })
+        .catch(() =>
+        {
+            showMessage("error", data_form);
+        })
+
+
+
+
+
+        
+    })
 
     function resetForm() {
         elements.form_event.reset();
@@ -138,24 +226,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+  
+
     elements.event_date.addEventListener('input', validateForm);
     elements.desc_event.addEventListener('input' , validateForm);
     elements.nom_event.addEventListener('input', validateForm);
     elements.lieu_event.addEventListener('input', validateForm);
     elements.categorie.addEventListener('change', validateForm);
 
-    /**
-     * ⚡ Quand on soumet le formulaire → réinitialisation
-     */
-    elements.form_event.addEventListener("submit", function () {
-        resetForm();
-    });
-
+    
     /**
      * ⚡ Quand on recharge ou revient en arrière → réinitialisation
-     */
+    */
     window.addEventListener("pageshow", function () {
         resetForm();
+        elements.submitButton.disabled = true;
     });
 
 

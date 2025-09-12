@@ -54,7 +54,7 @@
       </div>
 
       <!-- Formulaire -->
-      <form id="formulaire-evenement" action="ajouter_evenement.php" method="POST">
+      <form id="formulaire-evenement">
         
           <!-- Nom de l'événement -->
           <div class="formulaire-element">
@@ -85,10 +85,16 @@
               </div>
           </div>
 
-          <!-- Description -->
+          <!-- URL -->
+          <div class="formulaire-element" id="formulaire-url">
+             <i class="bi bi-browser-chrome"></i>
+              <div>
+                  <label for="url_form">Lien Google Form</label>
+                  <input type="text" id="url-form" name="url_form" placeholder="Lien Google Form" required>
+              </div>
+          </div>
 
-          
-            <!-- Champ pour la date de naissance -->
+          <!-- Description -->
            <div class="formulaire-element" id="desc-evenmt">
                 <div class="form-element" id="description">
                     <i class="fa fa-align-left"></i>
@@ -97,7 +103,7 @@
                         <textarea id="desc-event" name="desc_event" rows="3" placeholder="Décrivez brièvement l'événement..." maxlength="500" required></textarea>
                     </div>
                 </div>
-                <p id="char-count">0 / 250 caractères</p>
+                <p id="char-count">0 / 500 caractères</p>
             </div>
 
           <!-- Catégorie -->
@@ -107,25 +113,30 @@
                   <label for="categorie">Catégorie</label>
                   <select id="categorie" name="categorie">
                       <option value="" selected disabled hidden>Sélectionner</option>
-                      <option value="sport">Sport</option>
-                      <option value="culture">Culture</option>
-                      <option value="formation">Formation</option>
+                      <option value="Sport">Sport</option>
+                      <option value="Culture">Culture</option>
+                      <option value="Formation">Formation</option>
+                      <option value="Networking">Networking</option>
                       <option value="autre">Autre</option>
                   </select>
               </div>
           </div>
 
+
+
           <!-- Bouton -->
           <div class="button_submit">
               <button type="submit" id="button_submit" disabled>Ajouter l'événement</button>
           </div>
+          <div id="box_present"></div>
         
       </form>
-      <script src="public/js/formulaire_evenmt.js"></script>
-  </div>
+      <div id="block_valid"></div>
+      
+    </div>
 
 
-
+    <script src="public/js/update_add_event.js"></script>
 
     <?php require 'commun/footer.php';?>
 
