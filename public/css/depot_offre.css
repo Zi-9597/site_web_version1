@@ -1,0 +1,249 @@
+body {
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container principal */
+.container-formulaire {
+    background: #ffffff;
+    width: 100%;
+    max-width: 1000px;
+    padding: 25px 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Bandeau titre */
+.descritpion-evenement {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    text-align: center;
+    color: #fff;
+}
+
+.titre_h1 {
+    background: linear-gradient(135deg, #8e44ad, #9766e0);
+    width: 100%;
+    padding: 20px;
+}
+
+.titre_h1 h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+.descirption-courte {
+    background: linear-gradient(135deg, #c993df, #9766e0);
+    width: 100%;
+    padding: 20px;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.descirption-courte p {
+    font-size: 20px;
+    margin: 0;
+    color: #fff;
+    line-height: 1.6;
+}
+
+/* Formulaire */
+#formulaire-offre {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Champs */
+.formulaire-element {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 14px;
+    border-radius: 10px;
+    background: #fafafa;
+    transition: all 0.3s ease;
+    gap: 15px;
+}
+
+.formulaire-element:focus-within {
+    border-color: #8e44ad;
+    box-shadow: 0 0 10px rgba(151, 102, 224, 0.3);
+    background: #fff;
+}
+
+.formulaire-element i {
+    font-size: 22px;
+    color: #9766e0;
+}
+
+/* Labels et inputs */
+label {
+    font-size: 18px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 6px;
+    display: block;
+}
+
+input, textarea, select {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background: transparent;
+    padding: 8px;
+    border-radius: 6px;
+    font-family: 'Nunito', sans-serif;
+    transition: all 0.3s ease;
+}
+
+
+
+#link_id
+{
+    background : red;
+    width: 100%;
+}
+/* Sélecteur section */
+select {
+    background-color: #f4f4f4;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+/* Cases à cocher */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.checkbox-group label {
+    background: #f0e6fa;
+    border: 1px solid #ccc;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group input {
+    margin-right: 6px;
+}
+
+.checkbox-group label:hover {
+    background: #e0c8f5;
+    border-color: #8e44ad;
+}
+
+/* Description bloc */
+#desc-evenmt {
+    height: auto;
+    gap: 20px;
+    flex-direction: row;
+}
+
+#element-desc {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Bouton */
+.button_submit {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#button_submit {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    background: linear-gradient(135deg, #9766e0, #8e44ad);
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+#button_submit:hover {
+    background: linear-gradient(135deg, #7d3c98, #6c3483);
+    transform: translateY(-2px);
+}
+
+#button_submit:disabled {
+    background: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Responsive tablette */
+@media (max-width: 900px) {
+    .container-formulaire {
+        padding: 20px 15px;
+    }
+
+    .titre_h1 h1 {
+        font-size: 26px;
+    }
+
+    .descirption-courte p {
+        font-size: 18px;
+    }
+
+    .checkbox-group {
+        gap: 8px;
+    }
+}
+
+/* Responsive téléphone */
+@media (max-width: 600px) {
+    .formulaire-element {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .formulaire-element i {
+        font-size: 20px;
+    }
+
+    label {
+        font-size: 16px;
+    }
+
+    input, textarea, select {
+        font-size: 15px;
+    }
+
+    .checkbox-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #button_submit {
+        width: 100%;
+        font-size: 16px;
+    }
+}
