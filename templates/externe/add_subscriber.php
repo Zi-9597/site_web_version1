@@ -32,17 +32,12 @@
 
         // Parse with expected format
         $d = DateTime::createFromFormat('d/m/Y', $date );
+        $date_naissance = $d->format('Y-m-d');
 
-        if ($d) {
-            $date_naissance = $d->format('Y-m-d');
-            var_dump($date_naissance);
-        } else {
-            var_dump(DateTime::getLastErrors());
-        }
-
+      
         
         $today = date_create("now")->format('Y-m-d H:i:s');
-        var_dump($today);
+ 
 
 
 

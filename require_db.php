@@ -10,14 +10,13 @@
 
         private function __construct()
         {
-            $env = parse_ini_file(".env"); 
+            $env = parse_ini_file(".env1"); 
 
 
             $host = $env["databaseHost"]; 
             $user = $env["databaseUsername"]; 
             $password =  $env["databasePassword"]; 
             $dbname = $env["databaseName"];
-
             $charset = "utf8mb4"; 
 
             $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
@@ -33,6 +32,7 @@
             try{
 
                 $this->pdo = new PDO($dsn , $user , $password , $option);
+           
             
             }catch(PDOException $e)
             {
@@ -135,5 +135,3 @@
 
     }
 
-
-?>
