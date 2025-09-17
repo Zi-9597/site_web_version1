@@ -10,7 +10,7 @@
 
         private function __construct()
         {
-            $env = parse_ini_file(".env1"); 
+            $env = parse_ini_file(".env"); 
 
 
             $host = $env["databaseHost"]; 
