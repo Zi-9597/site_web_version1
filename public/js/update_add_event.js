@@ -177,6 +177,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 500);
         }, 5000);
     }
+
+    
     elements.form_event.addEventListener("submit" , e=>
     {
 

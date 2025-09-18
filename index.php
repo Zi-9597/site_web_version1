@@ -18,7 +18,8 @@ if ($_SERVER['REQUEST_URI'] !== '/') {
         "add_event"      => "templates/externe/ajouter_evenement.php",
         "rech_event"     => "templates/externe/membre/access_event.php",
         "fetch_data"     => "templates/externe/search_event.php",
-        "dep_offre"      => "templates/externe/ancien/depot_offre.php"
+        "dep_offre"      => "templates/externe/ancien/depot_offre.php",
+        "ajout_emploie"  => "templates/externe/ajouter_job.php"
     ];
 
     // 1. On récupère le paramètre dest (par défaut = acceuil)

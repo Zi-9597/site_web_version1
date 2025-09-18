@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajout Évenements - Association EEA</title>
+    <title>Dépot offre - Association EEA</title>
     <link rel="stylesheet" href="public/css/barre_navigation_1.css">
     <link rel="stylesheet" href="public/css/index.css">
     <link rel="stylesheet" href="public/css/logo_gestion.css">
@@ -58,7 +58,7 @@
         </div>
 
         <!-- Formulaire -->
-        <form id="formulaire-offre" method="POST" action="traitement_offre.php">
+        <form id="formulaire-offre">
             
             <!-- Titre offre -->
             <div class="formulaire-element">
@@ -69,43 +69,42 @@
                 </div>
             </div>
 
-            <!-- Section (multi-choix) -->
-            <div class="formulaire-element" id="membre-section">
-                <i class="bi-mortarboard-fill"></i>
-                <div id="element-section">
-                    <label for="filiere-section">Section (choix multiples possibles)</label>
-                    <select id="filiere-section" name="sections[]" multiple required>
-                        <option value="Licence-3">Licence 3</option>
-                        <optgroup label="Masters">
-                            <option value="Master-RT">Master RT</option>
-                            <option value="Master-SysCom">Master SysCom</option>
-                            <option value="Master-NN">Master Nano-Technologie</option>
-                            <option value="Master-GI">Master Génie Industriel</option>
-                            <option value="Master-SE">Master SE</option>
-                            <option value="Master-SA">Master SA</option>
-                            <option value="Master-SMaRT">Master SMaRT</option>
-                            <option value="Master-GR2E">Master GR2E</option>
-                            <option value="Master-E2SD">Master E2SD</option>
-                        </optgroup>
-                    </select>
-                    <small class="aide-multiple">Maintenez <b>Ctrl</b> (Windows) ou <b>Cmd</b> (Mac) pour sélectionner plusieurs sections</small>
-                </div>
-            </div>
-
             <!-- Spécialités -->
             <div class="formulaire-element">
                 <i class="bi-list-check"></i>
                 <div>
                     <label>Spécialités recherchées</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="specialites[]" value="Electronique"> Électronique</label>
-                        <label><input type="checkbox" name="specialites[]" value="Informatique"> Informatique</label>
-                        <label><input type="checkbox" name="specialites[]" value="Télécom"> Télécom</label>
-                        <label><input type="checkbox" name="specialites[]" value="Energie"> Énergie</label>
-                        <label><input type="checkbox" name="specialites[]" value="Automatique"> Automatique</label>
+                    <div class="specialites-grid">
+                        <label>
+                            <input type="checkbox" name="specialites[]" value="1">
+                            <span>Électronique</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="specialites[]" value="2">
+                            <span>Informatique </span>
+                        </label>
+                        
+                        <label>
+                            <input type="checkbox" name="specialites[]" value="3">
+                            <span>Télécom / Système communicants</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="specialites[]" value="4">
+                            <span>Énergie Électrique</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="specialites[]" value="5">
+                            <span>Automatique / Automatisme</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="specialites[]" value="6">
+                            <span>Transports </span>
+                        </label>
                     </div>
                 </div>
             </div>
+
+
 
             <!-- Lien LinkedIn -->
             <div class="formulaire-element">
@@ -123,19 +122,22 @@
                     <label for="description">Description de l’offre</label>
                     <textarea id="description" name="description" rows="5" placeholder="Détails sur l’offre (missions, durée, conditions...)" required></textarea>
                 </div>
+                 <p id="char-count">0 / 500 caractères</p>
             </div>
 
             <!-- Bouton -->
             <div class="button_submit">
-                <button type="submit" id="button_submit">Publier l’offre</button>
+                <button type="submit" id="button_submit" disabled>Publier l’offre</button>
             </div>
         </form>
+
+        <div id="block_valid"></div>
     </div>
 
 
 
 
-    <script src="public/js/update_add_event.js"></script>
+    <script src="public/js/depot_offre.js"></script>
 
     <?php require 'commun/footer.php';?>
 

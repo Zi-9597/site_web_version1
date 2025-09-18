@@ -91,7 +91,7 @@
             $stmt = $pdo->prepare($sql_fetch);
             $stmt->execute(['id_member' => $id_member]);
 
-    
+            
             return $stmt->fetch();
         }
 
@@ -124,6 +124,65 @@
         }
 
 
+        public static function addJob(array $data , array $specialitie):bool
+        {
+            $pdo = self::getInstance();
+
+            $pdo->beginTransaction();
+
+            try
+            {
+                $sql_add_offre = "INSERT INTO offres (titre_offre, url_linkedin, description, email_user , date_creation) 
+                          VALUES (:titre_offre, :linkedin, :description, :email_user , :date_creation)";
+
+                $stmt = $pdo->prepare($sql_add_offre);
+              
+                $stmt->execute([
+                    'titre_offre'  => $data['titre_offre'],
+                    'linkedin'     => $data['linkedin'],
+                    'description'  => $data['description'],
+                    'email_user'   => $data['email'],
+                    'date_creation' => $data['date_creation']
+                ]);
+
+                
+                // Récupérer l'id de l'offre insérée
+                $id_offre = $pdo->lastInsertId();
+
+                $sql_add_specialite = "INSERT INTO offre_specialite (id_offre , id_specialite) 
+                          VALUES (:id_offre, :id_specialite)";
+                
+                $stmSpec = $pdo->prepare($sql_add_specialite);
+
+                foreach ($specialitie as $id_specialite)
+                {
+                    $stmSpec->execute([
+                        'id_offre' => $id_offre,
+                        'id_specialite'=>(int)$id_specialite
+                    ]);
+                }
+
+
+                
+
+                $pdo->commit();
+                return true;
+                
+            }
+            catch (Exception $e) 
+            {
+                $pdo->rollBack();
+                throw new RuntimeException("Erreur lors de l'insertion de l'offre : " . $e->getMessage());
+
+            }
+            
+
+
+
+        }
+    }
+
+
 
 
 
@@ -131,7 +190,4 @@
 
 
 
-     
-
-    }
 

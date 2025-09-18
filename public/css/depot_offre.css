@@ -18,6 +18,11 @@ body {
     align-items: center;
 }
 
+.formulaire-element  > div{
+
+    width: 100%;
+}
+
 /* Bandeau titre */
 .descritpion-evenement {
     width: 100%;
@@ -50,10 +55,11 @@ body {
     justify-content: center;
     align-items: center;
     gap: 10px;
+   
 }
 
 .descirption-courte p {
-    font-size: 20px;
+    font-size: 25px;
     margin: 0;
     color: #fff;
     line-height: 1.6;
@@ -79,12 +85,11 @@ body {
     gap: 15px;
 }
 
-.formulaire-element:focus-within {
+.formulaire-element:hover {
     border-color: #8e44ad;
     box-shadow: 0 0 10px rgba(151, 102, 224, 0.3);
     background: #fff;
 }
-
 .formulaire-element i {
     font-size: 22px;
     color: #9766e0;
@@ -103,7 +108,7 @@ input, textarea, select {
     width: 100%;
     border: none;
     outline: none;
-    font-size: 16px;
+    font-size: 18px;
     background: transparent;
     padding: 8px;
     border-radius: 6px;
@@ -115,7 +120,7 @@ input, textarea, select {
 
 #link_id
 {
-    background : red;
+    
     width: 100%;
 }
 /* Sélecteur section */
@@ -125,34 +130,45 @@ select {
     border-radius: 6px;
 }
 
-/* Cases à cocher */
-.checkbox-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 10px;
+/* Cases à cocher Spécialité */
+
+.specialites-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 colonnes égales */
+  gap: 12px; /* espace entre les cases */
+  margin-top: 10px;
 }
 
-.checkbox-group label {
-    background: #f0e6fa;
-    border: 1px solid #ccc;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
+
+.specialites-grid input
+{
+    display: none;
 }
 
-.checkbox-group input {
-    margin-right: 6px;
+.specialites-grid span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #f0e6fa;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
-.checkbox-group label:hover {
+.specialites-grid span:hover {
     background: #e0c8f5;
     border-color: #8e44ad;
 }
+
+/* Sélectionné */
+.specialites-grid input:checked + span {
+  background: #6f42c1;   /* violet */
+  color: white;
+  border-color: #5a32a3;
+}
+
 
 /* Description bloc */
 #desc-evenmt {
@@ -160,6 +176,7 @@ select {
     gap: 20px;
     flex-direction: row;
 }
+
 
 #element-desc {
     display: flex;
@@ -174,6 +191,11 @@ select {
     justify-content: center;
 }
 
+#char-count
+{
+    font-size: 15px;
+    color: red;
+}
 #button_submit {
     width: 100%;
     padding: 14px;
@@ -246,4 +268,22 @@ select {
         width: 100%;
         font-size: 16px;
     }
+
+    /* 📱 Mobile : 1 colonne */
+    @media (max-width: 600px) 
+    {
+    .specialites-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* 📱 Tablette : 2 colonnes */
+    @media (min-width: 601px) and (max-width: 1024px) 
+    {
+        .specialites-grid 
+        {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
 }
