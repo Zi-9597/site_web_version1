@@ -132,16 +132,18 @@
 
             try
             {
-                $sql_add_offre = "INSERT INTO offres (titre_offre, url_linkedin, description, email_user , date_creation) 
-                          VALUES (:titre_offre, :linkedin, :description, :email_user , :date_creation)";
+                $sql_add_offre = "INSERT INTO offres (titre_offre, url_linkedin, description, email_user , lieu , departement ,  date_creation) 
+                          VALUES (:titre_offre, :url_linkedin, :description, :email_user , :lieu , :departement , :date_creation)";
 
                 $stmt = $pdo->prepare($sql_add_offre);
               
                 $stmt->execute([
                     'titre_offre'  => $data['titre_offre'],
-                    'linkedin'     => $data['linkedin'],
+                    'url_linkedin'     => $data['linkedin'],
                     'description'  => $data['description'],
                     'email_user'   => $data['email'],
+                    'lieu' => $data['lieu'],
+                    'departement' => $data['departement'],
                     'date_creation' => $data['date_creation']
                 ]);
 
@@ -175,11 +177,92 @@
                 throw new RuntimeException("Erreur lors de l'insertion de l'offre : " . $e->getMessage());
 
             }
-            
 
-
-
+        
         }
+
+        public static function getLocalisationByCP(string $code_postal): ?array
+        {
+            $pdo = self::getInstance();
+
+            $sql = "
+                SELECT nom_commune , nom_departement, nom_region
+                FROM dep_reg_com
+                WHERE Code_Postal = :cp
+                LIMIT 1
+            ";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(['cp' => $code_postal]);
+            $row = $stmt->fetch();
+
+            return $row ?: null;
+        }
+
+
+        public static function searchJobs(array $filters): array
+        {
+            $pdo = self::getInstance();
+
+            $sql = "
+                SELECT 
+                    o.id_offre,
+                    o.titre_offre,
+                    o.url_linkedin,
+                    o.description,
+                    o.email_user,
+                    o.departement,
+                    o.date_creation,
+                    d.nom_commune,
+                    d.nom_departement,
+                    d.nom_region,
+                    GROUP_CONCAT(s.nom_specialite SEPARATOR ', ') AS specialites
+                FROM offres o
+                LEFT JOIN dep_reg_com d 
+                    ON o.departement = d.code_postal
+                LEFT JOIN offre_specialite os 
+                    ON o.id_offre = os.id_offre
+                LEFT JOIN specialites s 
+                    ON os.id_specialite = s.id_specialite
+                WHERE 1=1
+            ";
+
+            $params = [];
+
+            // 🔎 Filtres dynamiques
+            if (!empty($filters['titre_offre'])) {
+                $sql .= " AND o.titre_offre LIKE :titre_offre";
+                $params['titre_offre'] = "%" . $filters['titre_offre'] . "%";
+            }
+
+            if (!empty($filters['departement'])) {
+                $sql .= " AND o.departement = :departement";
+                $params['departement'] = $filters['departement'];
+            }
+
+            if (!empty($filters['specialites'])) {
+                $sql .= " AND s.id_specialite IN (" . implode(",", array_map("intval", $filters['specialites'])) . ")";
+            }
+
+            $sql .= "
+                GROUP BY 
+                    o.id_offre, o.titre_offre, o.url_linkedin, o.description, 
+                    o.email_user, o.departement, o.date_creation,
+                    d.nom_commune, d.nom_departement, d.nom_region
+                ORDER BY o.date_creation DESC
+            ";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($params);
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+
+
+
+
+
     }
 
 

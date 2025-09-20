@@ -115,7 +115,7 @@
     </div>
     <!-- Résultats -->
     <div class="container-resultats">
-        <h2>📋 Résultats de la recherche</h2>
+        <h1>📋 Résultats de la recherche</h1>
         <div id="resultats">
             <!-- Les cartes AJAX vont s'afficher ici -->
         </div>

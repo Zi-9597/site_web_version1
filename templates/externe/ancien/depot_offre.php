@@ -103,17 +103,50 @@
                     </div>
                 </div>
             </div>
+            <!-- Lieu et Département -->
+            <div class="formulaire-element">
+                <i class="bi-geo-alt-fill"></i>
+                <div id="div_localisation">
+                    <!-- Code postal -->
+                    <label for="departement">Code postal</label>
+                    <input type="text" id="departement" name="departement" placeholder="Ex : 75000" maxlength="5" required>
+                    <p class="form_code">Le code saisi est incorrect.</p>
 
+                    <!-- Résultats affichés juste en dessous -->
+                    <div id="infos_cp">
+                        
+                        <!-- Commune -->
+                        <div style="width:  40%;">
+                            <label for="commune">Commune</label>
+                            <input type="text" id="commune" name="commune" placeholder="Commune" readonly >
+                        </div>
 
+                        <!-- Département -->
+                        <div>
+                            <label for="departement_nom">Département</label>
+                            <input type="text" id="departement_nom" name="departement_nom" placeholder="Département" readonly>
+                        </div>
+                        <!-- Région -->
+                        <div>
+                            <label for="region">Région</label>
+                            <input type="text" id="region" name="region" placeholder="Région" readonly>
+                        </div>
 
-            <!-- Lien LinkedIn -->
+                    </div>
+                </div>
+            </div>
+
+             <!-- Lien LinkedIn -->
             <div class="formulaire-element">
                 <i class="bi-linkedin"></i>
                 <div id="link_id">
                     <label for="linkedin">Lien LinkedIn</label>
                     <input type="url" id="linkedin" name="linkedin" placeholder="https://www.linkedin.com/in/votreprofil">
+                    <p class="form_link">Le lien de l'offre Linkedin n'est pas valide.</p>
                 </div>
             </div>
+
+
 
             <!-- Description -->
             <div class="formulaire-element" id="desc-evenmt">
