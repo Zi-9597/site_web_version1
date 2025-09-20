@@ -2,7 +2,7 @@
         
         require_once "require_db.php"; // ton fichier de connexion PDO/MySQLi
 
-        var_dump("farakh");
+ 
         if ($_SERVER["REQUEST_METHOD"] === "POST") 
         {
 
@@ -26,11 +26,15 @@
             // Parse with expected format
             $d = DateTime::createFromFormat('d/m/Y', $date_event );
 
-            if ($d) {
+            if ($d) 
+            {
                 $date_event = $d->format('Y-m-d 00:00:00');
-            
-            } else {
-                var_dump(DateTime::getLastErrors());
+            } 
+            else 
+            {
+
+                // mettre une valeur par défaut
+                $date_event = (new DateTime())->format('Y-m-d 00:00:00');
             }
 
 
