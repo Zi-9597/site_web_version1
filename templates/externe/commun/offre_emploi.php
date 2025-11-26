@@ -40,14 +40,21 @@
         include "commun/barre_navigation_conn.php"
     ?>
 
-
+    <div class="container-resultats">
+            <h1>📋 Résultats de la recherche</h1>
+            <div id="resultats">
+                <!-- Les cartes AJAX vont s'afficher ici -->
+            </div>
+    </div>
     <div class="container-formulaire">
         <!-- Bandeau violet -->
+         <!-- Résultats -->
+        
         <div class="descritpion-evenement">
             <div class="titre_h1">
                 <!-- Logo + titre -->
                 
-                 <h1>🤝📝 Recherche d’offre </h1>
+                 <h1>🤝📝 Formulaire de recherche d’offre </h1>
 
             </div>
             <div class="descirption-courte">
@@ -102,35 +109,25 @@
                     </div>
                 </div>
             </div>
-            <!-- Lieu et Département -->
+            <!-- Type d'offre -->
             <div class="formulaire-element">
-                <i class="bi-geo-alt-fill"></i>
-                <div id="div_localisation">
-                    <!-- Code postal -->
-                    <label for="departement">Code postal</label>
-                    <input type="text" id="departement" name="departement" placeholder="Ex : 75000" maxlength="5" >
-                    <p class="form_code">Le code saisi est incorrect.</p>
-
-                    <!-- Résultats affichés juste en dessous -->
-                    <div id="infos_cp">
+                <i class="bi-list-check"></i>
+                <div>
+                    <label>Type de contrat</label>
+                    <div class="types-grid">
+                        <label>
+                            <input type="checkbox" name="types[]" value="Stage">
+                            <span>Stage</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="types[]" value="Alternance">
+                            <span>Alternance</span>
+                        </label>
                         
-                        <!-- Commune -->
-                        <div style="width:  40%;">
-                            <label for="commune">Commune</label>
-                            <input type="text" id="commune" name="commune" placeholder="Commune" readonly >
-                        </div>
-
-                        <!-- Département -->
-                        <div>
-                            <label for="departement_nom">Département</label>
-                            <input type="text" id="departement_nom" name="departement_nom" placeholder="Département" readonly>
-                        </div>
-                        <!-- Région -->
-                        <div>
-                            <label for="region">Région</label>
-                            <input type="text" id="region" name="region" placeholder="Région" readonly>
-                        </div>
-
+                        <label>
+                            <input type="checkbox" name="types[]" value="CDD/CDI">
+                            <span>CDI/CDD</span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -142,13 +139,7 @@
         </form>
     </div>
 
-    <!-- Résultats -->
-    <div class="container-resultats">
-        <h1>📋 Résultats de la recherche</h1>
-        <div id="resultats">
-            <!-- Les cartes AJAX vont s'afficher ici -->
-        </div>
-    </div>
+    
 
 
 

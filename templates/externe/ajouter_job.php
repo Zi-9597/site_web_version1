@@ -9,13 +9,13 @@
                 $linkedin    = trim($_POST['linkedin'] ?? '');
                 $description = trim($_POST['description'] ?? '');
                 $specialites = $_POST['specialites'] ?? [];
-                $departement = trim($_POST['departement'] ?? '');
+                $type_contrat = trim($_POST['types'] ?? '');
 
                 // Nettoyage
                 $titre       = htmlspecialchars($titre, ENT_QUOTES, 'UTF-8');
                 $linkedin    = htmlspecialchars($linkedin, ENT_QUOTES, 'UTF-8');
                 $description = htmlspecialchars($description, ENT_QUOTES, 'UTF-8');
-                $departement = htmlspecialchars($departement, ENT_QUOTES, 'UTF-8');
+                $type_contrat = htmlspecialchars($type_contrat, ENT_QUOTES, 'UTF-8');
 
           
                 $id_comb = $_GET["id_user"]; 
@@ -23,10 +23,6 @@
 
 
                 $mail = EEA_Database::fetc_user_id($id_member)["email"];
-                $cp_loc = EEA_Database::getLocalisationByCP($departement);
-                $lieu = $cp_loc["nom_commune"];
-                $dep_nom = $cp_loc["nom_departement"];
-                $reg_nom = $cp_loc["nom_region"];
                 $date_now =  (new DateTime())->format('Y-m-d H:i:s');
                 // Préparer données pour addOffre
                 $data = [
@@ -34,8 +30,7 @@
                         'linkedin' => $linkedin,
                         'description' => $description,
                         'email'=>$mail, 
-                        'lieu'=>$lieu,
-                        'departement'=>$departement,
+                        'type_contrat'=>$type_contrat,
                         'date_creation'=>$date_now
                 ];
 
@@ -50,9 +45,7 @@
                                         "status"       => "success",
                                         "mail"         => $mail,
                                         "dateDepot"    => $date_now,
-                                        "dep_nom"      => $dep_nom, 
-                                        "lieu"         => $lieu,
-                                        "reg_nom"      => $reg_nom
+                                        "type_contrat" => $type_contrat,
                                 ]);
                         } 
                         else 

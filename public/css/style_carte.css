@@ -46,14 +46,14 @@
 .event-card h3 , .job-card h3{
   margin: 0 0 10px;
   color: #8e44ad;
-  font-size: 20px;
+  font-size: 30px;
 }
 
 /* Texte des infos */
 .event-card p , .job-card p {
   margin: 4px 0;
   color: #333;
-  font-size: 17px;
+  font-size: 23px;
 }
 
 /* Effet hover : halo violet doux et progressif */
