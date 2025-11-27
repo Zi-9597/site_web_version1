@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
         membreInput: document.getElementById("membre-assoc"),         // Sélection du statut de membre
         sectionInput: document.getElementById("filiere-section"),     // Liste des sections (EEA, Master…)
         inputFiliere: document.getElementById("autre-filiere"),       // Champ filière personnalisée
-        telAvailable: document.getElementById("tel-available"),       // Checkbox "pas de numéro français"
         mailInput: document.getElementById("mail-input"),             // Champ email
         passwordInput: document.getElementById("mdp-inp"),            // Champ mot de passe
         cityInput: document.getElementById("city-input"),             // Champ ville
@@ -43,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 : "block";
 
         // Si "pas de numéro français" est coché → on considère comme valide
-        return estValide || elements.telAvailable.checked;
+        return estValide;
     }
 
 
@@ -156,11 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Téléphone
         elements.phoneInput.addEventListener('input', validateForm);
 
-        // Checkbox "pas de numéro français"
-        elements.telAvailable.addEventListener('change', () => {
-            elements.phoneInput.disabled = elements.telAvailable.checked;
-            validateForm();
-        });
+      
 
         // Email
         elements.mailInput.addEventListener('input', validateForm);
@@ -197,7 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (element instanceof HTMLSelectElement) element.selectedIndex = 0;
 
             if (key === "inputFiliere") element.disabled = true;
-            if (key === "telAvailable") element.checked = false;
         });
     });
 

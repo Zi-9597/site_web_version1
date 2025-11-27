@@ -226,10 +226,7 @@
                                 </div>
                             </div>
 
-                            <div id="check-phone">
-                                <p>Si vous n'avez pas de numéro français</p>
-                                <input type="checkbox" id="tel-available">
-                            </div>
+                        
 
                             <p id="bon_num">Vous n'avez pas mis le bon numéro</p>
                         </div>

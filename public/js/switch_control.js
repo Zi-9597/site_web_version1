@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // ❌ --- CAS ERREUR PHP ---
                 if (!data.success) {
-                    btn.innerText = "Erreur ❌";
+                    btn.innerText = "Erreur";
                     btn.style.backgroundColor = "#d63031";
                     btn.style.color = "#fff";
 
@@ -153,12 +153,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     return;
                 }
+                 // ✅ --- CAS SUCCÈS (ne s’exécute QUE si data.success === true) ---
+                btn.innerText = "Valider";
+                btn.style.backgroundColor = "#27ae60"; // vert
+                btn.style.color = "#fff";
 
               
 
                 setTimeout(() => {
                     location.reload(); // 🔁 Reload automatique
-                }, 1000);
+                }, 2000);
 
             } catch (error) {
                 // ❌ --- ERREUR RÉSEAU ---
