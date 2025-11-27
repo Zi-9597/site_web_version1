@@ -39,14 +39,17 @@
 
         include "commun/barre_navigation_conn.php"
     ?>
-
+        <!-- Résultats -->
+    <div class="container-resultats">
+        <h1>📋 Résultats de la recherche</h1>
+        <div id="resultats">
+            <!-- Les cartes AJAX vont s'afficher ici -->
+        </div>
+    </div>
     <div class="container-formulaire">
         
         <!-- Bandeau titre + description -->
         <div class="descritpion-evenement">
-            <div class="titre_h1">
-                <h1>🔎 Recherche d'événements</h1>
-            </div>
             <div class="descirption-courte">
                 <p>Ce formulaire vous permet de <strong>rechercher des événements</strong> organisés par l’association.</p>
                 <p>Tous les champs sont <strong>facultatifs</strong> : si vous laissez le formulaire vide, la recherche affichera <strong>tous les événements disponibles</strong>.</p>
@@ -77,17 +80,17 @@
                     <p class="form_annee" id="forme_id_event" style="display: none;">Format de l'année de naissance : jj/mm/aaaa</p>
                 </div>
             <!-- Lieu -->
-            <div class="formulaire-element">
+            <!-- <div class="formulaire-element">
                 <i class="fa fa-map-marker-alt"></i>
                 <div>
                     <label for="lieu-event">Lieu</label>
                     <input type="text" id="lieu-event" name="lieu_event" placeholder="Ex: Parc du Héron, Local P4, ...">
                 </div>
-            </div>
+            </div> -->
 
 
             <!-- Catégorie -->
-            <div class="formulaire-element">
+            <!-- <div class="formulaire-element">
                 <i class="fa fa-tags"></i>
                 <div id="select_categories">
                     <label for="categorie">Catégorie</label>
@@ -100,7 +103,7 @@
                         <option value="autre">Autre</option>
                     </select>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Bouton -->
             <div class="button_submit">
@@ -113,13 +116,7 @@
    
       
     </div>
-    <!-- Résultats -->
-    <div class="container-resultats">
-        <h1>📋 Résultats de la recherche</h1>
-        <div id="resultats">
-            <!-- Les cartes AJAX vont s'afficher ici -->
-        </div>
-    </div>
+
 
 
     <script src="public/js/recherche_evenement.js"></script>

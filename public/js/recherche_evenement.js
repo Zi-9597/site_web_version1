@@ -37,8 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 card.innerHTML = `
                     <h3>${ev.nom_event}</h3>
                     <p><strong>Date :</strong> ${ev.date_event}</p>
-                    <p><strong>Lieu :</strong> ${ev.lieu_event}</p>
-                    <p><strong>Catégorie :</strong> ${ev.categorie}</p>
                     <p>${ev.desc_event ?? ""}</p>
                     ${ev.url_form ? `<p><a href="${ev.url_form}" target="_blank">🔗 Formulaire</a></p>` : ""}
                 `;

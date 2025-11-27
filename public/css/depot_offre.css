@@ -168,7 +168,7 @@ select {
 
 /* Cases à cocher Spécialité */
 
-.specialites-grid {
+.specialites-grid , .types-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 colonnes égales */
   gap: 12px; /* espace entre les cases */
@@ -176,12 +176,12 @@ select {
 }
 
 
-.specialites-grid input
+.specialites-grid input , .types-grid input
 {
     display: none;
 }
 
-.specialites-grid span {
+.specialites-grid span , .types-grid  span {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -193,13 +193,13 @@ select {
   transition: all 0.2s ease-in-out;
 }
 
-.specialites-grid span:hover {
+.specialites-grid span:hover , .types-grid span:hover {
     background: #e0c8f5;
     border-color: #8e44ad;
 }
 
 /* Sélectionné */
-.specialites-grid input:checked + span {
+.specialites-grid input:checked + span , .types-grid input:checked + span{
   background: #6f42c1;   /* violet */
   color: white;
   border-color: #5a32a3;

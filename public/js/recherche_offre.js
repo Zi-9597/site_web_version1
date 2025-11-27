@@ -3,12 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
         form: document.getElementById("formulaire-offre"),
         submitBtn: document.getElementById("button_submit"),
 
-        // Champs localisation
-        departement: document.getElementById("departement"),
-        commune: document.getElementById("commune"),
-        departement_nom: document.getElementById("departement_nom"),
-        region: document.getElementById("region"),
-
         // Messages
         form_code: document.querySelector(".form_code"),
 
@@ -21,49 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
      * Validation champ "Département" et récupération localisation
      * =======================================================
      */
-    function validateDepartement() {
-        const { departement, form_code, commune, departement_nom, region } = formElements;
-        const regex_dep = /^[0-9]{5}$/;
-        const value_dep = departement.value.trim();
-
-        if (value_dep !== "" && !regex_dep.test(value_dep)) {
-            form_code.style.display = "block";
-            commune.value = "";
-            departement_nom.value = "";
-            region.value = "";
-            return false;
-        }
-
-        form_code.style.display = "none";
-
-        if (regex_dep.test(value_dep)) {
-            fetch("/?dest=cp_fetch", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ code_postal: value_dep })
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        commune.value = data.commune;
-                        departement_nom.value = data.departement;
-                        region.value = data.region;
-                    } else {
-                        commune.value = "";
-                        departement_nom.value = "";
-                        region.value = "";
-                    }
-                })
-                .catch(() => {
-                    commune.value = "";
-                    departement_nom.value = "";
-                    region.value = "";
-                });
-        }
-
-        return true;
-    }
-
     /**
      * =======================================================
      * Gestion de la soumission du formulaire (recherche offres)
@@ -100,9 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     card.innerHTML = `
                         <h3>${job.titre_offre}</h3>
-                        <p><strong>Date :</strong> ${job.date_creation}</p>
-                        <p><strong>Localisation :</strong> ${job.nom_commune || "-"}, ${job.nom_departement || "-"}, ${job.nom_region || "-"}</p>
-                        <p><strong>Code postal :</strong> ${job.departement || "-"}</p>
+                        <p><strong>Type de contrat :</strong> ${job.type_contrat}</p>
                         <p><strong>Spécialités :</strong> ${job.specialites || "-"}</p>
                         <p><strong>Contact :</strong> <a href="mailto:${job.email_user}">${job.email_user}</a></p>
                         <p>${job.description || ""}</p>
@@ -113,9 +62,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             })
             .catch(err => {
-                console.log("farakh");
                 formElements.resultsDiv.innerHTML = `<p style="color:red;">❌ ${err.message}</p>`;
             });
+
+            resetFormulaire();
     });
 
     /**
@@ -132,8 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Reset auto avant de quitter la page
     window.addEventListener("beforeunload", resetFormulaire);
 
-    // Validation champ code postal
-    formElements.departement.addEventListener("input", validateDepartement);
 
     // État initial
     resetFormulaire();

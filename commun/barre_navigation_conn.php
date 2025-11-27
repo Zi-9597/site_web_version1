@@ -75,10 +75,10 @@
 
         <span><a href="/?dest=acceuil&id_user=<?php echo htmlspecialchars($id_comb) ;?>">  Acceuil  </a></span>
         <span> <a href="/?dest=actualite&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Actualité </a></span>
-        <span> <a href="/?dest=rech_event&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Évenements </a> </span>
-        <span> <a href="/?dest=dep_offre&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Dépôt d'offre de contrat </a> </span>
-        <span> <a href="/?dest=dep_evenmt&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Dépôt évenmentiel </a> </span>
-        <span><a href="/?dest=offre_emploie&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Offres d'emploi </a> </span>
+        <span> <a href="/?dest=dep_offre&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Publier une offre </a> </span>
+        <span><a href="/?dest=offre_emploie&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Rechercher une offre </a> </span>
+        <span> <a href="/?dest=dep_evenmt&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Organiser un évènement </a> </span>
+        <span> <a href="/?dest=rech_event&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Participer à un évènements </a> </span>
 
         <span><a href="https://www.univ-lille.fr/"> Université de Lille </a> </span>
         <span class="reseau_sociaux"> 
@@ -103,7 +103,8 @@
                     </svg>
             </a> 
         </span>
-        <span> <a class="insc_conn_nav2 connection" href="/?dest=connection">  
+        <span> 
+            <a href="/?dest=parametres&id_user=<?php echo htmlspecialchars($id_comb);?>">
                 <svg class="svg_conn" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
@@ -111,11 +112,16 @@
                 <span class="connect_span_comm">  <?php echo htmlspecialchars($nom_prenom); ?> </span>
                 </a> 
         </span>
-        <span> <a class="insc_conn_nav2 inscription" href="/?dest=inscription&id_insc=<?php echo $uuid;?>">  
-                    <svg class="svg_insc" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
-                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                        <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
-                    </svg> 
+        <span> 
+            <a href="/" class="logout_btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" 
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                            class="feather feather-log-out">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
                     <span class="subscribe_class_comm"> Déconnexion </span>
             </a> 
         </span>

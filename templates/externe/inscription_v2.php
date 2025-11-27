@@ -54,7 +54,7 @@
             <div class="formulaire-inscription" id="formulaire-id-inscription">
                 <!-- Sélection de la civilité -->
                 <div class="formulaire-element" id="choix-genre">
-                     <i class="bi bi-person"></i> <!-- Icône de civilité -->
+                    <i class="bi bi-person"></i> <!-- Icône de civilité -->
                     <div id="element-genre">
                         <label for="genre">Civilité </label>
                         <select id="civilite-select" name="civil" required>

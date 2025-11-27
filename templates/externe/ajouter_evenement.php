@@ -11,11 +11,8 @@
             // Récupération des champs
             $nom_event   = trim($_POST["nom_event"]);
             $date_event  = trim($_POST["date"]);
-            $lieu_event  = trim($_POST["lieu_event"]);
             $desc_event  = trim($_POST["desc_event"]);
-            $url_event   = trim($_POST["url_form"]);
-            $categorie   = trim($_POST["categorie"]);
-    
+            $url_event   = trim($_POST["url_form"]);    
 
             // Récupération du membre connecté (par ex. depuis la session ou l’URL)
             // Ici on suppose que tu as mis l'id dans $_GET["id_user"] comme dans ta page
@@ -32,7 +29,6 @@
             } 
             else 
             {
-
                 // mettre une valeur par défaut
                 $date_event = (new DateTime())->format('Y-m-d 00:00:00');
             }
@@ -45,9 +41,7 @@
             $data = [
                 ":nom_event"     => $nom_event,
                 ":date_event"    => $date_event,
-                ":lieu_event"    => $lieu_event,
                 ":desc_event"    => $desc_event,
-                ":categorie"     => $categorie,
                 ":id_membre"     => $id_membre,   // ou $id_combi si tu veux garder la forme "12_45"
                 ":url_form"      => $url_event,
                 ":date_creation" => $today

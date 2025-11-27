@@ -77,20 +77,20 @@
                 <p class="form_annee" id="forme_id_anniv">Format de l'année de naissance : jj/mm/aaaa</p>
             </div>
           <!-- Lieu -->
-          <div class="formulaire-element">
+          <!-- <div class="formulaire-element">
               <i class="fa fa-map-marker-alt"></i>
               <div>
                   <label for="lieu-event">Lieu</label>
                   <input type="text" id="lieu-event" name="lieu_event" placeholder="Ex: Parc du Héron, Local P4, ..." required>
               </div>
-          </div>
+          </div> -->
 
           <!-- URL -->
           <div class="formulaire-element" id="formulaire-url">
              <i class="bi bi-browser-chrome"></i>
               <div>
-                  <label for="url_form">Lien Google Form</label>
-                  <input type="text" id="url-form" name="url_form" placeholder="Lien Google Form" required>
+                  <label for="url_form">Lien d'accès à l'évenement</label>
+                  <input type="text" id="url-form" name="url_form" placeholder="Lien d'accès à l'évènement">
               </div>
           </div>
 
@@ -107,7 +107,7 @@
             </div>
 
           <!-- Catégorie -->
-          <div class="formulaire-element">
+          <!-- <div class="formulaire-element">
               <i class="fa fa-tags"></i>
               <div>
                   <label for="categorie">Catégorie</label>
@@ -120,7 +120,7 @@
                       <option value="autre">Autre</option>
                   </select>
               </div>
-          </div>
+          </div> -->
 
 
 

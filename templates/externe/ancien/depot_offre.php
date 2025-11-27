@@ -103,38 +103,29 @@
                     </div>
                 </div>
             </div>
-            <!-- Lieu et Département -->
+            <!-- Type d'offre -->
             <div class="formulaire-element">
-                <i class="bi-geo-alt-fill"></i>
-                <div id="div_localisation">
-                    <!-- Code postal -->
-                    <label for="departement">Code postal</label>
-                    <input type="text" id="departement" name="departement" placeholder="Ex : 75000" maxlength="5" required>
-                    <p class="form_code">Le code saisi est incorrect.</p>
-
-                    <!-- Résultats affichés juste en dessous -->
-                    <div id="infos_cp">
+                <i class="bi-list-check"></i>
+                <div>
+                    <label>Type de contrat</label>
+                    <div class="types-grid">
+                        <label>
+                            <input type="checkbox" name="types" value="Stage">
+                            <span>Stage</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="types" value="Alternance">
+                            <span>Alternance</span>
+                        </label>
                         
-                        <!-- Commune -->
-                        <div style="width:  40%;">
-                            <label for="commune">Commune</label>
-                            <input type="text" id="commune" name="commune" placeholder="Commune" readonly >
-                        </div>
-
-                        <!-- Département -->
-                        <div>
-                            <label for="departement_nom">Département</label>
-                            <input type="text" id="departement_nom" name="departement_nom" placeholder="Département" readonly>
-                        </div>
-                        <!-- Région -->
-                        <div>
-                            <label for="region">Région</label>
-                            <input type="text" id="region" name="region" placeholder="Région" readonly>
-                        </div>
-
+                        <label>
+                            <input type="checkbox" name="types" value="CDD/CDI">
+                            <span>CDI/CDD</span>
+                        </label>
                     </div>
                 </div>
             </div>
+          
 
              <!-- Lien LinkedIn -->
             <div class="formulaire-element">

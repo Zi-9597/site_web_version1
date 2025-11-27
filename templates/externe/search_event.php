@@ -15,14 +15,6 @@
             $sql .= " AND date_event = :date_event";
             $params[":date_event"] = $_POST["date_event"];
         }
-        if (!empty($_POST["lieu_event"])) {
-            $sql .= " AND lieu_event LIKE :lieu";
-            $params[":lieu"] = "%" . $_POST["lieu_event"] . "%";
-        }
-        if (!empty($_POST["categorie"])) {
-            $sql .= " AND categorie = :categorie";
-            $params[":categorie"] = $_POST["categorie"];
-        }
         
         $fetch_array = EEA_Database::fetc_event($sql , $params);
 

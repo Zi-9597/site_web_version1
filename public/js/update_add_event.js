@@ -14,17 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         date_format : document.getElementById("forme_id_anniv"),
 
-        // Champ texte : lieu de l'événement
-        lieu_event: document.getElementById("lieu-event"), 
-
         //Champ de texte : description de l'évenement
         desc_event : document.getElementById('desc-event'),
 
         // Élément compteur de caractères de la description
         char_count: document.getElementById("char-count"), 
-
-        // Liste déroulante : catégorie de l'événement
-        categorie: document.getElementById("categorie"), 
 
         // Bouton de soumission du formulaire
         submitButton: document.getElementById("button_submit"),
@@ -123,11 +117,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const valid_description = validateDescription();
 
         // Vérifie que tous les champs requis sont remplis et valides.
-        const isValid = elements.categorie.value !== "" &&
-            valid_date &&
+        const isValid = valid_date &&
             valid_description &&
-            elements.nom_event.value.trim() !== "" &&
-            elements.lieu_event.value.trim() !== "";
+            elements.nom_event.value.trim() !== "";
+
+            console.log(isValid)
         elements.submitButton.disabled = !isValid; // Active ou désactive le bouton
     }
 
@@ -143,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         msgBox.style.borderRadius = "8px";
         msgBox.style.backgroundColor = "#fff";
         msgBox.style.fontFamily = "'Nunito', sans-serif";
-        msgBox.style.fontSize = "16px";
+        msgBox.style.fontSize = "20px";
         msgBox.style.color = "#333";
         msgBox.style.opacity = "0";
         msgBox.style.transition = "opacity 0.5s ease";
@@ -160,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </strong><br>
             <span>Nom : ${nom || "-"}</span><br>
             <span>Date : ${date || "-"}</span><br>
-            <span>Lieu : ${lieu || "-"}</span>
         `;
 
         elements.box_div.appendChild(msgBox);
@@ -233,8 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.event_date.addEventListener('input', validateForm);
     elements.desc_event.addEventListener('input' , validateForm);
     elements.nom_event.addEventListener('input', validateForm);
-    elements.lieu_event.addEventListener('input', validateForm);
-    elements.categorie.addEventListener('change', validateForm);
+
 
     
     /**
