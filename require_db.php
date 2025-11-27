@@ -210,6 +210,13 @@
             if (!empty($filters['specialites'])) {
                 $sql .= " AND s.id_specialite IN (" . implode(",", array_map("intval", $filters['specialites'])) . ")";
             }
+            else
+            {
+                // Cas 2 : aucune spécialité → on force les spécialités 1 à 6
+                $defaultSpecialites = ['1', '2', '3', '4', '5', '6'];
+
+                $sql .= " AND s.id_specialite IN (" . implode(",", array_map("intval", $defaultSpecialites)) . ")";
+            }
 
             if (!empty($filters['types'])) {
                 $placeholders = implode(',', array_fill(0, count($filters['types']), '?'));

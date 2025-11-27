@@ -29,6 +29,13 @@ document.addEventListener('DOMContentLoaded', () => {
         form_link: document.querySelector(".form_link")
     };
 
+
+    // ✅ Détection automatique du mode Job Étudiant
+    const IS_JOB_ETUDIANT =
+    !formElements.specialites.length &&
+    !formElements.types_contrat.length &&
+    !formElements.linkedin;
+
     /**
      * =======================================================
      * Variables globales utilisées pour la validation
@@ -104,8 +111,17 @@ document.addEventListener('DOMContentLoaded', () => {
      * =======================================================
      */
     function validateForm() {
+
+
+        
         const hasTitle = formElements.titreOffre.value.trim().length > 0;
         const hasDescription = validateDescription();
+
+        // ✅ MODE JOB ÉTUDIANT → seulement titre + description
+        if (IS_JOB_ETUDIANT) {
+            formElements.submitBtn.disabled = !(hasTitle && hasDescription);
+            return;
+        }
         const hasSpecialite = specialiteSet.size > 0;
         const linkedinOK = validateLinkedin();
 
@@ -125,15 +141,19 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     formElements.titreOffre.addEventListener("input", validateForm);
     formElements.description.addEventListener("input", validateForm);
-    formElements.linkedin.addEventListener("input", validateForm);
-
+    if (formElements.linkedin) {
+        formElements.linkedin.addEventListener("input", validateForm);
+    }   
+    
 
     /**
      * =======================================================
      * Gestion des cases à cocher — spécialités
      * =======================================================
      */
-    formElements.specialites.forEach(input => {
+    if (formElements.specialites.length > 0) 
+    {
+        formElements.specialites.forEach(input => {
         input.addEventListener("change", () => {
 
             // Ajout / suppression dans le Set
@@ -145,9 +165,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             validateForm();
+            });
         });
-    });
 
+
+    }
+   
 
     /**
      * =======================================================
@@ -156,7 +179,9 @@ document.addEventListener('DOMContentLoaded', () => {
      * - Les autres sont désactivées tant qu’une est cochée
      * =======================================================
      */
-    formElements.types_contrat.forEach(input => {
+    if (formElements.types_contrat.length > 0)
+    {
+        formElements.types_contrat.forEach(input => {
         input.addEventListener("change", () => {
 
             if (input.checked) {
@@ -179,9 +204,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             validateForm();
+            });
         });
-    });
-
+    }
+    else
+    {
+        contrat_valeur = "Job Étudiant"
+    }
+    
 
     /**
      * =======================================================
@@ -216,7 +246,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <span>Nom de l'offre : ${formData.get("titre_offre") || "-"}</span><br>
             <span>Date de dépôt : ${date_depot || "-"}</span><br>
             <span>Mail : ${mail_user || "-"}</span><br>
+            ${IS_JOB_ETUDIANT ? "" : `
             <span>Spécialité : ${[...specialiteSet].join(", ")}</span><br>
+            `}
             <span>Type de contrat: ${contrat_valeur}</span>
            
         `;
