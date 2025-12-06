@@ -246,6 +246,62 @@
                 ":id" => $id
         ]);
         }
+
+        public static function fetchAllMembers(): array
+        {
+            $pdo = self::getInstance();
+            $sql = "SELECT 
+                        id_membre, 
+                        prenom, 
+                        nom, 
+                        section, 
+                        membre_assoc, 
+                        membre_bureau, 
+                        ville, 
+                        phone_number,
+                        email,
+                        metier,
+                        date_inscription
+                    FROM subscribers 
+                    ORDER BY nom ASC";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        public static function updateMember(array $data): bool
+        {
+            $pdo = self::getInstance();
+
+            $sql = "UPDATE subscribers SET
+                        prenom         = :prenom,
+                        nom            = :nom,
+                        section        = :section,
+                        membre_assoc   = :membre_assoc,
+                        membre_bureau  = :membre_bureau,
+                        email          = :email,
+                        phone_number   = :phone_number,
+                        ville          = :ville,
+                        metier         = :metier
+                    WHERE id_membre = :id";
+
+            $stmt = $pdo->prepare($sql);
+
+            return $stmt->execute([
+                ":prenom"        => $data["prenom"],
+                ":nom"           => $data["nom"],
+                ":section"       => $data["section"],
+                ":membre_assoc"  => $data["assoc"],
+                ":membre_bureau" => $data["bureau"],
+                ":email"         => $data["email"],
+                ":phone_number"  => $data["phone"],
+                ":ville"         => $data["ville"],
+                ":metier"        => $data["metier"],
+                ":id"            => $data["id"]
+            ]);
+        }
     }   
 
 

@@ -1,0 +1,393 @@
+
+
+
+
+
+
+
+
+
+.title-box {
+     max-width: 1200px;
+    margin: 30px auto;
+    padding: 14px 25px;
+    border-radius: 12px;
+    text-align: center;
+    background: linear-gradient(135deg, #b66ae2, #8922e9);
+    color : white;
+    font-family: 'Nunito';
+    margin-bottom: 50px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.18);
+
+
+}
+
+
+
+
+/* -----------------------------------------------------------
+   🎨 BLOC GLOBAL AVEC TITRE VIOLET
+----------------------------------------------------------- */
+.box-with-title {
+    background: #ffffff;
+    border-radius: 16px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 60px 30px 40px;
+    position: relative;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.18);
+}
+
+/* Titre violet */
+.box-title {
+    position: absolute;
+    top: -35px;
+    left: 0;
+    width: 100%;
+    padding: 14px 0;
+    background: linear-gradient(135deg, #b66ae2, #8922e9);
+    color: white;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 800;
+    border-radius: 16px 16px 0 0;
+    font-family: "Nunito", sans-serif;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    
+}
+
+/* -----------------------------------------------------------
+   🎨 FILTRE MEMBRE (zone blanche)
+----------------------------------------------------------- */
+.filtre-membre {
+    position: relative;
+    border-radius: 12px;
+    padding: 40px 25px 25px;
+    margin-bottom: 35px;
+    background-color: white;
+    border: 2px solid #d1d5db;
+     border-radius: 10px;
+    padding: 40px 20px 30px 20px;
+    
+}
+
+/* Petit titre posé sur la bordure */
+.titre-fm {
+    position: absolute;
+    top: -14px;
+    left: 20px;
+    background: white;
+    padding: 2px 12px;
+    font-size: 21px;
+    font-weight: 700;
+    font-family: "Nunito";
+}
+
+/* GRID interne : 2 colonnes */
+.filtre-membre-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px 40px;
+    background-color: white;
+
+
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Nunito';
+    font-size: 21px;
+}
+
+.filter-item label {
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #374151;
+}
+
+.filter-item input,
+.filter-item select {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1.5px solid #d1d5db;
+    background: #f9fafb;
+    transition: .25s;
+    font-size: 21px;
+}
+
+.filter-item input:focus,
+.filter-item select:focus {
+    border-color: #aa55ff;
+    background: white;
+    box-shadow: 0 0 6px rgba(150, 80, 255, 0.35);
+    outline: none;
+}
+
+/* ------------------------------
+   🎛 SWITCH ON / OFF
+------------------------------- */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+/* hide default checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* slider background */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e74c3c; /* rouge OFF */
+    transition: .4s;
+    border-radius: 34px;
+}
+
+/* slider circle */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+/* ON = vert */
+input:checked + .slider {
+    background-color: #2ecc71;
+}
+
+/* move circle ON */
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+
+/* -----------------------------------------------------------
+   🎨 BLOC ACTION : CHANGER LES M2
+----------------------------------------------------------- */
+
+.action-box-single {
+    position: relative;
+    border: 2px solid #d1d5db;
+    border-radius: 10px;
+    padding: 40px 20px 30px 20px;
+    text-align: center;
+}
+
+/* Petit titre sur bordure */
+.box-action {
+    position: absolute;
+    top: -14px;
+    left: 20px;
+    background-color: #ffffff;
+    padding: 0 15px;
+    font-family: "Nunito";
+    font-size: 21px;
+    font-weight: 700;
+}
+
+/* Bouton violet */
+.action-box-single button {
+    background: linear-gradient(135deg, #b66ae2, #8922e9);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-size: 21px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .25s ease;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+
+}
+
+.action-box-single button:hover {
+    transform: translateY(-2px);
+    opacity: .92;
+}
+
+
+
+/* -----------------------------------------------------------
+   🟣 TABLEAU DES MEMBRES
+----------------------------------------------------------- */
+
+table {
+    width: 100%;
+    max-width: 1800px;   /* plus large */
+    margin: auto;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+ 
+}
+
+/* En-tête du tableau */
+thead {
+    background: linear-gradient(135deg, #b66ae2, #8922e9);
+    color: white;
+    
+}
+
+th {
+    padding: 18px 16px;
+    text-transform: uppercase;
+    font-size: 19px;
+    letter-spacing: 0.8px;
+    font-weight: 600;
+    font-family: "Nunito";
+    
+}
+
+/* Cellules */
+td {
+
+    padding: 18px 16px;
+    text-align: center;
+    font-size: 20px;
+    border-bottom: 1px solid #ececec;
+    transition: background 0.2s ease-in-out;
+    font-family: 'Nunito';
+}
+
+/* Ligne survolée */
+tbody tr:hover {
+    background: #f3f4f6;
+}
+
+/* Alternance */
+tbody tr:nth-child(even) {
+    background: #fafafa;
+}
+
+/* Nom mis en valeur */
+td:nth-child(2) {
+    font-weight: 700;
+    color: #1e3a8a;
+}
+
+/* Colonne date */
+td:last-child {
+    font-size: 13px;
+    color: #374151;
+    font-style: italic;
+}
+
+
+
+
+.total_information
+{
+   
+    margin-bottom: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 150px;
+
+}
+
+
+
+.no-result {
+    display: none;
+    width: 100%;
+    max-width: 1800px;
+
+    height: 150px;
+    margin: 20px auto 0 auto;
+
+    background-color: white;
+    color: #000;
+    border-radius: 10px;
+
+    font-size: 30px;
+    font-family: 'Nunito';
+    font-weight: 700;
+
+    display: grid;
+    place-items: center; /* Centrage parfait */
+
+    transition: opacity 0.2s ease;
+    opacity: 0;
+}
+
+.no-result.visible {
+    display: grid;
+    opacity: 1;
+}
+
+
+/* -----------------------------------------------------------
+   🟣 FONDU DU TABLEAU ENTIER POUR FILTRAGE
+----------------------------------------------------------- */
+
+#table-membres {
+    transition: opacity 0.15s ease-in-out;
+}
+
+/* -----------------------------------------------------------
+   🟣 BOUTON DE CHANGEMENT (colonne cachée au départ)
+----------------------------------------------------------- */
+
+/* bouton vert */
+.btn-change {
+    background: #22c55e;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 21px;
+    cursor: pointer;
+    transition: .15s;
+    font-family: 'Nunito';
+}
+
+.btn-change:hover {
+    background: #16a34a;
+}
+
+
+
+/* -----------------------------------------------------------
+   🟣 RESPONSIVE
+----------------------------------------------------------- */
+
+@media (max-width: 1000px) {
+   
+    .filter-box {
+        padding: 15px;
+    }
+
+    table {
+        overflow-x: auto;
+        display: block;
+    }
+
+    td, th {
+        padding: 10px 6px;
+        font-size: 13px;
+    }
+
+    .title-box h1 {
+        font-size: 22px;
+    }
+}

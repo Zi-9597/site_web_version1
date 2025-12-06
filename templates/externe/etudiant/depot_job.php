@@ -35,8 +35,24 @@
     
 
         $nom_prenom = $found["prenom"]." ".$found["nom"];
+        if(!empty($found["membre_bureau"]))
+        {
+            if($found["membre_bureau"] === "Président")
+            {
+                include "commun/barre_navigation_pres.php";
+            }
+            else
+            {
+                include "commun/barre_navigation_conn.php";
+            }
+           
+        }
+        else
+        {
+            include "commun/barre_conn_etu.php";
+        }
 
-        include "commun/barre_navigation_conn.php"
+        
     ?>
 
 

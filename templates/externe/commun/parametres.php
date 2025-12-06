@@ -47,7 +47,29 @@
         $nom_prenom = $found["prenom"] . " " . $found["nom"];
 
         // Inclus la barre de navigation
-        include "commun/barre_navigation_conn.php";
+        if(!empty($found["membre_bureau"]))
+        {
+            if($found["membre_bureau"] === "Président")
+            {
+                include "commun/barre_navigation_pres.php";
+            }
+            else
+            {
+                include "commun/barre_navigation_conn.php";
+            }
+           
+        }
+        else
+        {
+            if ($found["membre_assoc"] == "Étudiant/e")
+            {
+                include "commun/barre_conn_etu.php";
+            }
+            elseif ($found["membre_assoc"] == "Alumni/e")
+            { 
+                include "commun/barre_conn_ancien.php";
+            }
+        }
     ?>
 
     <!-- FORMULAIRE D'INSCRIPTION -->

@@ -25,7 +25,9 @@ if ($_SERVER['REQUEST_URI'] !== '/') {
         "reche_emploie"   => "templates/externe/recherche_emploie.php",
         "update_data"    => "templates/externe/update_new_info.php",
         "depot_job"     =>  "templates/externe/etudiant/depot_job.php",
-        "fetch_job"  => "templates/externe/etudiant/recherche_job.php"
+        "fetch_job"  => "templates/externe/etudiant/recherche_job.php",
+        "change_membre" => "templates/externe/president/gestion_etudiant.php",
+        "update_membre_assoc" => "templates/externe/mise_jour_membre.php"
     ];
 
     // 1. On récupère le paramètre dest (par défaut = acceuil)

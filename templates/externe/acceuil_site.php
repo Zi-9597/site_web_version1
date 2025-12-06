@@ -2,7 +2,7 @@
 if (isset($id_user)) {
     // Example: split user id into two parts
     list($id_member, $id_num) = explode("_", $id_user);
-    require_once "templates/externe/ancien/acceuil_ancien.php";
+    require_once "templates/externe/membre/acceuil_connect.php";
     exit;
 } else {
 
