@@ -108,8 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const id = btn.dataset.id;
             btnSave.dataset.id = id; // assigne l’ID correct
-            btnRemo.dataset.id = id;
-
+            
             openModal();
 
             const response = await fetch(`/?dest=info_fetch_offre&id_user=${id}`);
