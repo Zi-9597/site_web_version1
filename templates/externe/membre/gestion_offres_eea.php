@@ -243,7 +243,7 @@
     </div>
 
     <?php require 'commun/footer.php';?>
-    <script src="public/js/gestion_offres_eea.js"></script>
+    <script src="public/js/gestion_offres_eea_v1.js"></script>
 
 </body>
 </html>
