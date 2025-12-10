@@ -367,6 +367,26 @@ td:last-child {
 
 
 
+
+/* Cette catégorie c'est pour le fichier html gestion_oofres_eea.php, pour supprimer les offres */
+
+.btn-delete {
+    background: #e11d48;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 21px;
+    cursor: pointer;
+    transition: .15s;
+    font-family: 'Nunito';
+}
+
+.btn-delete:hover {
+    background: #be123c;
+}
+
+
 /* -----------------------------------------------------------
    🟣 RESPONSIVE
 ----------------------------------------------------------- */

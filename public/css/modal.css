@@ -18,7 +18,7 @@
    📦 Contenu du modal
 ============================ */
 .modal-content {
-    width: 500px;
+    width: 600px;
     background: white;
     border-radius: 14px;
     overflow: hidden;
@@ -126,6 +126,15 @@
     color: white;
 }
 
+#modal-job .modal-content {
+    width: 600px;
+    max-width: 95%;
+}
+
+#edit-specialites {
+    height: 120px;
+}
+
 
 .update-msg {
     position: fixed;
@@ -146,6 +155,63 @@
 .update-msg.error {
     background: #e53935;
 }
+
+.modal-field textarea {
+    width: 95%;
+    min-height: 140px;
+    padding: 12px 14px;
+    border: 2px solid #d0cfff;
+    border-radius: 10px;
+    font-size: 20px;
+    font-family: "Nunito", sans-serif;
+    line-height: 1.5;
+    resize: vertical; /* autorise le redimensionnement vertical seulement */
+
+    background: #fafaff; /* léger fond violet très clair */
+    transition: 0.25s ease;
+    color: #333;
+}
+
+.modal-field textarea:focus {
+    border-color: #7b61ff;
+    background: #ffffff;
+    box-shadow: 0 0 8px rgba(123, 97, 255, 0.4);
+    outline: none;
+}
+
+
+.notif-card {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    padding: 15px 22px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(-15px);
+    transition: all 0.35s ease;
+    z-index: 9999;
+    pointer-events: none;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+.notif-card.success {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+    font-family: 'Nunito';
+}
+
+.notif-card.error {
+    background: linear-gradient(135deg, #E53935, #B71C1C);
+    font-family: 'Nunito';
+}
+
+.notif-card.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }

@@ -302,6 +302,222 @@
                 ":id"            => $data["id"]
             ]);
         }
+
+        public static function fetchUserJobs(string $email): array
+        {
+            $pdo = self::getInstance();
+
+            $sql = "
+                SELECT 
+                    o.id_offre,
+                    o.titre_offre,
+                    o.url_linkedin,
+                    o.description,
+                    o.email_user,
+                    o.type_contrat,
+                    o.date_creation,
+                    GROUP_CONCAT(s.nom_specialite SEPARATOR ', ') AS specialites
+                FROM offres o
+                JOIN offre_specialite os 
+                    ON o.id_offre = os.id_offre
+                JOIN specialites s 
+                    ON os.id_specialite = s.id_specialite
+                WHERE o.email_user = :email
+                GROUP BY o.id_offre
+                ORDER BY o.date_creation DESC
+            ";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(['email' => $email]);
+
+            return $stmt->fetchAll();
+        }
+
+        public static function updateJob(int $id_offre, array $offreData, array $specialites): bool
+        {
+            $pdo = self::getInstance();
+
+            // 🔒 Sécuriser toute l'opération dans une transaction
+            $pdo->beginTransaction();
+
+            try {
+                /* ----------------------------------------------
+                * 1️⃣ MISE À JOUR DES INFORMATIONS PRINCIPALES
+                * ---------------------------------------------- */
+
+                $sqlUpdateOffre = "
+                    UPDATE offres
+                    SET 
+                        titre_offre   = :titre,
+                        url_linkedin  = :linkedin,
+                        description   = :description,
+                        type_contrat  = :type_contrat
+                    WHERE id_offre = :id_offre
+                ";
+
+                $stmt = $pdo->prepare($sqlUpdateOffre);
+
+                $stmt->execute([
+                    ':titre'        => $offreData['titre_offre'],
+                    ':linkedin'     => $offreData['url_linkedin'],
+                    ':description'  => $offreData['description'],
+                    ':type_contrat' => $offreData['type_contrat'],
+                    ':id_offre'     => $id_offre
+                ]);
+
+                /* ----------------------------------------------
+                * 2️⃣ SUPPRESSION DES ANCIENNES SPÉCIALITÉS
+                * ---------------------------------------------- */
+                 // 🚫 Si Job Étudiant → ne modifier AUCUNE spécialité
+                if ($offreData['type_contrat'] === "Job Étudiant") {
+                    $pdo->commit();
+                    return true;
+                }
+                $sqlDeleteSpecs = "DELETE FROM offre_specialite WHERE id_offre = :id";
+                $stmtDel = $pdo->prepare($sqlDeleteSpecs);
+                $stmtDel->execute([':id' => $id_offre]);
+               
+                /* ----------------------------------------------
+                * 3️⃣ AJOUT DES NOUVELLES SPÉCIALITÉS
+                * ---------------------------------------------- */
+
+                if (!empty($specialites)) {
+                    $sqlInsertSpec = "
+                        INSERT INTO offre_specialite (id_offre, id_specialite)
+                        VALUES (:id_offre, :id_specialite)
+                    ";
+
+                    $stmtSpec = $pdo->prepare($sqlInsertSpec);
+
+                    foreach ($specialites as $specId) {
+                        $stmtSpec->execute([
+                            ':id_offre'     => $id_offre,
+                            ':id_specialite'=> (int)$specId
+                        ]);
+                    }
+                }
+
+                /* ----------------------------------------------
+                * 4️⃣ VALIDATION DE LA TRANSACTION
+                * ---------------------------------------------- */
+                $pdo->commit();
+                return true;
+
+            } catch (Exception $e) {
+
+                // 🔄 Retour à l’état initial si un problème survient
+                $pdo->rollBack();
+
+                throw new RuntimeException(
+                    "Erreur lors de la mise à jour de l'offre (ID $id_offre) : " . $e->getMessage()
+                );
+            }
+        }
+
+
+        public static function removeJob(int $id_offre): bool
+        {
+            $pdo = self::getInstance();
+            $pdo->beginTransaction();
+
+            try {
+
+                // 1️⃣ Supprimer les spécialités liées
+                $stmt1 = $pdo->prepare("DELETE FROM offre_specialite WHERE id_offre = :id");
+                $stmt1->execute([':id' => $id_offre]);
+
+                // 2️⃣ Supprimer l'offre
+                $stmt2 = $pdo->prepare("DELETE FROM offres WHERE id_offre = :id");
+                $stmt2->execute([':id' => $id_offre]);
+
+                $pdo->commit();
+                return true;
+
+            } catch (Exception $e) {
+                $pdo->rollBack();
+                throw new RuntimeException("Erreur suppression offre : " . $e->getMessage());
+            }
+        }
+
+        public static function fetch_events(?string $id_membre = null, ?int $id_event = null): array
+        {
+            $pdo = self::getInstance();
+
+            try {
+                // Base de la requête
+                $sql = "SELECT * FROM evenements WHERE 1=1 ";
+                $params = [];
+
+                // Filtrer par id_membre si fourni
+                if (!empty($id_membre)) {
+                    $sql .= " AND id_membre = :id_membre ";
+                    $params['id_membre'] = $id_membre;
+                }
+
+                // Filtrer par id_event si fourni
+                if (!empty($id_event)) {
+                    $sql .= " AND id_event = :id_event ";
+                    $params['id_event'] = $id_event;
+                }
+
+                $sql .= " ORDER BY date_event ASC";
+
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute($params);
+
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            } catch (Exception $e) {
+                throw new RuntimeException(
+                    "Erreur lors de la récupération des événements : " . $e->getMessage()
+                );
+            }
+        }
+
+        public static function updateEvent(array $data): bool
+        {
+            $pdo = self::getInstance();
+
+            $sql = "UPDATE evenements
+                    SET nom_event = :nom,
+                        date_event = :date_event,
+                        desc_event = :desc_event,
+                        url_form = :url_form
+                    WHERE id_event = :id_event";
+
+            $stmt = $pdo->prepare($sql);
+
+            return $stmt->execute([
+                ':nom'       => $data['nom_event'],
+                ':date_event'=> $data['date_event'],
+                ':desc_event'=> $data['desc_event'],
+                ':url_form'  => $data['url_form'],
+                ':id_event'  => $data['id_event']
+            ]);
+        }
+
+        public static function removeEvent(int $id_event): bool
+        {
+            $pdo = self::getInstance();
+
+            try {
+                $stmt = $pdo->prepare("DELETE FROM evenements WHERE id_event = :id");
+                $stmt->execute([':id' => $id_event]);
+
+                return true;
+
+            } catch (Exception $e) {
+                throw new RuntimeException("Erreur suppression event : " . $e->getMessage());
+            }
+        }
+
+
+        
+
+
+
+
+
     }   
 
 

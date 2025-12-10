@@ -198,7 +198,7 @@
                                 class="btn-change" 
                                 data-id="<?= htmlspecialchars($m["id_membre"]) ?>"
                             >
-                                Changer
+                                ✏️ Changer
                             </button>
                         </td>
                     </tr>

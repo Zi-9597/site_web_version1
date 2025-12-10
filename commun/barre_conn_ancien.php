@@ -78,6 +78,8 @@
         <span> <a href="/?dest=dep_offre&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Publier une offre </a> </span>
         <span><a href="/?dest=offre_emploie&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Rechercher une offre </a> </span>
         <span> <a href="/?dest=rech_event&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Participer à un évènement </a> </span>
+        <span> <a href="/?dest=gestion_offres&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Gestion des offres </a> </span>
+
 
 
         <span><a href="https://www.univ-lille.fr/"> Université de Lille </a> </span>

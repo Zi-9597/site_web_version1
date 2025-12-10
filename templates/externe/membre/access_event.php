@@ -61,13 +61,7 @@
             }
         }
     ?>
-        <!-- Résultats -->
-    <div class="container-resultats">
-        <h1>📋 Résultats de la recherche</h1>
-        <div id="resultats">
-            <!-- Les cartes AJAX vont s'afficher ici -->
-        </div>
-    </div>
+  
     <div class="container-formulaire">
         
         <!-- Bandeau titre + description -->
@@ -135,8 +129,15 @@
         </form>
        <!-- Résultats AJAX -->
         
+        
    
       
+    </div>
+    <div class="container-resultats">
+        <h1>📋 Résultats de la recherche</h1>
+        <div id="resultats">
+            <!-- Les cartes AJAX vont s'afficher ici -->
+        </div>
     </div>
 
 
