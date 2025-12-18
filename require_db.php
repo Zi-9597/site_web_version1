@@ -732,6 +732,103 @@
             ]);
         }
 
+        public static function addGoodies(array $data): bool
+        {
+            $pdo = self::getInstance();
+
+            $sql = "
+                INSERT INTO goodies (
+                    nom_goodies,
+                    prix,
+                    lien,
+                    description
+                ) VALUES (
+                    :nom_goodies,
+                    :prix,
+                    :lien,
+                    :description
+                )
+            ";
+
+            $stmt = $pdo->prepare($sql);
+
+            return $stmt->execute([
+                ':nom_goodies' => $data['nom_goodies'],
+                ':prix'        => $data['prix'],
+                ':lien'        => $data['lien'] ?? null,
+                ':description' => $data['description']
+            ]);
+        }
+
+        public static function updateGoodies(int $id_goodies, array $data): bool
+        {
+            $pdo = self::getInstance();
+
+            $sql = "
+                UPDATE goodies SET
+                    nom_goodies = :nom_goodies,
+                    prix        = :prix,
+                    lien        = :lien,
+                    description = :description
+                WHERE goodies_id = :id_goodies
+            ";
+
+            $stmt = $pdo->prepare($sql);
+
+            return $stmt->execute([
+                ':id_goodies'  => $id_goodies,
+                ':nom_goodies' => $data['nom_goodies'],
+                ':prix'        => $data['prix'],
+                ':lien'        => $data['lien'] ?? null,
+                ':description' => $data['description']
+            ]);
+        }
+        public static function deleteGoodies(int $id_goodies): bool
+        {
+            $pdo = self::getInstance();
+
+            $sql = "DELETE FROM goodies WHERE goodies_id = :id_goodies";
+
+            $stmt = $pdo->prepare($sql);
+
+            return $stmt->execute([
+                ':id_goodies' => $id_goodies
+            ]);
+        }
+        public static function fetchGoodies(?int $id_goodies = null): array
+        {
+            $pdo = self::getInstance();
+
+            $sql = "
+                SELECT
+                    goodies_id,
+                    nom_goodies,
+                    prix,
+                    lien,
+                    description
+                FROM goodies
+                WHERE 1=1
+            ";
+
+            $params = [];
+
+            // 🔎 Si un ID est fourni
+            if ($id_goodies !== null) {
+                $sql .= " AND goodies_id = :id_goodies";
+                $params[':id_goodies'] = $id_goodies;
+            }
+
+            $sql .= " ORDER BY nom_goodies ASC";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($params);
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+
+
+
 
 
     }   

@@ -39,7 +39,7 @@
             include "commun/barre_navigation_conn.php";
         }
 
-        // 🔴 Récupération des actualités
+        // 🔴 Récupération des Aides
         $aides = EEA_Database::fetchAides();
         
     ?>

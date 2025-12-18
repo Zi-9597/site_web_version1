@@ -47,7 +47,12 @@ if ($_SERVER['REQUEST_URI'] !== '/') {
         "add_aide_conn" => "templates/externe/etudiant/aides_connectes.php",
         "gestion_aides_etudiants" => "templates/externe/membre/gestion_aides.php",
         "fetch_aide" => "templates/externe/fetch_aides_etud.php",
-        "delete_aide" => "templates/externe/delete_aide_etu.php"
+        "delete_aide" => "templates/externe/delete_aide_etu.php",
+        "gestion_goodies" =>  "templates/externe/membre/gestion_goodies_eea.php",
+        "add_goodies" => "templates/externe/add_goodies_eea.php",
+        "get_goodies" =>  "templates/externe/get_goodies_eea.php",
+        "remove_goodies" => "templates/externe/remove_goodies_eea.php",
+        "update_goodies" => "templates/externe/update_goodies.php"
     ];
 
     // 1. On récupère le paramètre dest (par défaut = acceuil)

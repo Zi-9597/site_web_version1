@@ -89,7 +89,7 @@
         <span> <a href="/?dest=gestion_evenements&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Gestion des évenements </a> </span>
         <span> <a href="/?dest=gestion_actualite&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Gestion des actualités </a> </span>
         <span> <a href="/?dest=gestion_aides_etudiants&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Gestion des aides étudiants </a> </span>
-
+        <span> <a href="/?dest=gestion_goodies&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Gestion des goodies </a> </span>
 
 
         <span><a href="https://www.univ-lille.fr/"> Université de Lille </a> </span>

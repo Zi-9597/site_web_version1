@@ -62,13 +62,6 @@
             }
         }
     ?>
-
-    <div class="container-resultats">
-            <h1>📋 Résultats de la recherche</h1>
-            <div id="resultats">
-                <!-- Les cartes AJAX vont s'afficher ici -->
-            </div>
-    </div>
     <div class="container-formulaire">
         <!-- Bandeau violet -->
          <!-- Résultats -->
@@ -154,12 +147,20 @@
                     </div>
                 </div>
             </div>
+            
 
             <!-- Bouton -->
             <div class="button_submit">
                 <button type="submit" id="button_submit">Rechercher une offre</button>
             </div>
         </form>
+    </div>
+
+    <div class="container-resultats">
+            <h1>📋 Résultats de la recherche</h1>
+            <div id="resultats">
+                <!-- Les cartes AJAX vont s'afficher ici -->
+            </div>
     </div>
 
     
