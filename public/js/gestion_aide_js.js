@@ -1,74 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* =========================================================
-       🔍 FILTRE TABLEAU DES AIDES
-       - Nom / Prénom
-       - Type d’aide
-    ========================================================= */
+    /* ============================================================================
+       🔍 RÉFÉRENCES DOM
+    ============================================================================ */
 
-    const inputName  = document.getElementById("search-name");
+    const searchTitre = document.getElementById("search-name");
     const selectType = document.getElementById("filter-type");
+
 
     const table = document.getElementById("table-aides");
     const rows  = document.querySelectorAll("#table-aides tbody tr");
     const noResult = document.getElementById("no-result");
 
-    function filterTable() {
-
-        table.style.opacity = "0.4";
-
-        const nameValue = inputName.value.toLowerCase().trim();
-        const typeValue = selectType.value.toLowerCase().trim();
-
-        setTimeout(() => {
-
-            let visibleCount = 0;
-
-            rows.forEach(row => {
-
-                const nomPrenom = row.children[0].textContent.toLowerCase();
-                const typeAide  = row.children[2].textContent.toLowerCase();
-
-                const matchName = nomPrenom.includes(nameValue);
-                const matchType = typeValue === "" || typeAide.includes(typeValue);
-
-                const shouldShow = matchName && matchType;
-
-                row.style.display = shouldShow ? "" : "none";
-                if (shouldShow) visibleCount++;
-                noResult.classList.toggle("visible", visibleCount === 0);
-                table.style.opacity = "1";
+    const changeButtons = document.querySelectorAll(".btn-display");
+    const btnRemo =document.querySelectorAll(".btn-delete");
 
 
-            });
-
-        
-
-        }, 120);
-    }
-
-
-    /* ===============================
-    🎧 ÉCOUTEURS
-    =============================== */
-    inputName.addEventListener("input", filterTable);
-    selectType.addEventListener("change", filterTable);
-
-    /* ===============================
-    🚀 INITIALISATION
-    =============================== */
-    filterTable();
-
-
-    /* =========================================================
-       🪟 MODAL – CONSULTATION D’UNE DEMANDE D’AIDE
-    ========================================================= */
-
-    const modal    = document.getElementById("modal-edit-aide");
+    // Nouveau modal spécifique aux évènements
+    const modal = document.getElementById("modal-edit-aide");
     const modalBox = modal.querySelector(".modal-content");
     const btnClose = modal.querySelector(".modal-btn-cancel");
 
-    const btnView = document.querySelectorAll(".btn-change");
+
+    const btnView = document.querySelectorAll(".btn-display");
 
     /* ===== Champs du modal ===== */
     const fNomPrenom = document.getElementById("edit-nom-prenom");
@@ -79,7 +33,68 @@ document.addEventListener("DOMContentLoaded", () => {
     const fTelephone = document.getElementById("edit-telephone-aide");
     const fDate      = document.getElementById("edit-date-aide");
    
+    // const box   = modal.querySelector(".modal-content");
 
+    // // Champs du modal
+    // const fNom          = document.getElementById("edit-nom-event");
+    // const fDate         = document.getElementById("edit-date-event");
+    // const fDesc         = document.getElementById("edit-desc-event");
+    // const fUrl          = document.getElementById("edit-url-form");
+    // const fDateCreation = document.getElementById("edit-date-creation");
+    // const btnSave = document.getElementById("btn-save-offre");
+
+
+
+    /* ============================================================================
+       🔎 FILTRAGE TABLEAU
+    ============================================================================ */
+
+    function refreshTableVisibility() {
+
+        table.style.opacity = "0.4";
+
+        setTimeout(() => {
+
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+
+                const titre = row.children[0].textContent.toLowerCase();
+                const typeAide  = row.children[2].textContent.toLowerCase();
+
+               
+                const search = searchTitre.value.toLowerCase().trim();
+                const typeValue = selectType.value.toLowerCase().trim();
+
+
+                const matchType = typeValue === "" || typeAide.includes(typeValue);
+                
+
+                const shouldShow = titre.includes(search) && matchType;
+
+                row.style.display = shouldShow ? "" : "none";
+
+
+
+                if (shouldShow) visibleCount++;
+            });
+
+            noResult.classList.toggle("visible", visibleCount === 0);
+
+            table.style.opacity = "1";
+
+        }, 120);
+    }
+
+    searchTitre.addEventListener("input", refreshTableVisibility);
+    selectType.addEventListener("change", refreshTableVisibility);
+    refreshTableVisibility();
+
+
+
+    /* =========================================================
+       🪟 MODAL – CONSULTATION D’UNE DEMANDE D’AIDE
+    ========================================================= */
     /* =========================================================
        🪟 OUVERTURE / FERMETURE MODAL
     ========================================================= */
@@ -213,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("pageshow", () => {
 
         // Réinitialisation des champs
-        inputName.value  = "";
+        searchTitre.value  = "";
         selectType.value = "";
 
         // Réaffichage de toutes les lignes
@@ -221,10 +236,11 @@ document.addEventListener("DOMContentLoaded", () => {
             row.style.display = "";
         });
 
-        noResult.style.display = "none";
         table.style.opacity = "1";
     });
 
+    document.querySelector(".modal-btn-cancel").onclick = closeModal;
+    modal.onclick = e => { if (e.target === modal) closeModal(); };
 
 
 });

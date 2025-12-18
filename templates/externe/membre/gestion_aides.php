@@ -3,25 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Actualités - Association EEA</title>
-
+    <title>Ajout Évenements - Association EEA</title>
     <link rel="stylesheet" href="public/css/barre_navigation_1.css">
     <link rel="stylesheet" href="public/css/index.css">
     <link rel="stylesheet" href="public/css/logo_gestion.css">
     <link rel="stylesheet" href="public/css/footer.css">
     <link rel="stylesheet" href="public/css/change_statut.css">
     <link rel="stylesheet" href="public/css/modal.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Open+Sans&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
-
+    
+   
     <script src="public/js/gestion_slidebar_1.js"></script>
-
     <?php
+    // Simple test to display "ancien" on the page
         require_once "require_db.php";
 
         $id_comb = $_GET["id_user"];
@@ -39,20 +41,21 @@
 
         // 🔴 Récupération des actualités
         $aides = EEA_Database::fetchAides();
+        
     ?>
 
     
-   
-    <!-- ================= TITRE ================= -->
+       <!-- Titre de la page -->
     <div class="title-box">
-        <h1>Gestion des Aides Étudiants</h1>
+        <h1>Gestion des Offres</h1>
         <p style="font-size:20px; margin-top:10px; font-family:'Nunito';">
             Consultez les demandes d’aide envoyées par les étudiants et suivez leur traitement.
         </p>
     </div>
 
-
-    <!-- ================= FILTRE ================= -->
+    
+    <!-- Bloc des filtres -->
+   <!-- ===== BLOC GLOBAL : FILTRES + ACTION ===== -->
     <div class="box-with-title">
         <span class="box-title">Filtre des demandes d’aide</span>
 
@@ -86,10 +89,12 @@
         </div>
     </div>
 
-    <!-- ================= TABLEAU ================= -->
+    <!-- Début du tableau -->
     <div class="total_information">
 
         <table id="table-aides">
+
+            <!-- En-tête du tableau -->
             <thead>
                 <tr>
                     <th>Nom & Prénom</th>
@@ -102,57 +107,61 @@
                 </tr>
             </thead>
 
+
+            <!-- Corps du tableau -->
             <tbody>
-            <?php foreach ($aides as $aide): ?>
-                <tr>
 
-                    <td>
-                        <?= htmlspecialchars(
-                            trim(($aide['prenom'] ?? '') . ' ' . ($aide['nom'] ?? ''))
-                            ?: '—'
-                        ) ?>
-                    </td>
+                <!-- Boucle pour afficher chaque membre dans une ligne -->
+                <?php foreach ($aides as $aide): ?>
+                    <tr>
 
-                    <td><?= htmlspecialchars($aide['email']) ?></td>
+                        <td>
+                            <?= htmlspecialchars(
+                                trim(($aide['prenom'] ?? '') . ' ' . ($aide['nom'] ?? ''))
+                                ?: '—'
+                            ) ?>
+                        </td>
 
-                    <td><?= htmlspecialchars($aide['type_aide']) ?></td>
+                        <td><?= htmlspecialchars($aide['email']) ?></td>
 
-                    <td><?= htmlspecialchars($aide['sujet']) ?></td>
+                        <td><?= htmlspecialchars($aide['type_aide']) ?></td>
 
-                    <td><?= date("d/m/Y", strtotime($aide['date_demande'])) ?></td>
+                        <td><?= htmlspecialchars($aide['sujet']) ?></td>
 
-                    <!-- Voir (future modale ou page détail) -->
-                    <td>
-                        <button
-                            class="btn-change"
-                            data-id="<?= $aide['aide_id'] ?>"
-                        >
-                            👁️ Voir
-                        </button>
-                    </td>
+                        <td><?= date("d/m/Y", strtotime($aide['date_demande'])) ?></td>
 
-                    <!-- Supprimer -->
-                    <td>
-                        <button
-                            class="btn-delete"
-                            data-id="<?= $aide['aide_id'] ?>"
-                        >
-                            🗑️ Supprimer
-                        </button>
-                    </td>
+                        <!-- Voir (future modale ou page détail) -->
+                        <td>
+                            <button
+                                class="btn-display"
+                                data-id="<?= $aide['aide_id'] ?>"
+                            >
+                                Voir la demande
+                            </button>
+                        </td>
 
-                </tr>
-            <?php endforeach; ?>
+                        <!-- Supprimer -->
+                        <td>
+                            <button
+                                class="btn-delete"
+                                data-id="<?= $aide['aide_id'] ?>"
+                            >
+                                🗑️ Supprimer
+                            </button>
+                        </td>
+
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
-        </table>
 
+        </table>
         <div id="no-result" class="no-result">
-            Aucune demande d’aide trouvée
+            Aucun résultat trouvé
         </div>
 
-    </div>
 
-    <!-- ================= MODAL MODIFIER AIDE ================= -->
+    </div>
+     <!-- ================= MODAL AFFICHER L'AIDE ================= -->
     <div id="modal-edit-aide" class="modal-overlay">
         <div class="modal-content">
 
@@ -247,9 +256,7 @@
     </div>
 
 
-
-    <?php require 'commun/footer.php'; ?>
-
+    <?php require 'commun/footer.php';?>
     <script src="public/js/gestion_aide_js.js"></script>
 
 </body>

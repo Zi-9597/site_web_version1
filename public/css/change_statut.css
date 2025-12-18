@@ -349,7 +349,7 @@ td:last-child {
 ----------------------------------------------------------- */
 
 /* bouton vert */
-.btn-change {
+.btn-change , .btn-display {
     background: #22c55e;
     color: white;
     padding: 6px 12px;
