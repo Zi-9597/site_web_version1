@@ -7,12 +7,13 @@ if ($_SERVER['REQUEST_URI'] !== '/') {
         "info_insc"      => "templates/externe/info_inscription.php",
         "goodies"        => "templates/externe/goodies_site.php",
         "actualite"      => "templates/externe/actualite_site.php",
-        "dbb"            => "index_con.php",
         "connection"     => "templates/externe/connection.php",
         "add_subscriber" => "templates/externe/add_subscriber.php",
         "info_conn"      => "templates/externe/info_conn.php",
         "success"        => "templates/externe/success.php",
+        "aides"           => "templates/externe/non_membre/aide_nm.php",
         "acceuil"        => "templates/externe/acceuil_site.php", // default page
+        "evenements"     => "templates/externe/non_membre/evenement_nm.php",
         "parametres"     => "templates/externe/commun/parametres.php",
         "dep_evenmt"     => "templates/externe/membre/depot_event.php",
         "add_event"      => "templates/externe/ajouter_evenement.php",
@@ -35,7 +36,18 @@ if ($_SERVER['REQUEST_URI'] !== '/') {
         "gestion_evenements" => "templates/externe/membre/gestion_event.php",
         "info_cherche_events" => "templates/externe/recherche_gestion_events.php",
         "update_event" => "templates/externe/update_event_new.php",
-        "suppression_event" => "templates/externe/suppress_event_new.php"
+        "suppression_event" => "templates/externe/suppress_event_new.php",
+        "gestion_actualite" => "templates/externe/membre/gestion_actualite.php",
+        "add_actualite" => "templates/externe/add_actualite.php",
+        "get_actualite" => "templates/externe/gets_actualite.php",
+        "update_actualite" => "templates/externe/update_new_actualite.php",
+        "remove_actualite" => "templates/externe/remove_actualite.php",
+        "get_actualite" => "templates/externe/display_actualite.php",
+        "add_aide" => "templates/externe/add_aide_new.php",
+        "add_aide_conn" => "templates/externe/etudiant/aides_connectes.php",
+        "gestion_aides_etudiants" => "templates/externe/membre/gestion_aides.php",
+        "fetch_aide" => "templates/externe/fetch_aides_etud.php",
+        "delete_aide" => "templates/externe/delete_aide_etu.php"
     ];
 
     // 1. On récupère le paramètre dest (par défaut = acceuil)

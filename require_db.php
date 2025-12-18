@@ -510,11 +510,227 @@
                 throw new RuntimeException("Erreur suppression event : " . $e->getMessage());
             }
         }
+        public static function fetch_actualites(?int $actu_id = null): array
+        {
+            $pdo = self::getInstance();
 
+            try {
+                $sql = "
+                    SELECT 
+                        actu_id,
+                        titre_actu,
+                        lien_actu,
+                        desc_actu,
+                        date_depot
+                    FROM actualites
+                    WHERE 1=1
+                ";
 
+                $params = [];
+
+                // 🔎 Si un ID est fourni → filtrer sur l’actualité
+                if ($actu_id !== null) {
+                    $sql .= " AND actu_id = :actu_id";
+                    $params[':actu_id'] = $actu_id;
+                }
+
+                $sql .= " ORDER BY date_depot DESC";
+
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute($params);
+
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            } catch (Exception $e) {
+                throw new RuntimeException(
+                    'Erreur lors de la récupération des actualités : ' . $e->getMessage()
+                );
+            }
+        }
+
+        public static function addActualite(array $data): bool
+        {
+            $pdo = self::getInstance();
+
+            try {
+                $sql = "
+                    INSERT INTO actualites (
+                        titre_actu,
+                        lien_actu,
+                        desc_actu,
+                        date_depot
+                    ) VALUES (
+                        :titre_actu,
+                        :lien_actu,
+                        :desc_actu,
+                        CURDATE()
+                    )
+                ";
+
+                $stmt = $pdo->prepare($sql);
+
+                return $stmt->execute([
+                    ':titre_actu' => $data['titre_actu'],
+                    ':lien_actu'  => $data['lien_actu'],
+                    ':desc_actu'  => $data['desc_actu']
+                ]);
+
+            } catch (Exception $e) {
+                throw new RuntimeException(
+                    "Erreur lors de l'ajout de l'actualité : " . $e->getMessage()
+                );
+            }
+        }
+        public static function updateActualite(array $data): bool
+        {
+            $pdo = self::getInstance();
+
+            try {
+                $sql = "
+                    UPDATE actualites
+                    SET
+                        titre_actu = :titre_actu,
+                        lien_actu  = :lien_actu,
+                        desc_actu  = :desc_actu
+                    WHERE actu_id = :actu_id
+                ";
+
+                $stmt = $pdo->prepare($sql);
+
+                return $stmt->execute([
+                    ':titre_actu' => $data['titre_actu'],
+                    ':lien_actu'  => $data['lien_actu'],
+                    ':desc_actu'  => $data['desc_actu'],
+                    ':actu_id'    => $data['actu_id']
+                ]);
+
+            } catch (Exception $e) {
+                throw new RuntimeException(
+                    "Erreur mise à jour actualité : " . $e->getMessage()
+                );
+            }
+        }
+
+        public static function removeActualite(int $actu_id): bool
+        {
+            $pdo = self::getInstance();
+
+            try {
+                $sql = "DELETE FROM actualites WHERE actu_id = :actu_id";
+                $stmt = $pdo->prepare($sql);
+
+                return $stmt->execute([
+                    ':actu_id' => $actu_id
+                ]);
+
+            } catch (Exception $e) {
+                throw new RuntimeException(
+                    "Erreur suppression actualité : " . $e->getMessage()
+                );
+            }
+        }
         
+        public static function addAide(?string $id_membre, array $data): bool
+        {
+            $pdo = self::getInstance();
 
+            $sql = "
+                INSERT INTO aide_demandes (
+                    nom,
+                    prenom,
+                    id_membre,
+                    email,
+                    telephone_num,
+                    type_aide_id,
+                    sujet,
+                    message
+                ) VALUES (
+                    :nom,
+                    :prenom,
+                    :id_membre,
+                    :email,
+                    :telephone_num,
+                    :type_aide_id,
+                    :sujet,
+                    :message
+                )
+            ";
 
+            $stmt = $pdo->prepare($sql);
+
+            return $stmt->execute([
+                ':nom'           => $data['nom'] ?? null,
+                ':prenom'        => $data['prenom'] ?? null,
+                ':id_membre'     => $id_membre,              // peut être NULL
+                ':email'         => $data['email'],
+                ':telephone_num' => $data['telephone_num'] ?? null,
+                ':type_aide_id'  => (int)$data['type_aide_id'],
+                ':sujet'         => $data['sujet'],
+                ':message'       => $data['message']
+            ]);
+        }
+
+        public static function fetchAides(?int $aide_id = null): array
+        {
+            $pdo = self::getInstance();
+
+            try {
+
+                $sql = "
+                    SELECT
+                        a.aide_id,
+                        a.nom,
+                        a.prenom,
+                        a.id_membre,
+                        a.email,
+                        a.telephone_num,
+                        a.type_aide_id,
+                        t.libelle AS type_aide,
+                        a.sujet,
+                        a.message,
+                        a.date_demande
+                    FROM aide_demandes a
+                    LEFT JOIN aide_types t
+                        ON a.type_aide_id = t.type_aide_id
+                    WHERE 1=1
+                ";
+
+                $params = [];
+
+                /* -----------------------------------------
+                🔎 Filtre optionnel par aide_id
+                ----------------------------------------- */
+                if ($aide_id !== null) {
+                    $sql .= " AND a.aide_id = :aide_id";
+                    $params[':aide_id'] = $aide_id;
+                }
+
+                $sql .= " ORDER BY a.date_demande DESC";
+
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute($params);
+
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            } catch (Throwable $e) {
+                throw new RuntimeException(
+                    "Erreur lors de la récupération des demandes d’aide : " . $e->getMessage()
+                );
+            }
+        }
+
+        public static function deleteAide(int $aide_id): bool
+        {
+            $pdo = self::getInstance();
+
+            $sql = "DELETE FROM aide_demandes WHERE aide_id = :aide_id";
+
+            $stmt = $pdo->prepare($sql);
+
+            return $stmt->execute([
+                ':aide_id' => $aide_id
+            ]);
+        }
 
 
 
