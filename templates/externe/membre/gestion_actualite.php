@@ -289,7 +289,7 @@
 
     <?php require 'commun/footer.php'; ?>
 
-    <script src="public/js/gestion_actualites.js"></script>
+    <script src="public/js/gestion_actualitesv1.js"></script>
 
 </body>
 </html>

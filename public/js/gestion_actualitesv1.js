@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ============================================================================
        🔍 FILTRAGE DU TABLEAU DES ACTUALITÉS
     ============================================================================ */
-
     const searchTitre = document.getElementById("search-titre-actu");
     const table       = document.getElementById("table-offres");
     const rows        = document.querySelectorAll("#table-offres tbody tr");
@@ -198,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
             openEditModal();
 
             try {
-                const response = await fetch(`/?dest=get_actualite&id_actu=${id}`);
+                const response = await fetch(`/?dest=get_actualites&id_actu=${id}`);
                 const data = await response.json();
 
                 fEditTitre.value = data.titre_actu ?? "";

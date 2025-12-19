@@ -179,7 +179,7 @@
 
 
     <?php require 'commun/footer.php';?>
-    <script src="public/js/display_actualite.js"></script>
+    <script src="public/js/display_actualitev7.js"></script>
 
 </body>
 </html>

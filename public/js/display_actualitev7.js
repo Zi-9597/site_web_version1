@@ -63,16 +63,18 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", async () => {
 
             const actuId = btn.dataset.id;
+      
             if (!actuId) return;
 
             try {
-                const response = await fetch(`/?dest=get_actualite&actu_id=${actuId}`);
+                const response = await fetch(`/?dest=get_actualites&id_actu=${actuId}`);
                 const data = await response.json();
 
                 /* ------------------------------------------------
                    📝 REMPLISSAGE DU CONTENU DU MODAL
-                ------------------------------------------------ */
-
+                -----------------------------------------   ------- */
+          
+                
                 // Titre
                 titleEl.textContent = data.titre_actu || "";
 
@@ -99,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 openModal();
 
             } catch (error) {
-                console.error("❌ Erreur lors du chargement de l’actualité :", error);
             }
         });
     });
