@@ -303,10 +303,15 @@
             ]);
         }
 
-        public static function fetchUserJobs(string $email): array
+        public static function fetchUserJobs(
+            ?string $email = null,
+            ?bool $job_type = null): array 
         {
             $pdo = self::getInstance();
 
+            /* =========================================================
+            🧱 BASE DE LA REQUÊTE
+            ========================================================= */
             $sql = "
                 SELECT 
                     o.id_offre,
@@ -316,22 +321,45 @@
                     o.email_user,
                     o.type_contrat,
                     o.date_creation,
-                    GROUP_CONCAT(s.nom_specialite SEPARATOR ', ') AS specialites
+                    GROUP_CONCAT(DISTINCT s.nom_specialite SEPARATOR ', ') AS specialites
                 FROM offres o
                 JOIN offre_specialite os 
                     ON o.id_offre = os.id_offre
                 JOIN specialites s 
                     ON os.id_specialite = s.id_specialite
-                WHERE o.email_user = :email
+                WHERE 1=1
+            ";
+
+            $params = [];
+
+            /* =========================================================
+            🔎 FILTRE EMAIL (OPTIONNEL)
+            ========================================================= */
+            if (!empty($email)) {
+                $sql .= " AND o.email_user = :email";
+                $params[':email'] = $email;
+            }
+
+    
+
+            /* =========================================================
+            📊 GROUP & TRI
+            ========================================================= */
+            $sql .= "
                 GROUP BY o.id_offre
                 ORDER BY o.date_creation DESC
             ";
 
+            /* =========================================================
+            🚀 EXÉCUTION
+            ========================================================= */
             $stmt = $pdo->prepare($sql);
-            $stmt->execute(['email' => $email]);
+            $stmt->execute($params);
 
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+
+
 
         public static function updateJob(int $id_offre, array $offreData, array $specialites): bool
         {

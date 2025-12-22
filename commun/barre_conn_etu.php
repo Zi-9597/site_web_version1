@@ -78,9 +78,8 @@
 
         <span><a href="/?dest=acceuil&id_user=<?php echo htmlspecialchars($id_comb) ;?>">  Acceuil  </a></span>
         <span> <a href="/?dest=actualite&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Actualité </a></span>
-        <span><a href="/?dest=offre_emploie&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Rechercher une offre </a> </span>
         <span> <a href="/?dest=depot_job&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Publier un job étudiant </a> </span>
-        <span> <a href="/?dest=fetch_job&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Rechercher un job étudiant </a> </span>
+        <span><a href="/?dest=offre_emploie&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Rechercher une offre </a> </span>
         <span> <a href="/?dest=rech_event&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Participer à un évenement </a> </span>
         <span> <a href="/?dest=add_aide_conn&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Demander de l'aide </a> </span>
 

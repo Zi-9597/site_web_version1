@@ -18,7 +18,6 @@ if ($_SERVER['REQUEST_URI'] !== '/') {
         "dep_evenmt"     => "templates/externe/membre/depot_event.php",
         "add_event"      => "templates/externe/ajouter_evenement.php",
         "rech_event"     => "templates/externe/membre/access_event.php",
-        "fetch_data"     => "templates/externe/search_event.php",
         "dep_offre"      => "templates/externe/ancien/depot_offre.php",
         "ajout_emploie"  => "templates/externe/ajouter_job.php",
         "cp_fetch"        => "commun/recherche_departement.php",
@@ -51,7 +50,8 @@ if ($_SERVER['REQUEST_URI'] !== '/') {
         "add_goodies" => "templates/externe/add_goodies_eea.php",
         "get_goodies" =>  "templates/externe/get_goodies_eea.php",
         "remove_goodies" => "templates/externe/remove_goodies_eea.php",
-        "update_goodies" => "templates/externe/update_goodies.php"
+        "update_goodies" => "templates/externe/update_goodies.php",
+        "fetch_event" => "templates/externe/fetch_event_newversion.php"
     ];
 
     // 1. On récupère le paramètre dest (par défaut = acceuil)

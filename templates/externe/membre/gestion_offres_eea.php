@@ -87,6 +87,7 @@
                         <option value="">Tous type d'offres</option>
                         <option value="Stage">Stage</option>
                         <option value="CDD/CDI">CDD/CDI</option>
+                        <option value="Job Étudiant">Alternance</option>
                         <option value="Job Étudiant">Job Étudiant</option>
                     </select>
                 </div>

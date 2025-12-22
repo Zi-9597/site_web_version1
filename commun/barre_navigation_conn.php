@@ -83,7 +83,6 @@
         <span> <a href="/?dest=dep_evenmt&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Organiser un évènement </a> </span>
         <span> <a href="/?dest=rech_event&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Participer à un évènement </a> </span>
         <span> <a href="/?dest=depot_job&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Publier un job étudiant </a> </span>
-        <span> <a href="/?dest=fetch_job&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Recherche un job étudiant </a> </span>
         <span> <a href="/?dest=gestion_offres&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Gestion des offres </a> </span>
         <span> <a href="/?dest=gestion_evenements&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Gestion des évenements </a> </span>
         <span> <a href="/?dest=gestion_actualite&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Gestion des actualités </a> </span>

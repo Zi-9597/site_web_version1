@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dépot offre - Association EEA</title>
+    <title>Recherche d'offre - Association EEA</title>
     <link rel="stylesheet" href="public/css/barre_navigation_1.css">
     <link rel="stylesheet" href="public/css/index.css">
     <link rel="stylesheet" href="public/css/logo_gestion.css">
     <link rel="stylesheet" href="public/css/footer.css">
-    <link rel="stylesheet" href="public/css/recherche_job.css">
-    <link rel="stylesheet" href="public/css/style_carte.css">
+    <link rel="stylesheet" href="public/css/change_statut.css">
+    <link rel="stylesheet" href="public/css/modal.css">
+    <link rel="stylesheet" href="public/css/depot_offre.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -61,115 +62,230 @@
                 include "commun/barre_conn_ancien.php";
             }
         }
+        $offres = EEA_Database::fetchUserJobs(null);
     ?>
-    <div class="container-formulaire">
-        <!-- Bandeau violet -->
-         <!-- Résultats -->
-        
-        <div class="descritpion-evenement">
-            <div class="titre_h1">
-                <!-- Logo + titre -->
-                
-                 <h1>🤝📝 Formulaire de recherche d’offre </h1>
+    <!-- Titre de la page -->
+    <div class="title-box">
+        <h1>Recherche d’Offres d’Emploi</h1>
+        <p style="font-size:20px; margin-top:10px; font-family:'Nunito';">
+            Explorez les offres de <strong>stage</strong>, <strong>alternance</strong> et
+            <strong>emploi (CDI)</strong> proposées par les membres et partenaires de l’association.
+            Utilisez les filtres disponibles pour affiner votre recherche et accéder rapidement
+            aux opportunités correspondant à votre profil.
+        </p>
+    </div>
 
-            </div>
-            <div class="descirption-courte">
-                <p>Ce formulaire vous permet de <strong>rechercher des offres d'emploies, de stages, de jobs étudiant ou d'alternances</strong> proposées par l’association.</p>
-                <p>Tous les champs sont <strong>facultatifs</strong> : si vous laissez le formulaire vide, la recherche affichera <strong>toutes les offres disponibles</strong>.</p>
+
+        <!-- Bloc des filtres -->
+   <!-- ===== BLOC GLOBAL : FILTRES + ACTION ===== -->
+    <div class="box-with-title">
+        <span class="box-title">Filtre des offres</span>
+
+        <!-- ==== PARTIE FILTRE ==== -->
+        <div class="filtre-membre">
+            <span class="titre-fm">Filtre Offre</span>
+
+            <div class="filtre-membre-grid">
+
+                <!-- Prénom -->
+                <div class="filter-item">
+                    <label for="search-titre">Nom Offre :</label>
+                    <input type="text" id="search-titre-offre" placeholder="Rechercher le nom de l'offre...">
+                </div>
+
+                <!-- Section -->
+                <div class="filter-item">
+                    <label for="filiere-type">Type d'offre :</label>
+                    <select id="filiere-section">
+                        <option value="">Tous type d'offres</option>
+                        <option value="Stage">Stage</option>
+                        <option value="CDD/CDI">CDD/CDI</option>
+                        <option value="Alternance">Alternance</option>
+                        <option value="Job Étudiant">Job Étudiant</option>
+                    </select>
+                </div>
+
             </div>
         </div>
 
-        <!-- Formulaire -->
-        <form id="formulaire-offre">
-            
-            <!-- Titre offre -->
-            <div class="formulaire-element">
-                <i class="bi-briefcase-fill"></i>
-                <div>
-                    <label for="titre-offre">Titre de l’offre</label>
-                    <input type="text" id="titre-offre" name="titre_offre" placeholder="Ex : Alternance en informatique" >
-                </div>
-            </div>
+        <!-- ================= FILTRE SPÉCIALITÉS ================= -->
+        <div class="filtre-membre">
+            <span class="titre-fm">Filtre par spécialité</span>
 
-            <!-- Spécialités -->
-            <div class="formulaire-element">
-                <i class="bi-list-check"></i>
-                <div>
-                    <label>Spécialités recherchées</label>
-                    <div class="specialites-grid">
-                        <label>
-                            <input type="checkbox" name="specialites[]" value="1">
-                            <span>Électronique</span>
-                        </label>
-                        <label>
-                            <input type="checkbox" name="specialites[]" value="2">
-                            <span>Informatique </span>
-                        </label>
-                        
-                        <label>
-                            <input type="checkbox" name="specialites[]" value="3">
-                            <span>Télécom / Système communicants</span>
-                        </label>
-                        <label>
-                            <input type="checkbox" name="specialites[]" value="4">
-                            <span>Énergie Électrique</span>
-                        </label>
-                        <label>
-                            <input type="checkbox" name="specialites[]" value="5">
-                            <span>Automatique / Automatisme</span>
-                        </label>
-                        <label>
-                            <input type="checkbox" name="specialites[]" value="6">
-                            <span>Transports </span>
-                        </label>
-                    </div>
-                </div>
+            <div class="specialites-grid">
+                <label>
+                    <input type="checkbox" class="filter-specialite" value="Electronique">
+                    <span>Électronique</span>
+                </label>
+                <label>
+                    <input type="checkbox" class="filter-specialite" value="Informatique">
+                    <span>Informatique</span>
+                </label>
+                <label>
+                    <input type="checkbox" class="filter-specialite" value="Télécom / Systèmes communicants">
+                    <span>Télécom / Systèmes communicants</span>
+                </label>
+                <label>
+                    <input type="checkbox" class="filter-specialite" value="Énergie Électrique">
+                    <span>Énergie Électrique</span>
+                </label>
+                <label>
+                    <input type="checkbox" class="filter-specialite" value="Automatique / Automatisme">
+                    <span>Automatique / Automatisme</span>
+                </label>
+                <label>
+                    <input type="checkbox" class="filter-specialite" value="Transports">
+                    <span>Transports</span>
+                </label>
             </div>
-            <!-- Type d'offre -->
-            <div class="formulaire-element">
-                <i class="bi-list-check"></i>
-                <div>
-                    <label>Type de contrat</label>
-                    <div class="types-grid">
-                        <label>
-                            <input type="checkbox" name="types[]" value="Stage">
-                            <span>Stage</span>
-                        </label>
-                        <label>
-                            <input type="checkbox" name="types[]" value="Alternance">
-                            <span>Alternance</span>
-                        </label>
-                        
-                        <label>
-                            <input type="checkbox" name="types[]" value="CDD/CDI">
-                            <span>CDI/CDD</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            
-
-            <!-- Bouton -->
-            <div class="button_submit">
-                <button type="submit" id="button_submit">Rechercher une offre</button>
-            </div>
-        </form>
+        </div>
     </div>
 
-    <div class="container-resultats">
-            <h1>📋 Résultats de la recherche</h1>
-            <div id="resultats">
-                <!-- Les cartes AJAX vont s'afficher ici -->
+     <!-- Début du tableau -->
+    <div class="total_information">
+
+        <table id="table-offres">
+
+            <!-- En-tête du tableau -->
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Spécialités</th>
+                    <th>Contrat</th>
+                    <th>Date de création</th>
+                    <th class="col-modifier">Modifier</th>
+                    
+                    <!-- Colonne changement (cachée par défaut) -->
+                </tr>
+            </thead>
+
+            <!-- Corps du tableau -->
+            <tbody>
+
+                <!-- Boucle pour afficher chaque membre dans une ligne -->
+                <?php foreach ($offres as $offre): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($offre["titre_offre"]) ?></td>
+
+                            <td><?= htmlspecialchars($offre["specialites"]) ?></td>
+
+                            <td><?= htmlspecialchars($offre["type_contrat"]) ?></td>
+
+
+                            <td><?= date("d/m/Y" , strtotime($offre["date_creation"]))?></td>
+
+                            <!-- Bouton Modifier -->
+                            <td>
+                                <button class="btn-change"
+                                    data-id="<?= htmlspecialchars($offre['id_offre']) ?>">
+                                    Voir l'offre
+                                </button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+            </tbody>
+
+        </table>
+        <div id="no-result" class="no-result">
+            Aucun résultat trouvé
+        </div>
+
+
+    </div>
+        <!-- ============================
+        🟣 MODAL : MODIFIER UNE OFFRE
+    ============================== -->
+    <div id="modal-edit-offre" class="modal-overlay">
+
+        <div class="modal-content">
+
+            <!-- Bandeau violet -->
+            <div class="modal-header">
+                <h2>Modifier l'offre</h2>
             </div>
+
+            <!-- Corps -->
+            <div class="modal-body">
+
+
+                <!-- TITRE -->
+                <div class="modal-field">
+                    <label for="edit-titre-offre">Titre de l'offre :</label>
+                    <input type="text" id="edit-titre-offre">
+                </div>
+
+                <!-- URL LINKEDIN -->
+                <div class="modal-field">
+                    <label for="edit-url">Lien LinkedIn :</label>
+                    <input type="text" id="edit-url" disabled readonly>
+                </div>
+
+                <!-- DESCRIPTION -->
+                <div class="modal-field">
+                    <label for="edit-description">Description :</label>
+                    <textarea id="edit-description" rows="5" disable readonly></textarea>
+                </div>
+              
+                <!-- TYPE CONTRAT -->
+                <div class="modal-field">
+                    <label for="edit-contrat">Type de contrat :</label>
+                    <select id="edit-contrat" disabled>
+                        <option value="Stage">Stage</option>
+                        <option value="CDD/CDI">CDD/CDI</option>
+                        <option value="Alternance">Alternance</option>
+                        <option value="Job Étudiant">Job Étudiant</option>
+
+                    </select>
+                </div>
+
+                <!-- SPÉCIALITÉS (MULTI SELECT) -->
+                <div class="modal-field modal-field-specialites">
+                    <label for="edit-specialites">Spécialités :</label>
+                    <select id="edit-specialites" multiple size="6" disabled>
+                        <option value="1">Informatique</option>
+                        <option value="2">Electronique</option>
+                        <option value="3">Télécom / Systèmes communicants</option>
+                        <option value="4">Énergie Électrique</option>
+                        <option value="5">Automatique / Automatisme</option>
+                        <option value="6">Transports</option>
+                    </select>
+                    <small>Maintenez CTRL ou CMD pour sélectionner plusieurs spécialités</small>
+                </div>
+
+                <!-- DATE -->
+                <div class="modal-field">
+                    <label for="edit-date">Date de création :</label>
+                    <input type="date" id="edit-date" readonly>
+                </div>
+
+            </div>
+
+            <!-- Footer (boutons) -->
+            <div class="modal-footer">
+                <button class="modal-btn-cancel" >Annuler</button>
+                
+            </div>
+
+        </div>
     </div>
 
     
 
+    <!-- Carte SUCCESS -->
+    <div id="card-success" class="notif-card success">
+        ✔️ Offre mise à jour avec succès !
+    </div>
 
-
-    <script src="public/js/recherche_offre.js"></script>
+    <!-- Carte ERROR -->
+    <div id="card-error" class="notif-card error">
+        ❌ Une erreur est survenue lors de la mise à jour.
+    </div>
 
     <?php require 'commun/footer.php';?>
+    <script src="public/js/gestion_offres_eea_v2.js"></script>
+
+
+
 
 </body>
 </html>
