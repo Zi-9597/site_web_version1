@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceuil- Association EEA</title>
-    <link rel="stylesheet" href="../../public/css/barre_navigation_1.css">
+    <link rel="stylesheet" href="../../public/css/barre_navigation_v2.css">
     <link rel="stylesheet" href="../../public/css/index.css">
     <link rel="stylesheet" href="../../public/css/logo_gestion.css">
     <link rel="stylesheet" href="../../public/css/presentation_acceuil.css">

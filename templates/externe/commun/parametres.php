@@ -8,7 +8,7 @@
     <title>Paramètres</title>
 
     <!-- Feuilles de style CSS -->
-    <link rel="stylesheet" href="public/css/barre_navigation_1.css">
+    <link rel="stylesheet" href="public/css/barre_navigation_v2.css">
     <link rel="stylesheet" href="public/css/index.css">
     <link rel="stylesheet" href="public/css/logo_gestion.css">
     <link rel="stylesheet" href="public/css/parameter_user.css">

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajout Évenements - Association EEA</title>
-    <link rel="stylesheet" href="public/css/barre_navigation_1.css">
+    <link rel="stylesheet" href="public/css/barre_navigation_v2.css">
     <link rel="stylesheet" href="public/css/index.css">
     <link rel="stylesheet" href="public/css/logo_gestion.css">
     <link rel="stylesheet" href="public/css/footer.css">
@@ -47,7 +47,7 @@
     
        <!-- Titre de la page -->
     <div class="title-box">
-        <h1>Gestion des Offres</h1>
+        <h1>Gestion des Aides Étudiants</h1>
         <p style="font-size:20px; margin-top:10px; font-family:'Nunito';">
             Consultez les demandes d’aide envoyées par les étudiants et suivez leur traitement.
         </p>

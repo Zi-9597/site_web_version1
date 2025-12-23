@@ -7,9 +7,10 @@ if ($_SERVER['REQUEST_URI'] !== '/') {
         "info_insc"      => "templates/externe/info_inscription.php",
         "goodies"        => "templates/externe/goodies_site.php",
         "actualite"      => "templates/externe/actualite_site.php",
-        "connection"     => "templates/externe/connection.php",
+        "connection"     => "templates/externe/connection_v1.php",
         "add_subscriber" => "templates/externe/add_subscriber.php",
         "info_conn"      => "templates/externe/info_conn.php",
+        "info_conn_v1"      => "templates/externe/info_conn_v1.php",
         "success"        => "templates/externe/success.php",
         "aides"           => "templates/externe/non_membre/aide_nm.php",
         "acceuil"        => "templates/externe/acceuil_site.php", // default page

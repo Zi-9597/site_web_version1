@@ -1,0 +1,188 @@
+/* ======================================================
+   FORMULAIRE CONNEXION – VERSION FINALE ALIGNÉE HTML
+====================================================== */
+
+.form_total {
+    background: #ffffff;
+    max-width: 1000px;
+    width: 100%;
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    margin: 85px auto;
+    font-family: 'Nunito', sans-serif;
+}
+
+/* ===============================
+   BANDEAU VIOLET
+================================ */
+
+.descritpion-inscription {
+    background: linear-gradient(135deg, #8e44ad, #9766e0);
+    border-radius: 10px;
+    margin-bottom: 30px;
+    padding: 18px;
+    text-align: center;
+}
+
+.descritpion-inscription h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ===============================
+   ZONE INPUTS
+================================ */
+
+.form_connection {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin-bottom: 35px;
+}
+
+/* EMAIL + MDP (structure identique) */
+#email,
+#mdp {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid #ddd;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: #fafafa;
+    transition: all 0.3s ease;
+}
+
+/* Icônes */
+#email i,
+#mdp i {
+    font-size: 26px;
+    color: #9766e0;
+}
+
+/* Focus */
+#email:focus-within,
+#mdp:focus-within {
+    border-color: #9766e0;
+    background: #ffffff;
+    box-shadow: 0 0 12px rgba(151, 102, 224, 0.25);
+}
+
+/* ===============================
+   LABEL + INPUT
+================================ */
+
+.email-contain,
+.mdp {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 20px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 6px;
+}
+
+input.form-control {
+    border: none;
+    outline: none;
+    font-size: 20px;
+    padding: 6px 4px;
+    background: transparent;
+    font-family: 'Nunito', sans-serif;
+}
+
+/* ===============================
+   BOUTON
+================================ */
+
+.button_submit {
+    margin-top: 30px;
+    text-align: center;
+}
+
+#button_submit {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    border: none;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #9766e0, #8e44ad);
+    color: #ffffff;
+}
+
+#button_submit:hover:enabled {
+    background: linear-gradient(135deg, #7d3c98, #6c3483);
+    transform: translateY(-2px);
+}
+
+/* Désactivé */
+#button_submit:disabled {
+    background: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ===============================
+   CARTE ERREUR CONNEXION (ROUGE)
+================================ */
+
+.error-card {
+    display: none;
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    max-width: 1000px;
+    width: 100%;
+    padding: 18px 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    margin: 40px auto 0 auto;
+    color: #ffffff;
+    font-family: 'Nunito', sans-serif;
+    animation: slideDown 0.4s ease;
+}
+
+.error-card.show {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.error-icon {
+    font-size: 34px;
+}
+
+.error-title {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.error-message {
+    font-size: 17px;
+    opacity: 0.95;
+}
+
+/* ===============================
+   ANIMATION
+================================ */
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -7,7 +7,7 @@
     <title>Inscription - Association EEA</title> <!-- Titre de la page affiché dans l'onglet du navigateur -->
 
     <!-- Inclusion des feuilles de style pour la mise en forme -->
-    <link rel="stylesheet" href="public/css/barre_navigation_1.css">
+    <link rel="stylesheet" href="public/css/barre_navigation_v2.css">
     <link rel="stylesheet" href="public/css/index.css">
     <link rel="stylesheet" href="public/css/logo_gestion.css">
     <link rel="stylesheet" href="public/css/inscription_st_v2.css">

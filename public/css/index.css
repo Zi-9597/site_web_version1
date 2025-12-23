@@ -20,6 +20,13 @@ body.active
 {
     overflow: hidden;
 }
+
+body.no-scroll {
+    overflow: hidden;
+}
+
+
+
 /*On met tous les liens hypertextes en noirs */
 a{
     color: black;
