@@ -29,8 +29,7 @@
 <body>
 
     <!-- Scripts internes -->
-    <script src="public/js/changement_information.js"></script>
-    <script src="public/js/gestion_slidebar_1.js"></script>
+   
 
     <!-- PHP : récupération des données utilisateur -->
     <?php
@@ -305,6 +304,9 @@
 
     </form>
     <script src="public/js/switch_control.js"></script>
+    <script src="public/js/gestion_slide_bar_4.js"></script>
+    <script src="public/js/changement_information.js"></script>
+
 
     <!-- Pied de page -->
     <?php require 'commun/footer.php'; ?>

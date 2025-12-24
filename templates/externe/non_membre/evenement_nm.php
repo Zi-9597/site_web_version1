@@ -22,7 +22,7 @@
 <body>
     
    
-    <script src="public/js/gestion_slidebar_1.js"></script>
+    
     <?php require 'commun/barre_navigation.php'; ?>
     <?php
     // Simple test to display "ancien" on the page
@@ -147,6 +147,7 @@
 
     <?php require 'commun/footer.php';?>
     <script src="public/js/new_event_fetch.js"></script>
+    <script src="public/js/gestion_slide_bar_4.js"></script>
 
 </body>
 </html>

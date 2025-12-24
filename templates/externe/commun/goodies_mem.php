@@ -20,8 +20,6 @@
 </head>
 <body>
     
-   
-    <script src="public/js/gestion_slidebar_1.js"></script>
     <?php
     // Simple test to display "ancien" on the page
         require_once "require_db.php";
@@ -185,6 +183,7 @@
 
     <?php require 'commun/footer.php';?>
     <script src="public/js/affichage_goodies.js"></script>
+    <script src="public/js/gestion_slide_bar_4.js"></script>
 
 </body>
 </html>

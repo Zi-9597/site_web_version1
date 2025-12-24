@@ -21,8 +21,6 @@
 </head>
 <body>
     
-   
-    <script src="public/js/gestion_slidebar_1.js"></script>
     <?php require 'commun/barre_navigation.php'; ?>
     <?php
     // Simple test to display "ancien" on the page
@@ -111,17 +109,17 @@
 
                 <div class="modal-field">
                     <label>Nom du goodies :</label>
-                    <input type="text" id="edit-nom-goodies">
+                    <input type="text" id="edit-nom-goodies" disabled readonly>
                 </div>
 
                 <div class="modal-field">
                     <label>Prix (€) :</label>
-                    <input type="number" step="0.01" id="edit-prix-goodies">
+                    <input type="number" step="0.01" id="edit-prix-goodies" disabled readonly>
                 </div>
 
                 <div class="modal-field">
                     <label>Lien :</label>
-                    <input type="text" id="edit-lien-goodies">
+                    <input type="text" id="edit-lien-goodies" disabled readonly>
                 </div>
 
                 <div class="modal-field">
@@ -130,7 +128,7 @@
                         id="edit-desc-goodies"
                         rows="6"
                         maxlength="2500"
-                        placeholder="Description du goodies">
+                        placeholder="Description du goodies" disabled>
                     </textarea>
                     <small style="color:#666; font-size:13px;">
                         Maximum 2500 caractères
@@ -149,6 +147,7 @@
 
     <?php require 'commun/footer.php';?>
     <script src="public/js/affichage_goodies.js"></script>
+    <script src="public/js/gestion_slide_bar_4.js"></script>
 
 </body>
 </html>

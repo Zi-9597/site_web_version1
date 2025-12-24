@@ -16,14 +16,6 @@ body
     overflow-x: hidden;
 }
 
-body.active
-{
-    overflow: hidden;
-}
-
-body.no-scroll {
-    overflow: hidden;
-}
 
 
 
@@ -126,10 +118,7 @@ inscription */
     opacity: 1;
 }
 
-.container
-{
-    overflow-y: scroll;
-}
+
 
 @media only screen and (max-width: 1200px) {
     

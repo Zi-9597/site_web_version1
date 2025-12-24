@@ -56,7 +56,7 @@
 
 <body>
 
-    <script src="public/js/gestion_slidebar_1.js"></script>
+    
 
     <?php
         require_once "require_db.php";
@@ -293,6 +293,7 @@
     <?php require 'commun/footer.php'; ?>
 
     <script src="public/js/gestions_goodies.js"></script>
+    <script src="public/js/gestion_slide_bar_4.js"></script>
 
 </body>
 </html>

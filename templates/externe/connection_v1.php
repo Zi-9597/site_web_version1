@@ -94,7 +94,7 @@
     <?php require 'commun/footer.php'; ?>
 
     <!-- JS -->
-    <script src="public/js/gestion_slidebar_1.js"></script>
+    <script src="public/js/gestion_slidebar_4.js"></script>
     <script src="public/js/connection_v1.js"></script>
 
 </body>

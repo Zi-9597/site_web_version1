@@ -41,9 +41,9 @@
     </div>
     <div class="menu_nav_1" id="nav_1_id">
         <div id="container_dash_id">
-            <div class⁼"bar1"></div>
-            <div class⁼"bar2"></div>
-            <div class⁼"bar3"></div>
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
         </div>
         <div class="rubrique_1">
             <ul class ="list_nav_1">

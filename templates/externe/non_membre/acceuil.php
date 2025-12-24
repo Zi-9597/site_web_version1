@@ -15,7 +15,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
-    <script src="public/js/gestion_slidebar_1.js"></script>
+    <script src="public/js/gestion_slide_bar_4.js"></script>
     <script src="public/js/acceuil_page.js"></script>
     
     
