@@ -41,7 +41,7 @@
         </div>
         <div class="rubrique_1">
             <ul class ="list_nav_1">
-                <li><a href="/?dest=acceuil&id_user=<?php echo htmlspecialchars($id_comb) ;?>">  Acceuil  </a></li> 
+                <li><a href="/?dest=acceuil&id_user=<?php echo htmlspecialchars($id_comb) ;?>">  Accueil  </a></li> 
                 <li> <a href="/?dest=actualite&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Actualité </a> </li>
                 <li> <a href="/?dest=goodies&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Goodies </a> </li>
             </ul>
@@ -76,7 +76,7 @@
 <!--Gestion de l'intégralité de la barre de navigation -->
 <div class="nav_2" id="nav_2_id">
 
-        <span><a href="/?dest=acceuil&id_user=<?php echo htmlspecialchars($id_comb) ;?>">  Acceuil  </a></span>
+        <span><a href="/?dest=acceuil&id_user=<?php echo htmlspecialchars($id_comb) ;?>">  Accueil  </a></span>
         <span> <a href="/?dest=actualite&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Actualité </a></span>
         <span> <a href="/?dest=dep_offre&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Publier une offre </a> </span>
         <span><a href="/?dest=offre_emploie&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Rechercher une offre </a> </span>

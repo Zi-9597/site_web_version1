@@ -52,7 +52,8 @@ if ($_SERVER['REQUEST_URI'] !== '/') {
         "get_goodies" =>  "templates/externe/get_goodies_eea.php",
         "remove_goodies" => "templates/externe/remove_goodies_eea.php",
         "update_goodies" => "templates/externe/update_goodies.php",
-        "fetch_event" => "templates/externe/fetch_event_newversion.php"
+        "fetch_event" => "templates/externe/fetch_event_newversion.php",
+        "apropos" => "commun/propos_nous.php"
     ];
 
     // 1. On récupère le paramètre dest (par défaut = acceuil)

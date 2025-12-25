@@ -7,10 +7,10 @@ p
 .bas_reseau
 {
 
-    width: 65%;
+    width: 75%;
     margin: auto;
     height: 370px;
-    background-color: antiquewhite
+    background-color: antiquewhite;
   
 }
 
@@ -21,6 +21,7 @@ p
     align-items: center;
     background-color: azure;
     margin-bottom: 15px;
+    
 }
 
 
@@ -49,7 +50,7 @@ p
     flex-direction: column;
     background-color: antiquewhite;
     height: 100px;
-    margin-bottom: 15px;
+    margin-bottom: 35px;
 }
 
 .reseau_footer
@@ -61,27 +62,98 @@ p
 }
 .reseau > svg , .reseau_footer > svg
 {
-    transform: scale(1.5);
+    transform: scale(2.5);
+    width: 25px;
 }
+
+.reseau_footer a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.85);
+    transition: 
+        background 0.35s ease,
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+/* Icônes */
+.reseau_footer svg{
+    width: 25px;
+    height: 25px;
+    color: #1e3a8a; /* bleu foncé */
+    transition: color 0.35s ease, transform 0.35s ease;
+}
+
+/* =====================================================
+   HOVER — DÉGRADÉ + OMBRE
+===================================================== */
+.reseau_footer a:hover{
+    background: linear-gradient(
+        135deg,
+        #1e3a8a,
+        #fb923c,
+        #2563eb
+    );
+
+    box-shadow:
+        0 10px 30px rgba(30,58,138,0.45),
+        0 6px 18px rgba(251,146,60,0.35);
+
+    transform: translateY(-4px) scale(1.1);
+}
+
+/* Icône au hover */
+.reseau_footer a:hover svg{
+    color: #ffffff;
+    transform: scale(1.15);
+}
+
+
+
 .info_assoc
 {
     width: 100%;
     background-color: antiquewhite;
     display: flex;
     justify-content: center;
+    height: 75px;
 }
-.sub_info_assoc
-{
+
+/* =====================================================
+   INFOS FOOTER — LIENS TEXTE
+===================================================== */
+.sub_info_assoc{
     width: 70%;
     display: flex;
-    justify-content: space-between;
-} 
+    justify-content: center;
+    gap: 120px;
+}
 
-.sub_info_assoc > p
-{
+.sub_info_assoc p,
+.sub_info_assoc a{
+    font-family: 'Nunito';
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e3a8a;
+    position: relative;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+
+
+.sub_info_assoc a:hover{
+    color: #fb923c;
+}
+
+.sub_info_assoc a:hover::after{
     width: 100%;
-    text-align: center;
- 
 }
 
 @media (max-width:1200px) {

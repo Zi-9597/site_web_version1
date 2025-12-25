@@ -47,7 +47,7 @@
         </div>
         <div class="rubrique_1">
             <ul class ="list_nav_1">
-                <li><a href="/">  Acceuil  </a></li> 
+                <li><a href="/">  Accueil  </a></li> 
                 <li> <a href="/?dest=actualite"> Actualité </a> </li>
                 <li> <a href="/?dest=goodies"> Goodies </a> </li>
             </ul>
@@ -77,7 +77,7 @@
 <!--Gestion de l'intégralité de la barre de navigation -->
 <div class="nav_2" id="nav_2_id">
 
-        <span><a href="/">  Acceuil  </a></span>
+        <span><a href="/">  Accueil  </a></span>
         <span> <a href="/?dest=actualite"> Actualité </a></span>
         <span> <a href="/?dest=evenements"> Participer à un évènement </a> </span>
         <span><a href="/?dest=aides"> Aides </a> </span>

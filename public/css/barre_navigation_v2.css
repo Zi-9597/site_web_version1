@@ -1,9 +1,63 @@
 /* =====================================================
    BASE
 ===================================================== */
-a {
-    color: black;
-    text-decoration: none;
+/* =====================================================
+   RÉSEAUX SOCIAUX — NAVBAR
+===================================================== */
+.reseau .sub_reseau{
+    display: flex;
+    gap: 22px;
+    align-items: center;
+}
+
+/* lien icône */
+.reseau .sub_reseau a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.85);
+
+    transition:
+        background 0.35s ease,
+        box-shadow 0.35s ease,
+        transform 0.35s ease;
+}
+
+/* icône */
+.reseau .sub_reseau svg{
+    width: 18px;
+    height: 18px;
+    color: #1e3a8a; /* bleu foncé */
+    transition: color 0.35s ease, transform 0.35s ease;
+}
+
+/* =====================================================
+   HOVER — DÉGRADÉ CHALEUREUX
+===================================================== */
+.reseau .sub_reseau a:hover{
+    background: linear-gradient(
+        135deg,
+        #1e3a8a,
+        #fb923c,
+        #2563eb
+    );
+
+    box-shadow:
+        0 8px 22px rgba(30,58,138,0.35),
+        0 4px 14px rgba(251,146,60,0.30);
+
+    transform: translateY(-3px) scale(1.08);
+}
+
+/* icône au hover */
+.reseau .sub_reseau a:hover svg{
+    color: #ffffff;
+    transform: scale(1.15);
 }
 
 /* ================================
@@ -72,10 +126,11 @@ a {
     height: 7rem;
     justify-content: space-between;
     box-shadow: 0 1rem 1rem rgba(0,0,0,0.2);
-    margin-bottom: 20px;
+    margin-bottom: 70px;
     z-index: 10;
     opacity: 1;
     transition: opacity 0.6s ease-out;
+    
 
 }
 
@@ -116,14 +171,28 @@ a {
     justify-content: space-between;
     align-items: center;
     gap: 15px;
-    background-color: rgb(16, 83, 226);;
+    
+
+    /* 🔵 BLEU FONCÉ DOUX */
+     /* 🔥 FOND PLUS FONCÉ MAIS LUMINEUX */
+    background:
+      linear-gradient(
+        90deg,
+        rgba(248,250,252,0.97) 0%,   /* blanc */
+        rgba(129, 148, 211, 0.96) 55%,  /* bleu clair */
+        rgba(233, 193, 148, 0.95) 100%  /* orange doux */
+      );
+
+    backdrop-filter: blur(20px);
+    box-shadow: 0 22px 65px rgba(15,23,42,0.35);
+    border-right: 1px solid rgba(30,64,175,0.25);
 }
 
 .rubrique_1 {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    height: 100%;
+    min-height: 100px;
 }
 
 /* =====================================================
@@ -142,20 +211,30 @@ a {
 }
 
 .list_nav_1 li a {
-    display: flex;
-    width: 100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    font-family:'Nunito';
+    font-size:22px;
+    font-weight:700;
+    color:#1e293b; /* bleu foncé */
+    border-radius:16px;
+    transition:all .25s ease;
     height: 100%;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Nunito';
-    font-size: 20px;
-    transition: background-color 0.3s ease-out;
 }
 
+/* Hover élégant */
 .list_nav_1 li a:hover {
-    background-color: white;
-    color: rgb(38, 0, 255);
-    border-radius: 5px;
+   background:
+      linear-gradient(
+        90deg,
+        rgba(30,64,175,0.18),   /* bleu foncé */
+        rgba(251,146,60,0.22)   /* orange */
+      );
+    color:#041336;
+    box-shadow: 0 12px 34px rgba(30,64,175,0.35);
+    transform: translateX(8px);
 }
 
 /* =====================================================
@@ -178,12 +257,21 @@ a {
     align-items: center;
     gap: 8px;
     font-family: 'Nunito';
-    font-size: 20px;
+    font-size: 22px;
     transition: background-color 0.3s ease-out;
 }
 
 .container_conn_insc div a:hover {
-    background-color: white;
+  
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255,255,255,0.9),
+        rgba(254,215,170,0.9)
+      );
+    color: #1e293b;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(30,64,175,0.35);
 }
 
 /* =====================================================

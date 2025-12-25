@@ -41,7 +41,7 @@
         </div>
         <div class="rubrique_1">
             <ul class ="list_nav_1">
-                <li><a href="/?dest=acceuil&id_user=<?php echo htmlspecialchars($id_comb) ;?>">  Acceuil  </a></li> 
+                <li><a href="/?dest=acceuil&id_user=<?php echo htmlspecialchars($id_comb) ;?>">  Accueil  </a></li> 
                 <li> <a href="/?dest=actualite&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Actualité </a> </li>
                 <li> <a href="/?dest=goodies&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Goodies </a> </li>
             </ul>

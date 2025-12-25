@@ -6,10 +6,10 @@
     <title>Connexion - Association EEA</title>
 
     <!-- CSS EXISTANTS -->
-    <link rel="stylesheet" href="public/css/barre_navigation_v2.css">
-    <link rel="stylesheet" href="public/css/index.css">
+    <link rel="stylesheet" href="public/css/barre_navigation_v2.css?v=20251225_2">
+    <link rel="stylesheet" href="public/css/index.css?v=20251225_2">
     <link rel="stylesheet" href="public/css/logo_gestion.css">
-    <link rel="stylesheet" href="public/css/footer.css">
+    <link rel="stylesheet" href="public/css/footer.css?v=20251225_3">
     <link rel="stylesheet" href="public/css/connection_page_v1.css">
 
     <!-- POLICES -->
@@ -94,7 +94,7 @@
     <?php require 'commun/footer.php'; ?>
 
     <!-- JS -->
-    <script src="public/js/gestion_slidebar_4.js"></script>
+    <script src="public/js/gestion_slide_bar_4.js"></script>
     <script src="public/js/connection_v1.js"></script>
 
 </body>

@@ -9,10 +9,10 @@
 
     <!-- Inclusion des feuilles de style pour la mise en forme -->
     <link rel="stylesheet" href="public/css/barre_navigation_1.css">
-    <link rel="stylesheet" href="public/css/index.css">
+    <link rel="stylesheet" href="public/css/index.css?v=20251225_2">
     <link rel="stylesheet" href="public/css/logo_gestion.css">
 
-    <link rel="stylesheet" href="public/css/footer.css">
+    <link rel="stylesheet" href="public/css/footer.css?v=20251225_3">
     <link rel="stylesheet" href="public/css/success.css">
     <!-- Importation des polices depuis Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
