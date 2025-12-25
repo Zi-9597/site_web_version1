@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Se Connecter- Ancien EEA</title>
     <link rel="stylesheet" href="public/css/barre_navigation_v2.css?v=20251225_2">
+    <link rel="shortcut icon" href="public/pictures/logo_v8.jpeg">
     <link rel="stylesheet" href="../../public/css/index.css?v=20251225_2">
     <link rel="stylesheet" href="../../public/css/logo_gestion.css">
     <link rel="stylesheet" href="../../public/css/presentation_acceuil.css?v=20251225_2">
@@ -63,7 +64,7 @@
     ?>
 
     <?php require_once 'commun/acceuil_pres.php'; ?>
-    <script src="public/js/gestion_slide_bar_4.js"></script>
+    <script src="public/js/gestion_slide_bar_4.js?v=<?= filemtime('public/js/gestion_slide_bar_4.js') ?>"></script>
     <script src="public/js/acceuil_page.js"></script>
 
 

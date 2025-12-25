@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="public/css/logo_gestion.css">
     <link rel="stylesheet" href="public/css/parameter_user.css">
     <link rel="stylesheet" href="public/css/switch_inp.css">
+    <link rel="shortcut icon" href="public/pictures/logo_v8.jpeg">
     <link rel="stylesheet" href="public/css/footer.css?v=20251225_3">
 
     <!-- Polices Google Fonts -->
@@ -304,7 +305,7 @@
 
     </form>
     <script src="public/js/switch_control.js"></script>
-    <script src="public/js/gestion_slide_bar_4.js"></script>
+    <script src="public/js/gestion_slide_bar_4.js?v=<?= filemtime('public/js/gestion_slide_bar_4.js') ?>"></script>
     <script src="public/js/changement_information.js"></script>
 
 

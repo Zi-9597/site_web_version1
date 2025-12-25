@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="public/css/footer.css?v=20251225_3">
     <link rel="stylesheet" href="public/css/change_statut.css">
     <link rel="stylesheet" href="public/css/modal.css">
-
+    <link rel="shortcut icon" href="public/pictures/logo_v8.jpeg">
     <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Open+Sans&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <style>
@@ -293,7 +293,7 @@
     <?php require 'commun/footer.php'; ?>
 
     <script src="public/js/gestions_goodies.js"></script>
-    <script src="public/js/gestion_slide_bar_4.js"></script>
+    <script src="public/js/gestion_slide_bar_4.js?v=<?= filemtime('public/js/gestion_slide_bar_4.js') ?>"></script>
 
 </body>
 </html>

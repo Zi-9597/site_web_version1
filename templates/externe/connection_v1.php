@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="public/css/logo_gestion.css">
     <link rel="stylesheet" href="public/css/footer.css?v=20251225_3">
     <link rel="stylesheet" href="public/css/connection_page_v1.css">
-
+    <link rel="shortcut icon" href="public/pictures/logo_v8.jpeg">
     <!-- POLICES -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -94,7 +94,7 @@
     <?php require 'commun/footer.php'; ?>
 
     <!-- JS -->
-    <script src="public/js/gestion_slide_bar_4.js"></script>
+    <script src="public/js/gestion_slide_bar_4.js?v=<?= filemtime('public/js/gestion_slide_bar_4.js') ?>"></script>
     <script src="public/js/connection_v1.js"></script>
 
 </body>

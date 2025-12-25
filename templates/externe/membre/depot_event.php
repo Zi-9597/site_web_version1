@@ -6,6 +6,7 @@
     <title>Ajouter Évenements - Association EEA</title>
     <link rel="stylesheet" href="public/css/barre_navigation_v2.css?v=20251225_2">
     <link rel="stylesheet" href="public/css/index.css?v=20251225_2">
+    <link rel="shortcut icon" href="public/pictures/logo_v8.jpeg">
     <link rel="stylesheet" href="public/css/logo_gestion.css">
     <link rel="stylesheet" href="public/css/footer.css?v=20251225_3">
     <link rel="stylesheet" href="public/css/evenement_add.css">
@@ -144,7 +145,7 @@
 
 
     <script src="public/js/update_add_event.js"></script>
-    <script src="public/js/gestion_slide_bar_4.js"></script>
+    <script src="public/js/gestion_slide_bar_4.js?v=<?= filemtime('public/js/gestion_slide_bar_4.js') ?>"></script>
 
     <?php require 'commun/footer.php';?>
 

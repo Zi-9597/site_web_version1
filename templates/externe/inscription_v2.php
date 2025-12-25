@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="public/css/logo_gestion.css">
     <link rel="stylesheet" href="public/css/inscription_st_v2.css">
     <link rel="stylesheet" href="public/css/footer.css?v=20251225_3">
+    <link rel="shortcut icon" href="public/pictures/logo_v8.jpeg">
 
     <!-- Importation des polices depuis Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
@@ -25,8 +26,7 @@
 </head>
 <body>
     <!-- Inclusion des scripts pour des fonctionnalités spécifiques -->
-    <script src="public/js/gestion_slidebar_1.js"></script>
-    <script src="public/js/inscription_v2.js"></script>
+    
 
     <!-- Barre de navigation incluse depuis un fichier PHP -->
     <?php include_once 'commun/barre_navigation.php'; ?>
@@ -224,6 +224,8 @@
     </form>
 
     <!-- Inclusion du pied de page -->
+    <script src="public/js/gestion_slide_bar_4.js?v=<?= filemtime('public/js/gestion_slide_bar_4.js') ?>"></script>
+    <script src="public/js/inscription_v2.js"></script>
     <?php require 'commun/footer.php'; ?>
 </body>
 </html>

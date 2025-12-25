@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>À propos de l'association - Association EEEA</title>
     <link rel="stylesheet" href="public/css/barre_navigation_v2.css?v=20251225_2">
+    <link rel="shortcut icon" href="public/pictures/logo_v8.jpeg">
     <link rel="stylesheet" href="public/css/index.css?v=20251225_2">
     <link rel="stylesheet" href="public/css/logo_gestion.css">
     <link rel="stylesheet" href="public/css/footer.css?v=20251225_3">
-    <link rel="shortcut icon" href="public/pictures/logo_v8.jpeg">
     <link rel="stylesheet" href="public/css/propos_nous.css">
 
    
@@ -88,7 +88,7 @@
   <!-- HEADER -->
   <!-- ===================== -->
     <header class="eea-header">
-        <h1>Association des anciens et étudiants d’EEEA</h1>
+        <h1>Contacter l'association des anciens et étudiants d’EEEA</h1>
         <p>
         Université de Lille – Filière Électronique, Énergie Électrique et Automatique
         </p>
@@ -99,82 +99,6 @@
   <!-- ===================== -->
  
     <div class="eea-wrapper">
-
-        <!-- PRESENTATION -->
-        <section class="eea-presentation">
-            <h2>Présentation de l’association</h2>
-
-            <p>
-                L’Association des anciens et étudiants d’EEEA de l’Université de Lille a été
-                créée le <strong>6 mars 2023</strong>. Elle est née de la volonté de
-                rapprocher les étudiants actuellement en formation et les anciens diplômés
-                de la filière <strong>Électronique, Énergie Électrique et Automatique (EEEA)</strong>,
-                en favorisant les échanges, le partage d’expériences et l’entraide entre les
-                différentes promotions.
-            </p>
-
-            <p>
-                L’initiative de cette association repose sur un constat simple : la richesse
-                des parcours académiques et professionnels des anciens constitue une réelle
-                valeur ajoutée pour les étudiants. L’association vise ainsi à créer un
-                réseau actif permettant de transmettre des conseils, de partager des
-                retours d’expérience et d’accompagner les étudiants dans leur orientation
-                et leur insertion professionnelle.
-            </p>
-
-            <p>
-                Le bureau de l’association est présidé par
-                <strong>Thierry Communal</strong>, <strong>professeur agrégé</strong>, qui
-                assure la coordination des activités et le suivi des actions menées au sein
-                de l’association.
-            </p>
-
-            <p>
-                L’association fonctionne également grâce à l’implication de
-                <strong>plusieurs étudiants et anciens de la filière EEEA</strong>, engagés
-                bénévolement dans différents rôles essentiels tels que la
-                <strong>trésorerie</strong>, l’<strong>organisation des événements</strong>,
-                la <strong>communication</strong> et la participation aux projets visant à
-                renforcer la dynamique du réseau EEEA.
-            </p>
-        </section>
-
-        <!-- OBJECTIFS -->
-        <section class="eea-objectifs">
-        <h2>Objectifs de l’association</h2>
-
-        <p>
-            L’association a pour mission principale de créer et de renforcer les liens
-            entre les étudiants et les anciens de la filière EEEA. Elle cherche à
-            favoriser un esprit de solidarité, de partage et de collaboration au sein
-            de la communauté universitaire.
-        </p>
-
-        <p>
-            À travers ses actions, l’association contribue à l’animation de la vie
-            étudiante, au développement d’un réseau professionnel durable et à la
-            valorisation des parcours et compétences des membres de la filière EEEA.
-        </p>
-        </section>
-
-        <!-- ACTIVITES -->
-        <section class="eea-activites">
-        <h2>Activités</h2>
-
-        <p>
-            L’association organise régulièrement des événements visant à renforcer les
-            échanges entre étudiants et anciens : rencontres conviviales, événements
-            associatifs, moments de partage et actions favorisant la cohésion entre les
-            différentes promotions.
-        </p>
-
-        <p>
-            Elle participe également à la diffusion d’informations utiles concernant
-            les parcours académiques, les opportunités professionnelles et la vie
-            universitaire, contribuant ainsi à dynamiser la communauté EEEA.
-        </p>
-        </section>
-
         <!-- CONTACT -->
         <section class="eea-contact">
             <h2>Nous contacter</h2>

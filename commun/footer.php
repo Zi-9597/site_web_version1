@@ -44,7 +44,11 @@
     <div class="info_assoc">
         <div class="sub_info_assoc">
 
-            <p>Nous contacter</p>
+            <span>
+                <a href="/?dest=contact_assoc<?php if ($id_user) echo '&id_user=' . htmlspecialchars($id_comb, ENT_QUOTES, 'UTF-8'); ?>">
+                   Nous contacter
+                </a>
+            </span>
 
             <span>
                 <a href="/?dest=apropos<?php if ($id_user) echo '&id_user=' . htmlspecialchars($id_comb, ENT_QUOTES, 'UTF-8'); ?>">

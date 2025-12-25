@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="public/css/index.css?v=20251225_2">
     <link rel="stylesheet" href="public/css/logo_gestion.css">
     <link rel="stylesheet" href="public/css/footer.css?v=20251225_3">
+    <link rel="shortcut icon" href="public/pictures/logo_v8.jpeg">
     <link rel="stylesheet" href="public/css/change_statut.css">
     <link rel="stylesheet" href="public/css/modal.css">
 
@@ -290,7 +291,7 @@
     <?php require 'commun/footer.php'; ?>
 
     <script src="public/js/gestion_actualitesv1.js"></script>
-    <script src="public/js/gestion_slide_bar_4.js"></script>
+    <script src="public/js/gestion_slide_bar_4.js?v=<?= filemtime('public/js/gestion_slide_bar_4.js') ?>"></script>
 
 </body>
 </html>
