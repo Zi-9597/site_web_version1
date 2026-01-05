@@ -1,342 +1,237 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* ============================================================================
-       🔍 FILTRAGE DU TABLEAU DES ACTUALITÉS
-    ============================================================================ */
-    const searchTitre = document.getElementById("search-titre-actu");
-    const table       = document.getElementById("table-offres");
-    const rows        = document.querySelectorAll("#table-offres tbody tr");
-    const noResult    = document.getElementById("no-result");
-
-    function refreshTableVisibility() {
-        table.style.opacity = "0.4";
-
-        setTimeout(() => {
-            let visibleCount = 0;
-            const search = searchTitre.value.toLowerCase().trim();
-
-            rows.forEach(row => {
-                const titre = row.children[0].textContent.toLowerCase();
-                const show = titre.includes(search);
-                row.style.display = show ? "" : "none";
-                if (show) visibleCount++;
-            });
-
-            noResult.classList.toggle("visible", visibleCount === 0);
-            table.style.opacity = "1";
-        }, 120);
-    }
-
-    searchTitre?.addEventListener("input", refreshTableVisibility);
-    refreshTableVisibility();
-
-    /* ============================================================================
-       🔔 NOTIFICATIONS (RÉUTILISATION EXISTANTE)
-    ============================================================================ */
+    /* ============================================================
+       🔧 UTILITAIRES
+    ============================================================ */
+    const $ = (sel, ctx = document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
     function showCard(type) {
-        const card = document.getElementById(
-            type === "success" ? "card-success" : "card-error"
-        );
+        const card = $("#" + (type === "success" ? "card-success" : "card-error"));
+        if (!card) return;
         card.classList.add("show");
         setTimeout(() => card.classList.remove("show"), 3000);
     }
 
-    /* ============================================================================
-       🟢 MODAL : AJOUTER UNE ACTUALITÉ
-    ============================================================================ */
-
-    const btnAddActu    = document.querySelector(".btn-add-actu");
-    const modalAdd     = document.getElementById("modal-add-actu");
-    const modalAddBox  = modalAdd?.querySelector(".modal-content");
-    const btnCancelAdd = modalAdd?.querySelector(".modal-btn-cancel");
-
-    const fAddTitre = document.getElementById("add-titre-actu");
-    const fAddLien  = document.getElementById("add-lien-actu");
-    const fAddDesc  = document.getElementById("add-desc-actu");
-
-
-    const deleteButtons = document.querySelectorAll(".btn-delete");
-
-
-
-    function openAddModal() {
-        modalAdd.style.display = "flex";
-        modalAddBox.classList.add("open");
+    async function postJSON(url, payload) {
+        const res = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        return res.json();
     }
 
-    function closeAddModal() {
-        modalAddBox.classList.remove("open");
-        modalAddBox.classList.add("closing");
-        modalAddBox.addEventListener("animationend", () => {
-            modalAdd.style.display = "none";
-            modalAddBox.classList.remove("closing");
-        }, { once: true });
-    }
+    /* ============================================================
+       📦 RÉFÉRENCES DOM GLOBALES
+    ============================================================ */
+    const table       = $("#table-offres");
+    const rows        = $$("#table-offres tbody tr");
+    const noResult    = $("#no-result");
+    const searchTitle = $("#search-titre-actu");
 
-    btnAddActu?.addEventListener("click", openAddModal);
-    btnCancelAdd?.addEventListener("click", closeAddModal);
-    modalAdd?.addEventListener("click", e => {
-        if (e.target === modalAdd) closeAddModal();
-    });
+    /* ============================================================
+       🔎 FILTRAGE TABLEAU
+    ============================================================ */
+    function refreshTableVisibility() {
+        table.style.opacity = "0.4";
 
-    /* ============================================================================
-       ✍️ LIMITATION 2500 CARACTÈRES – AJOUT
-    ============================================================================ */
+        setTimeout(() => {
+            let visible = 0;
 
-    fAddDesc?.addEventListener("input", () => {
-        if (fAddDesc.value.length > 2500) {
-            fAddDesc.value = fAddDesc.value.substring(0, 2500);
-        }
-    });
-
-    /* ============================================================================
-       🚀 AJAX – AJOUT ACTUALITÉ
-    ============================================================================ */
-
-    const btnSaveAdd = document.getElementById("btn-add-actu");
-
-    btnSaveAdd?.addEventListener("click", async () => {
-
-        const titre = fAddTitre.value.trim();
-        const lien  = fAddLien.value.trim();
-        const desc  = fAddDesc.value.trim();
-
-        if (!titre || !desc) {
-            showCard("error");
-            return;
-        }
-
-        try {
-            const response = await fetch("/?dest=add_actualite", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    titre_actu: titre,
-                    lien_actu: lien,
-                    desc_actu: desc
-                })
+            rows.forEach(row => {
+                const show = row.dataset.matchTitre === "1";
+                row.style.display = show ? "" : "none";
+                if (show) visible++;
             });
 
-            const result = await response.json();
+            noResult.classList.toggle("visible", visible === 0);
+            table.style.opacity = "1";
+        }, 120);
+    }
 
-            if (result.success) {
-                showCard("success");
-                closeAddModal();
-                setTimeout(() => location.reload(), 3000);
-            } else {
-                showCard("error");
-            }
+    searchTitle?.addEventListener("input", () => {
+        const value = searchTitle.value.toLowerCase().trim();
 
-        } catch (e) {
+        rows.forEach(row => {
+            const titre = row.children[0].textContent.toLowerCase();
+            row.dataset.matchTitre = titre.includes(value) ? "1" : "0";
+        });
 
+        refreshTableVisibility();
+    });
+
+    /* ============================================================
+       🟢 MODAL AJOUT
+    ============================================================ */
+    const modalAdd    = $("#modal-add-actu");
+    const modalAddBox = modalAdd?.querySelector(".modal-content");
+    const btnAddActu  = $(".btn-add-actu");
+    const btnSaveAdd  = $("#btn-add-actu");
+
+    const fAddTitre = $("#add-titre-actu");
+    const fAddLien  = $("#add-lien-actu");
+    const fAddDesc  = $("#add-desc-actu");
+    const counterAdd = $("#add-desc-counter");
+
+    btnSaveAdd.disabled = true;
+
+    
+    function validateAddForm() {
+        btnSaveAdd.disabled = !(fAddTitre.value.trim() && fAddDesc.value.trim() && fAddDesc.value.length > 50);
+    }
+
+    fAddTitre?.addEventListener("input", validateAddForm);
+    fAddDesc?.addEventListener("input", () => {
+        fAddDesc.value = fAddDesc.value.slice(0, 2500);
+        counterAdd.textContent = `${fAddDesc.value.length} / 2500 caractères`;
+        validateAddForm();
+    });
+
+    btnAddActu?.addEventListener("click", () =>
+    openModal(modalAdd, modalAddBox));
+
+    $(".modal-btn-cancel", modalAddBox)
+        ?.addEventListener("click", () =>
+        closeModal(modalAdd, modalAddBox));
+
+    modalAdd?.addEventListener("click", e => {
+        if (e.target === modalAdd) {
+            closeModal(modalAdd, modalAddBox);
+        }
+    });
+
+
+    btnSaveAdd?.addEventListener("click", async () => {
+        try {
+            const result = await postJSON("/?dest=add_actualite", {
+                titre_actu: fAddTitre.value.trim(),
+                lien_actu:  fAddLien.value.trim(),
+                desc_actu:  fAddDesc.value.trim()
+            });
+
+            result.success ? showCard("success") : showCard("error");
+            if (result.success) setTimeout(() => location.reload(), 2000);
+
+        } catch {
             showCard("error");
         }
     });
 
-    /* ============================================================================
-       🟣 MODAL : MODIFIER ACTUALITÉ (FRONT + FETCH)
-    ============================================================================ */
+    /* ============================================================
+       ✏️ MODAL ÉDITION
+    ============================================================ */
+    const modalEdit   = $("#modal-edit-event");
+    const modalEditBox = modalEdit?.querySelector(".modal-content");
+    const btnSaveEdit = $("#btn-save-actu");
 
-    const modalEdit     = document.getElementById("modal-edit-event");
-    const modalEditBox  = modalEdit?.querySelector(".modal-content");
-    const btnCancelEdit = modalEdit?.querySelector(".modal-btn-cancel");
+    const fEditTitre = $("#edit-titre-actu");
+    const fEditLien  = $("#edit-lien-actu");
+    const fEditDesc  = $("#edit-desc-actu");
+    const fEditDate  = $("#edit-date-depot");
+    const counterEdit = $("#edit-desc-counter");
 
-    const fEditTitre = document.getElementById("edit-titre-actu");
-    const fEditLien  = document.getElementById("edit-lien-actu");
-    const fEditDesc  = document.getElementById("edit-desc-actu");
-    const fEditDate  = document.getElementById("edit-date-depot");
+    btnSaveEdit.disabled = true;
 
 
-    
-    const editButtons = document.querySelectorAll(".btn-change");
-    const btnSaveEdit = document.getElementById("btn-save-actu");
-
-    function openEditModal() {
-        modalEdit.style.display = "flex";
-        modalEditBox.classList.add("open");
+    function validateEditForm() {
+        btnSaveEdit.disabled = !(fEditTitre.value.trim() && fEditDesc.value.trim() && fEditDesc.value.length > 50);
     }
 
-    function closeEditModal() {
-        modalEditBox.classList.remove("open");
-        modalEditBox.classList.add("closing");
-        modalEditBox.addEventListener("animationend", () => {
-            modalEdit.style.display = "none";
-            modalEditBox.classList.remove("closing");
-        }, { once: true });
-    }
-
-    btnCancelEdit?.addEventListener("click", closeEditModal);
-    modalEdit?.addEventListener("click", e => {
-        if (e.target === modalEdit) closeEditModal();
-    });
-
-    /* ============================================================================
-       ✍️ LIMITATION 2500 CARACTÈRES – MODIFIER
-    ============================================================================ */
-
+    fEditTitre?.addEventListener("input", validateEditForm);
     fEditDesc?.addEventListener("input", () => {
-        if (fEditDesc.value.length > 2500) {
-            fEditDesc.value = fEditDesc.value.substring(0, 2500);
-        }
+        fEditDesc.value = fEditDesc.value.slice(0, 2500);
+        counterEdit.textContent = `${fEditDesc.value.length} / 2500 caractères`;
+        validateEditForm();
     });
 
-    /* ============================================================================
-       📡 FETCH ACTUALITÉ + REMPLISSAGE MODAL
-    ============================================================================ */
-
-    editButtons.forEach(btn => {
+    $$(".btn-change").forEach(btn => {
         btn.addEventListener("click", async () => {
-
-            const id = btn.dataset.id;
-
-
-            // 🔴 On attache l’ID au bouton Valider
-            const btnSave = document.getElementById("btn-save-actu");
-            btnSave.dataset.id = id;
-            openEditModal();
-
+            openModal(modalEdit , modalEditBox);
             try {
-                const response = await fetch(`/?dest=get_actualites&id_actu=${id}`);
-                const data = await response.json();
-
+                const data = await fetch(`/?dest=get_actualites&id_actu=${btn.dataset.id}`).then(r => r.json());
+                console.log(data)
+            
+                btnSaveEdit.dataset.id = btn.dataset.id;
                 fEditTitre.value = data.titre_actu ?? "";
                 fEditLien.value  = data.lien_actu ?? "";
                 fEditDesc.value  = data.desc_actu ?? "";
                 fEditDate.value  = data.date_depot ?? "";
 
-            } catch (e) {
+                counterEdit.textContent = `${fEditDesc.value.length} / 2500 caractères`;
+                validateEditForm();
+                
+
+            } catch {
                 showCard("error");
             }
         });
     });
 
+    $(".modal-btn-cancel" , modalEditBox)
+        ?.addEventListener("click", () =>
+            closeModal(modalEdit, modalEditBox)
+        );
 
-    /* ============================================================================
-   💾 MISE À JOUR D’UNE ACTUALITÉ
-  ============================================================================ */
+    modalEdit?.addEventListener("click", e => {
+        if (e.target === modalEdit) closeModal(modalEdit, modalEditBox);
+    });
 
 
-    if (btnSaveEdit) {
-        btnSaveEdit.addEventListener("click", async () => {
-
-            /* ---------------------------------------------------------------------
-            🔎 RÉCUPÉRATION DE L’ID
-            ---------------------------------------------------------------------
-            L’ID est stocké sur le bouton lors de l’ouverture du modal :
-            btnSaveEdit.dataset.id = actu_id
-            --------------------------------------------------------------------- */
-            const actuId = btnSaveEdit.dataset.id;
-
-            /* ---------------------------------------------------------------------
-            ✍️ CONSTRUCTION DU PAYLOAD
-            ---------------------------------------------------------------------
-            On récupère les valeurs saisies dans le modal "Modifier".
-            --------------------------------------------------------------------- */
-            const payload = {
-                actu_id: actuId,
+    btnSaveEdit?.addEventListener("click", async () => {
+        try {
+            const result = await postJSON("/?dest=update_actualite", {
+                actu_id: btnSaveEdit.dataset.id,
                 titre_actu: fEditTitre.value.trim(),
                 lien_actu:  fEditLien.value.trim(),
                 desc_actu:  fEditDesc.value.trim()
-            };
-
-            /* ---------------------------------------------------------------------
-            ✅ VALIDATION MINIMALE CÔTÉ FRONT
-            ---------------------------------------------------------------------
-            Le titre et la description sont obligatoires.
-            --------------------------------------------------------------------- */
-            if (!payload.titre_actu || !payload.desc_actu) {
-                showCard("error");
-                return;
-            }
-
-            /* ---------------------------------------------------------------------
-            🚀 APPEL AJAX VERS LE CONTROLLER PHP
-            ---------------------------------------------------------------------
-            Endpoint : /?dest=update_actualite
-            Méthode  : POST
-            Format   : JSON
-            --------------------------------------------------------------------- */
-            try {
-                const response = await fetch("/?dest=update_actualite", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-
-                /* -----------------------------------------------------------------
-                🔔 GESTION DU RETOUR SERVEUR
-                -----------------------------------------------------------------
-                - success = true  → notification verte + reload après 3s
-                - success = false → notification rouge
-                ----------------------------------------------------------------- */
-                if (result.success) {
-                    showCard("success");      // Carte verte existante
-                    closeEditModal();         // Fermeture du modal
-
-                    // Recharge complète après 3 secondes
-                    setTimeout(() => {
-                        location.reload();
-                    }, 3000);
-
-                } else {
-                    showCard("error");        // Carte rouge existante
-                }
-
-            } catch (error) {
-  
-                showCard("error");
-            }
-        });
-    }
-
-
-    deleteButtons.forEach(btn => {
-    btn.addEventListener("click", async () => {
-
-        /* ---------------------------------------------------------------------
-           🔎 RÉCUPÉRATION DE L’ID DE L’ACTUALITÉ
-           ---------------------------------------------------------------------
-           L’ID est stocké dans data-id sur le bouton Supprimer
-        --------------------------------------------------------------------- */
-        const actuId = btn.dataset.id;
-        if (!actuId) return;
-
-        /* ---------------------------------------------------------------------
-           🚀 APPEL AJAX – SUPPRESSION DIRECTE
-        --------------------------------------------------------------------- */
-        try {
-            const response = await fetch("/?dest=remove_actualite", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ actu_id: actuId })
             });
 
-            const result = await response.json();
+            result.success ? showCard("success") : showCard("error");
+            if (result.success) setTimeout(() => location.reload(), 2000);
 
-            /* -----------------------------------------------------------------
-               🔔 RETOUR VISUEL UTILISATEUR
-            ----------------------------------------------------------------- */
-            if (result.success) {
-                showCard("success");
-
-                // Recharge complète après 3 secondes
-                setTimeout(() => {
-                    location.reload();
-                }, 3000);
-
-            } else {
-                showCard("error");
-            }
-
-        } catch (error) {
+        } catch {
             showCard("error");
         }
     });
-});
 
+    /* ============================================================
+       🗑️ SUPPRESSION
+    ============================================================ */
+    $$(".btn-delete").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            try {
+                const result = await postJSON("/?dest=delete_actualite", {
+                    actu_id: btn.dataset.id
+                });
 
+                result.success ? showCard("success") : showCard("error");
+                if (result.success) setTimeout(() => location.reload(), 2000);
 
+            } catch {
+                showCard("error");
+            }
+        });
+    });
+
+    /* ============================================================
+       🔄 INIT
+    ============================================================ */
+    rows.forEach(row => row.dataset.matchTitre = "1");
+    refreshTableVisibility();
+
+    function openModal(modal, box) {
+        modal.style.display = "flex";
+        box.classList.remove("closing");
+        box.classList.add("open");
+    }
+
+    function closeModal(modal, box) {
+        box.classList.remove("open");
+        box.classList.add("closing");
+        box.addEventListener("animationend", () => {
+            modal.style.display = "none";
+            box.classList.remove("closing");
+        }, { once: true });
+    }
 });

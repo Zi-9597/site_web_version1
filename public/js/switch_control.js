@@ -6,12 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const fields = {
         email: document.getElementById("mail-input"),
         password: document.getElementById("mdp-inp"),
-        membre: document.getElementById("membre-assoc"),
         section: document.getElementById("filiere-section"),
         autreFiliere: document.getElementById("autre-filiere"),
         phone: document.getElementById("phone"),
         city: document.getElementById("city-input"),
-        profession: document.getElementById("profession-input")
+        profession: document.getElementById("profession-input"),
+        pMail: document.getElementById("p_mail")
     };
 
     // ----------------------------------------------------
@@ -20,24 +20,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const buttons = {
         email: document.querySelector('button[data-target="mail-input"]'),
         password: document.querySelector('button[data-target="mdp-inp"]'),
-        membre: document.querySelector('button[data-target="membre-assoc"]'),
         section: document.querySelector('button[data-target="filiere-section"]'),
         phone: document.querySelector('button[data-target="phone"]'),
         city: document.querySelector('button[data-target="city-input"]'),
         profession: document.querySelector('button[data-target="profession-input"]')
     };
 
-
-
-
-
-
-
-
-
-
-    const params_url = new URLSearchParams(window.location.search);
-    const id_web = params_url.get("id_user");
     // Tous désactivés au début
     Object.values(buttons).forEach(btn => btn.disabled = true);
 
@@ -47,10 +35,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Email
     function validateEmail() {
-        const mail = fields.email.value.trim();
-        const ok = mail.includes("@") && !mail.includes("@univ-lille.fr");
-        buttons.email.disabled = !ok;
+    const mail = fields.email.value.trim();
+    let disable = true;
+
+        // 1️⃣ Champ vide
+        if (mail.length === 0) 
+        {
+            fields.pMail.innerText = "";
+            buttons.email.disabled = true;
+            return;
+        }
+
+        // 2️⃣ Domaine interdit
+        const forbiddenDomain = /@univ-lille\.fr$/i;
+        if (forbiddenDomain.test(mail)) 
+        {
+            fields.pMail.innerText = "Adresse Université de Lille interdite";
+            buttons.email.disabled = true;
+            return;
+        }
+
+        // 3️⃣ Format email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        if (!emailRegex.test(mail)) 
+        {
+            fields.pMail.innerText = "Adresse e-mail invalide";
+            buttons.email.disabled = true;
+            return;
+        }
+
+        // 4️⃣ Email valide
+        fields.pMail.innerText = "";
+        buttons.email.disabled = false;
     }
+
+
 
     // Mot de passe
     function validatePassword() {
@@ -94,7 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
     fields.phone.addEventListener("input", validatePhone);
     fields.city.addEventListener("input", () => validateNotEmpty(fields.city, buttons.city));
     fields.profession.addEventListener("input", () => validateNotEmpty(fields.profession, buttons.profession));
-    fields.membre.addEventListener("change", () => validateNotEmpty(fields.membre, buttons.membre));
     fields.section.addEventListener("change", validateSection);
     fields.autreFiliere.addEventListener("input", validateSection);
 
@@ -104,32 +122,32 @@ document.addEventListener("DOMContentLoaded", () => {
     Object.values(buttons).forEach(btn => {
         btn.addEventListener("click", async () => {
 
-            // ID du champ
             const target = btn.dataset.target;
+            const input  = document.getElementById(target);
 
-            // Input concerné
-            const input = document.getElementById(target);
+            let newValue = input.value.trim();
 
-            // Valeur à envoyer
-            const newValue = input.value.trim();
+            // ----------------------------------------------------
+            // CAS SPÉCIAL : SECTION = "Autre"
+            // ➜ On envoie la valeur du champ texte
+            // ----------------------------------------------------
+            if (target === "filiere-section" && newValue === "Autre") {
+                newValue = fields.autreFiliere.value.trim();
+            }
 
-            // ID utilisateur récupéré dans l’URL
-            const params_url = new URLSearchParams(window.location.search);
-            const id_web = params_url.get("id_user");
-            const [id_member] = id_web.split("_");  // vrai ID utilisateur
-
-            // console.log("Changement demandé :", {
-            //     id_user: id_member,
-            //     field: target,
-            //     value: newValue
-            // });
+            // Sécurité minimale
+            if (newValue === "") 
+            {
+                btn.disabled = true;
+                return;
+            }
              // --- 1) Requête AJAX vers PHP ---
-            try {
-                const res = await fetch(`/?dest=update_data&id_user=${encodeURIComponent(id_web)}`, {
+            try 
+            {
+                const res = await fetch(`/?dest=update_data`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        id_user: id_member,
                         field: target,
                         value: newValue
                     })
@@ -193,9 +211,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 case "phone": validatePhone(); break;
                 case "city-input": validateNotEmpty(fields.city, buttons.city); break;
                 case "profession-input": validateNotEmpty(fields.profession, buttons.profession); break;
-                case "membre-assoc": validateNotEmpty(fields.membre, buttons.membre); break;
                 case "filiere-section": validateSection(); break;
             }
         });
     });
+    /**
+     * ----------------------------------------------------------------------
+     * RÉINITIALISATION DU FORMULAIRE AVANT RECHARGEMENT
+     * ----------------------------------------------------------------------
+     * Si l’utilisateur recharge la page, on remet tout à zéro proprement.
+     */
+    window.addEventListener('pageshow', () => {
+        Object.keys(fields).forEach((key) => {
+            const element = fields[key];
+
+            if (element instanceof HTMLInputElement) element.value = "";
+            if (element instanceof HTMLSelectElement) element.selectedIndex = 0;
+
+            if (key === "inputFiliere") element.disabled = true;
+        });
+    });
+
 });

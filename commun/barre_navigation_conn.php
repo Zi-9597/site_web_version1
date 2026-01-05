@@ -41,12 +41,12 @@
         </div>
         <div class="rubrique_1">
             <ul class ="list_nav_1">
-                <li><a href="/?dest=acceuil&id_user=<?php echo htmlspecialchars($id_comb) ;?>">  Acceuil  </a></li> 
-                <li> <a href="/?dest=actualite&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Actualité </a> </li>
-                <li> <a href="/?dest=goodies&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Goodies </a> </li>
+                <li><a href="/?dest=acceuil">  Accueil  </a></li> 
+                <li> <a href="/?dest=actualite"> Actualité </a> </li>
+                <li> <a href="/?dest=goodies"> Goodies </a> </li>
             </ul>
             <div class="container_conn_insc">
-                <div class="connection_inscription_bloc"><a href="/?dest=parametres&id_user=<?php echo htmlspecialchars($id_comb) ;?>">
+                <div class="connection_inscription_bloc"><a href="/?dest=parametres">
                     <svg class="svg_conn" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                         <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                         <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
@@ -54,7 +54,7 @@
                     <span class="connect_span connect_span_comm">  <?php echo htmlspecialchars($nom_prenom); ?> </span></a> 
                 </div>
                 
-                <div class="connection_inscription_bloc" id="inscri"><a href="/" class="logout_btn">
+                <div class="connection_inscription_bloc" id="inscri"><a href="/?dest=logout" class="logout_btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" 
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" 
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
@@ -76,18 +76,19 @@
 <!--Gestion de l'intégralité de la barre de navigation -->
 <div class="nav_2" id="nav_2_id">
 
-        <span><a href="/?dest=acceuil&id_user=<?php echo htmlspecialchars($id_comb) ;?>">  Acceuil  </a></span>
-        <span> <a href="/?dest=actualite&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Actualité </a></span>
-        <span> <a href="/?dest=dep_offre&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Publier une offre </a> </span>
-        <span><a href="/?dest=offre_emploie&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Rechercher une offre </a> </span>
-        <span> <a href="/?dest=dep_evenmt&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Organiser un évènement </a> </span>
-        <span> <a href="/?dest=rech_event&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Participer à un évènement </a> </span>
-        <span> <a href="/?dest=depot_job&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Publier un job étudiant </a> </span>
-        <span> <a href="/?dest=gestion_offres&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Gestion des offres </a> </span>
-        <span> <a href="/?dest=gestion_evenements&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Gestion des évenements </a> </span>
-        <span> <a href="/?dest=gestion_actualite&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Gestion des actualités </a> </span>
-        <span> <a href="/?dest=gestion_aides_etudiants&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Gestion des aides étudiants </a> </span>
-        <span> <a href="/?dest=gestion_goodies&id_user=<?php echo htmlspecialchars($id_comb) ;?>"> Gestion des goodies </a> </span>
+        <span><a href="/?dest=acceuil">  Acceuil  </a></span>
+        <span> <a href="/?dest=actualite"> Actualité </a></span>
+        <span> <a href="/?dest=depot_contrat"> Publier une offre </a> </span>
+        <span><a href="/?dest=offre_emploie"> Rechercher une offre </a> </span>
+        <span> <a href="/?dest=depot_event"> Organiser un évènement </a> </span>
+        <span> <a href="/?dest=rech_event"> Participer à un évènement </a> </span>
+        <span> <a href="/?dest=depot_job"> Publier un job étudiant </a> </span>
+        <span> <a href="/?dest=manage_job"> Gestion des offres </a> </span>
+        <span> <a href="/?dest=manage_event"> Gestion des évenements </a> </span>
+        <span> <a href="/?dest=manage_actualite"> Gestion des actualités </a> </span>
+         <span> <a href="/?dest=manage_goodies"> Gestion des goodies </a> </span>
+        <span> <a href="/?dest=manage_aides"> Gestion des aides étudiants </a> </span>
+       
 
 
         <span><a href="https://www.univ-lille.fr/"> Université de Lille </a> </span>
@@ -109,7 +110,7 @@
             </a> 
         </span>
         <span> 
-            <a href="/?dest=parametres&id_user=<?php echo htmlspecialchars($id_comb);?>">
+            <a href="/?dest=parametres">
                 <svg class="svg_conn" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
@@ -118,7 +119,7 @@
                 </a> 
         </span>
         <span> 
-            <a href="/" class="logout_btn">
+            <a href="/?dest=logout" class="logout_btn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" 
                             viewBox="0 0 24 24" fill="none" stroke="currentColor" 
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 

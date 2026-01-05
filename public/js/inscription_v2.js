@@ -26,68 +26,154 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Désactive le bouton de soumission par défaut pour éviter une soumission prématurée.
     elements.submitButton.disabled = true;
-
     /**
-     * Valide la date d'anniversaire
-     * Vérifie que la date est au format "DD/MM/YYYY" et que l'utilisateur a au moins 18 ans.
+     * 🎂 Validation anniversaire
+     * - Format attendu : DD/MM/YYYY
+     * - L'utilisateur doit avoir au moins 18 ans
      */
-    function validateAnniversaire() {
-        const anniversaireValue = elements.anniversaireInput.value;
-        const regex = /\b(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}\b/;
+    function validateAnniversaire() 
+    {
 
-        if (regex.test(anniversaireValue)) {
-            const [day, month, year] = anniversaireValue.split('/').map(Number);
-            const date = new Date(year, month - 1, day);
-            const today = new Date();
-            const adultDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+        // 1) On récupère la valeur (et on enlève les espaces)
+        const value = elements.anniversaireInput.value.trim();
 
-            // Vérifie que la date est bien formatée et qu'elle correspond à un adulte.
-            if (date <= adultDate && date.getDate() === day && date.getMonth() === month - 1 && date.getFullYear() === year) {
-                elements.formElement.style.color = "green"; // Indique une validation réussie
-                return true;
-            }
+        // 2) Regex : jour 01-31 / mois 01-12 / année 4 chiffres
+        const regex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+
+        // 3) Si le format n'est pas bon → rouge + false
+        if (!regex.test(value)) {
+            elements.formElement.style.color = "red";
+            return false;
         }
 
-        elements.formElement.style.color = "red"; // Indique une erreur
-        return false;
+        // 4) On découpe la date "DD/MM/YYYY"
+        const [day, month, year] = value.split("/").map(Number);
+
+        // 5) On construit la date (mois JS = 0-11)
+        const birthDate = new Date(year, month - 1, day);
+
+        // 6) On vérifie que la date existe vraiment (évite 31/02)
+        const isRealDate =
+            birthDate.getDate() === day &&
+            birthDate.getMonth() === month - 1 &&
+            birthDate.getFullYear() === year;
+
+        if (!isRealDate) {
+            elements.formElement.style.color = "red";
+            return false;
+        }
+
+        // 7) Limite adulte : aujourd'hui - 18 ans
+        const today = new Date();
+        const adultLimit = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+        // 8) OK si la date de naissance est <= limite adulte
+        const isValid = birthDate <= adultLimit;
+
+        // 9) Feedback visuel (ternaire simple)
+        elements.formElement.style.color = isValid ? "green" : "red";
+
+        return isValid;
     }
 
     /**
-     * Valide le numéro de téléphone
-     * Vérifie que le numéro est au format français valide (commence par 06 ou 07).
+     * 📞 Validation du numéro de téléphone
+     * - Numéro français uniquement (06 / 07)
+     * - 10 chiffres
+     * - Ignoré si "Téléphone indisponible" est coché
      */
-    function validatePhone() {
-        const regexTelephone = /\b(06[0-9]{8}|07[0-9]{8})\b/;
-        const estValide = regexTelephone.test(elements.phoneInput.value);
+    function validatePhone() 
+    {
 
-        // Affiche un message d'erreur si le téléphone est invalide.
-        elements.motTelephone.style.display = estValide || elements.phoneInput.value.length === 0 ? "none" : "block";
-        return estValide || elements.telAvailable.checked; // Si "téléphone indisponible" est coché, le champ est ignoré.
+        // 1) Si l'utilisateur indique que le téléphone est indisponible
+        if (elements.telAvailable.checked) {
+            elements.phoneInput.value = "";
+            elements.motTelephone.style.display = "none";
+            return true;
+        }
+
+        // 2) Regex téléphone français
+        const regex = /^(06|07)[0-9]{8}$/;
+
+        // 3) Valeur saisie (sans espaces)
+        const value = elements.phoneInput.value.trim();
+
+        // 4) Vérification de validité
+        const isValid = regex.test(value);
+
+        // 5) Affichage du message d'erreur (si nécessaire)
+        elements.motTelephone.style.display =
+            isValid || value === "" ? "none" : "block";
+
+        // 6) Résultat final
+        return isValid;
     }
 
-    /**
-     * Valide l'adresse e-mail
-     * Vérifie que l'email est bien formaté et qu'il ne provient pas de l'université de Lille.
-     */
-    function validateMail() {
-        if (elements.mailInput.value.length === 0) {
-            elements.pMail.innerText = ""; // Pas de message si le champ est vide
+
+   /**
+ * 📧 Validation de l'adresse e-mail
+ * - Format e-mail valide
+ * - Interdit : domaine @univ-lille.fr
+ */
+    function validateMail() 
+    {
+
+        // 1) Récupération et nettoyage de la valeur
+        const email = elements.mailInput.value.trim();
+
+        // 2) Champ vide → pas de message, invalide
+        if (!email) {
+            elements.pMail.innerText = "";
             return false;
         }
 
-        if (elements.mailInput.value.includes("@univ-lille.fr")) {
-            elements.pMail.innerText = "Ne doit pas être une adresse université de Lille"; // Adresse interdite
+        // 3) Regex e-mail standard
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        // 4) Test du format
+        if (!emailRegex.test(email)) {
+            elements.pMail.innerText = "Adresse e-mail invalide";
             return false;
         }
 
-        if (!elements.mailInput.value.includes("@")) {
-            elements.pMail.innerText = "Ceci n'est pas une adresse valide"; // Email invalide
+        // 5) Domaine interdit (Université de Lille)
+        const forbiddenDomain = /@univ-lille\.fr$/i;
+
+        if (forbiddenDomain.test(email)) {
+            elements.pMail.innerText = "Adresse Université de Lille interdite";
             return false;
         }
 
-        elements.pMail.innerText = ""; // Email valide
+        // 6) Email valide
+        elements.pMail.innerText = "";
         return true;
     }
+
+
+    /**
+     * 🎓 Gestion du type de membre (Étudiant / Alumni)
+     * - Étudiant/e  → profession auto = "Étudiant/e" + champ désactivé
+     * - Alumni/e    → profession vidée + champ réactivé
+     */
+    function handleMembreChange() {
+
+        const isEtudiant = elements.membreInput.value === "Étudiant/e";
+
+        // Si Étudiant → valeur forcée + champ bloqué
+        if (isEtudiant) 
+        {
+            elements.professionInput.value = "Étudiant/e";
+            elements.professionInput.disabled = true;
+        } 
+        // Sinon (Alumni) → champ libre
+        else 
+        {
+            elements.professionInput.value = "";
+            elements.professionInput.disabled = false;
+        }
+    }
+
+
 
     /**
      * Valide le mot de passe
@@ -163,6 +249,10 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.countryInput.addEventListener('input', validateForm);
         elements.cityInput.addEventListener('input', validateForm);
         elements.professionInput.addEventListener('input', validateForm);
+        elements.membreInput.addEventListener("change", () => {
+            handleMembreChange();
+            validateForm(); // on revalide le formulaire
+        });
     }
 
     /**

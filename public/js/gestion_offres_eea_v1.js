@@ -111,20 +111,20 @@ document.addEventListener("DOMContentLoaded", () => {
             
             openModal();
 
-            const response = await fetch(`/?dest=info_fetch_offre&id_user=${id}`);
+            const response = await fetch(`/?dest=fetch_emploie&id_job=${id}`);
             const data = await response.json();
 
             // Remplir modal
-            fTitre.value = data.titre_offre;
-            fUrl.value   = data.url_linkedin;
-            fDesc.value  = data.description;
-            fContrat.value = data.type_contrat;
-            fDate.value = data.date_creation.split(" ")[0];
+            fTitre.value = data.data.titre_offre;
+            fUrl.value   = data.data.url_linkedin;
+            fDesc.value  = data.data.description;
+            fContrat.value = data.data.type_contrat;
+            fDate.value = data.data.date_creation.split(" ")[0];
 
             updateContratAndSpecialites();
 
             // Remplir spécialités
-            const arraySpecs = data.specialites.split(",").map(v => v.trim());
+            const arraySpecs = data.data.specialites.split(",").map(v => v.trim());
             [...fSpecs.options].forEach(option => {
                 option.selected = arraySpecs.includes(option.textContent.trim());
             });
@@ -202,13 +202,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 .map(o => o.value)
         };
 
-        const response = await fetch(`/?dest=info_update_offre&id_user=${id_offre}`, {
+
+        console.log(id_offre);
+        const response = await fetch(`/?dest=update_offre`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
 
         const result = await response.json();
+        
 
         if (result.success) {
             showCard("success");
@@ -226,10 +229,10 @@ document.addEventListener("DOMContentLoaded", () => {
     btnRemo.forEach(btn =>{
 
         btn.addEventListener("click", async () => 
-            {
+        {
 
             const id = btn.dataset.id;
-            const response = await fetch(`/?dest=remove_offre&id_offre=${id}`, {
+            const response = await fetch(`/?dest=delete_offre&id_offre=${id}`, {
             method: "POST"
         });
 

@@ -1,71 +1,155 @@
 <?php
-// On gère la route par défaut
-if ($_SERVER['REQUEST_URI'] !== '/') {
-    // Définition des routes
-    $routes = [
-        "inscription"    => "templates/externe/inscription_v2.php",
-        "info_insc"      => "templates/externe/info_inscription.php",
-        "goodies"        => "templates/externe/goodies_site.php",
-        "actualite"      => "templates/externe/actualite_site.php",
-        "connection"     => "templates/externe/connection_v1.php",
-        "add_subscriber" => "templates/externe/add_subscriber.php",
-        "info_conn"      => "templates/externe/info_conn.php",
-        "info_conn_v1"      => "templates/externe/info_conn_v1.php",
-        "success"        => "templates/externe/success.php",
-        "aides"           => "templates/externe/non_membre/aide_nm.php",
-        "acceuil"        => "templates/externe/acceuil_site.php", // default page
-        "evenements"     => "templates/externe/non_membre/evenement_nm.php",
-        "parametres"     => "templates/externe/commun/parametres.php",
-        "dep_evenmt"     => "templates/externe/membre/depot_event.php",
-        "add_event"      => "templates/externe/ajouter_evenement.php",
-        "rech_event"     => "templates/externe/membre/access_event.php",
-        "dep_offre"      => "templates/externe/ancien/depot_offre.php",
-        "ajout_emploie"  => "templates/externe/ajouter_job.php",
-        "cp_fetch"        => "commun/recherche_departement.php",
-        "offre_emploie"  => "templates/externe/commun/offre_emploi.php",
-        "reche_emploie"   => "templates/externe/recherche_emploie.php",
-        "update_data"    => "templates/externe/update_new_info.php",
-        "depot_job"     =>  "templates/externe/etudiant/depot_job.php",
-        "fetch_job"  => "templates/externe/etudiant/recherche_job.php",
-        "change_membre" => "templates/externe/president/gestion_etudiant.php",
-        "update_membre_assoc" => "templates/externe/mise_jour_membre.php",
-        "gestion_offres"  => "templates/externe/membre/gestion_offres_eea.php",
-        "info_fetch_offre" => "templates/externe/fetch_offre.php",
-        "info_update_offre" => "templates/externe/update_new_offre.php",
-        "remove_offre" => "templates/externe/remove_job.php",
-        "gestion_evenements" => "templates/externe/membre/gestion_event.php",
-        "info_cherche_events" => "templates/externe/recherche_gestion_events.php",
-        "update_event" => "templates/externe/update_event_new.php",
-        "suppression_event" => "templates/externe/suppress_event_new.php",
-        "gestion_actualite" => "templates/externe/membre/gestion_actualite.php",
-        "add_actualite" => "templates/externe/add_actualite.php",
-        "get_actualites" => "templates/externe/gets_actualite.php",
-        "update_actualite" => "templates/externe/update_new_actualite.php",
-        "remove_actualite" => "templates/externe/remove_actualite.php",
-        "add_aide" => "templates/externe/add_aide_new.php",
-        "add_aide_conn" => "templates/externe/etudiant/aides_connectes.php",
-        "gestion_aides_etudiants" => "templates/externe/membre/gestion_aides.php",
-        "fetch_aide" => "templates/externe/fetch_aides_etud.php",
-        "delete_aide" => "templates/externe/delete_aide_etu.php",
-        "gestion_goodies" =>  "templates/externe/membre/gestion_goodies_eea.php",
-        "add_goodies" => "templates/externe/add_goodies_eea.php",
-        "get_goodies" =>  "templates/externe/get_goodies_eea.php",
-        "remove_goodies" => "templates/externe/remove_goodies_eea.php",
-        "update_goodies" => "templates/externe/update_goodies.php",
-        "fetch_event" => "templates/externe/fetch_event_newversion.php"
-    ];
+/* ============================================================================
+📌 INDEX PRINCIPAL — POINT D’ENTRÉE UNIQUE DE L’APPLICATION
+-------------------------------------------------------------------------------
+- Ce fichier centralise le routage de l’application
+- Le routage est basé sur le paramètre GET ?dest=
+- Toutes les routes autorisées sont déclarées explicitement
+- Toute route inconnue redirige volontairement vers l’accueil
+- Aucune logique métier (authentification, rôles, sécurité) n’est gérée ici
+============================================================================ */
 
-    // 1. On récupère le paramètre dest (par défaut = acceuil)
-    $dest = $_GET['dest'] ?? 'acceuil';
+   /* ============================================================
+   🧭 TABLE DE ROUTAGE
+   ---------------------------------------------------------------
+   - Clé   : valeur attendue dans l’URL (?dest=...)
+   - Valeur: fichier PHP correspondant à charger
+   - Cette whitelist empêche l’inclusion de fichiers arbitraires
+   ============================================================ */
+   $routes = [
 
-    // 2. On vérifie si la route existe
-    $page = $routes[$dest] ?? $routes['acceuil'];
+      /* =========================
+         INSCRIPTION
+      ========================= */
+      "inscription"    => "templates/externe/authentification/inscription.php",
+      "add_subscriber" => "templates/externe/data_base_request/add_subscriber.php",
+      "success"        => "templates/externe/authentification/success.php",
 
-    // 3. On récupère l'id utilisateur si présent
-    $id_user = $_GET['id_user'] ?? null;
+      /* =========================
+         CONNEXION
+      ========================= */
+      "connection"     => "templates/externe/authentification/connection.php",
+      "info_conn_v1"   => "templates/externe/data_base_request/fetch_connexion.php",
 
-    // 4. On charge la page correspondante
-    require_once $page;
-} else {
-    require 'templates/externe/acceuil_site.php';
-}
+      /* =========================
+         ACCUEIL & ACTUALITÉS
+      ========================= */
+      "acceuil"        => "templates/externe/features/commun/accueil_interface.php", // page par défaut
+      "actualite"      => "templates/externe/features/commun/actualite_interface.php",
+      "get_actualites" => "templates/externe/data_base_request/fetch_actualites.php",
+
+      /* =========================
+         GOODIES
+      ========================= */
+      "goodies"        => "templates/externe/features/commun/goodies_interface.php",
+      "get_goodies"    => "templates/externe/data_base_request/fetch_goodies.php",
+
+      /* =========================
+         ÉVÉNEMENTS
+      ========================= */
+      "rech_event"     => "templates/externe/features/commun/evenements_interface.php",
+      "get_events"     => "templates/externe/data_base_request/fetch_events.php",
+
+      /* =========================
+         AIDES (ÉTUDIANTS)
+      ========================= */
+      "aides_etud"     => "templates/externe/features/etudiant/aides_interface.php",
+      "add_aide"       => "templates/externe/data_base_request/gestion_aide/add_aide.php",
+
+      /* =========================
+         PARAMÈTRES UTILISATEUR
+      ========================= */
+      "parametres"     => "templates/externe/features/commun/parametres.php",
+      "update_data"    => "templates/externe/data_base_request/update_user_info.php",
+
+      /* =========================
+         OFFRES D’EMPLOI
+      ========================= */
+      "offre_emploie"  => "templates/externe/features/commun/recherche_job.php",
+      "fetch_emploie"  => "templates/externe/data_base_request/fetch_emploie.php",
+
+      /* =========================
+         DÉPÔT D’OFFRES
+      ========================= */
+      "depot_job"      => "templates/externe/features/etudiant/depot_job_etudiant.php",
+      "depot_contrat"  => "templates/externe/features/ancien/depot_contrat.php",
+      "ajouter_contrat"=> "templates/externe/data_base_request/gestion_offres/ajout_contrat.php",
+
+      /* =========================
+         GESTION DES OFFRES
+      ========================= */
+      "manage_job"     => "templates/externe/features/commun/gestion_offres.php",
+      "update_offre"   => "templates/externe/data_base_request/gestion_offres/update_offre.php",
+      "delete_offre"   => "templates/externe/data_base_request/gestion_offres/suppress_offre.php",
+
+      /* =========================
+         ÉVÉNEMENTS — BUREAU
+      ========================= */
+      "depot_event"    => "templates/externe/features/bureau/ajout_event.php",
+      "ajouter_event"  => "templates/externe/data_base_request/gestion_event/add_event.php",
+      "manage_event"   => "templates/externe/features/bureau/manage_event.php",
+      "update_event"   => "templates/externe/data_base_request/gestion_event/update_event.php",
+      "delete_event"   => "templates/externe/data_base_request/gestion_event/suppress_event.php",
+
+      /* =========================
+         GESTION DES MEMBRES (PRÉSIDENT)
+      ========================= */
+      "manage_adherent"=> "templates/externe/features/president/gestion_adherent.php",
+      "fetch_adherent" => "templates/externe/data_base_request/fetch_membre.php",
+      "update_adherent"=> "templates/externe/data_base_request/gestion_etudiant/update_adherent.php",
+
+      /* =========================
+         ACTUALITÉS — BUREAU
+      ========================= */
+      "manage_actualite"=> "templates/externe/features/bureau/gestion_actualite.php",
+      "add_actualite"  => "templates/externe/data_base_request/gestion_actualite/add_actualite.php",
+      "update_actualite"=> "templates/externe/data_base_request/gestion_actualite/update_actualite.php",
+      "delete_actualite"=> "templates/externe/data_base_request/gestion_actualite/delete_actualite.php",
+
+      /* =========================
+         GOODIES — BUREAU
+      ========================= */
+      "manage_goodies" => "templates/externe/features/bureau/gestion_goodies.php",
+      "add_goodies"    => "templates/externe/data_base_request/gestion_goodies/add_goodies.php",
+      "update_goodies" => "templates/externe/data_base_request/gestion_goodies/update_goodies.php",
+      "delete_goodies" => "templates/externe/data_base_request/gestion_goodies/suppress_goodies.php",
+
+      /* =========================
+         AIDES — BUREAU
+      ========================= */
+      "manage_aides"   => "templates/externe/features/bureau/gestion_aides.php",
+      "fetch_aides"    => "templates/externe/data_base_request/fetch_aides.php",
+      "delete_aides"   => "templates/externe/data_base_request/gestion_aide/suppress_aides.php",
+
+      /* =========================
+         INFORMATIONS ASSOCIATION
+      ========================= */
+      "apropos"        => "commun/propos_nous.php",
+      "contact_assoc"  => "commun/contact_eea.php",
+
+      /* =========================
+         DÉCONNEXION
+      ========================= */
+      "logout"         => "templates/externe/authentification/logout.php",
+   ];
+
+   /* ============================================================
+   🎯 RÉCUPÉRATION DE LA ROUTE DEMANDÉE
+   ---------------------------------------------------------------
+   - Si ?dest= est absent → affichage de l’accueil
+   ============================================================ */
+   $dest = $_GET['dest'] ?? 'acceuil';
+
+   /* ============================================================
+   🛡️ RÉSOLUTION DE LA ROUTE
+   ---------------------------------------------------------------
+   - Si la route n’existe pas dans la table → accueil (fallback)
+   ============================================================ */
+   $page = $routes[$dest] ?? $routes['acceuil'];
+
+   /* ============================================================
+   🚀 CHARGEMENT DE LA PAGE CORRESPONDANTE
+   ============================================================ */
+   require_once $page;
+
+?>
