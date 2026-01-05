@@ -1,14 +1,15 @@
+<?php require_once "commun/init.php" ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>À propos de l'association - Association EEEA</title>
-    <link rel="stylesheet" href="public/css/barre_navigation_v2.css?v=20251225_2">
+    <link rel="stylesheet" href="public/css/barre_navigation_v2.css?v=<?= filemtime('public/css/barre_navigation_v2.css') ?>">
     <link rel="shortcut icon" href="public/pictures/logo_v8.jpeg">
-    <link rel="stylesheet" href="public/css/index.css?v=20251225_2">
+    <link rel="stylesheet" href="public/css/index.css?v=<?= filemtime('public/css/index.css') ?>">
     <link rel="stylesheet" href="public/css/logo_gestion.css">
-    <link rel="stylesheet" href="public/css/footer.css?v=20251225_3">
+    <link rel="stylesheet" href="public/css/footer.css?v=<?= filemtime('public/css/footer.css') ?>">
     <link rel="stylesheet" href="public/css/propos_nous.css">
 
    
@@ -22,68 +23,74 @@
 <body>
 
     <?php
-        require_once "require_db.php";
+        /* ============================================================================
+        📌 GESTION DE LA BARRE DE NAVIGATION (VERSION CLASSIQUE)
+        - Basée sur la session
+        - Sécurisée
+        - include_once uniquement
+        ============================================================================ */
 
-        // CAS 1 : utilisateur NON connecté (pas de id_user)
-        if (!isset($_GET["id_user"]) || empty($_GET["id_user"])) 
+        /* ============================================================
+        👤 1) UTILISATEUR NON CONNECTÉ
+        ============================================================ */
+        if (!$user) {
+
+            // Visiteur simple
+            include_once "commun/barre_navigation.php";
+            
+        }
+        else
         {
+            /* ============================================================
+            🔎 2) VALIDATION UTILISATEUR EN BASE (sécurité défensive)
+            ============================================================ */
+            $found = EEA_Database::fetc_user_id($user['id_membre']);
 
-            include "commun/barre_navigation.php";
+            if (!$found || !is_array($found)) {
+                header("Location: /?dest=logout");
+                exit;
+            }
 
-        } 
-        else 
-        {
+            /* (optionnel) nom_prenom si nécessaire ailleurs */
+            $nom_prenom = trim($found['prenom'] . ' ' . $found['nom']);
 
-            $id_comb = $_GET["id_user"];
+            /* ============================================================
+            🧭 3) CHOIX DE LA BARRE DE NAVIGATION
+            ============================================================ */
 
-            // Vérification du format attendu id_membre_id
-            if (!str_contains($id_comb, "_")) 
-            {
-                include "commun/barre_navigation.php";
-            } 
-            else 
-            {
+            /* 🔴 MEMBRE DU BUREAU */
+            if (!empty($found['membre_bureau'])) {
 
-                list($id_member, $id_num) = explode("_", $id_comb);
-
-                $found = EEA_Database::fetc_user_id($id_member);
-
-                // Si utilisateur non trouvé
-                if (!$found) {
-
-                    include "commun/barre_navigation.php";
-
+                if (in_array($found['membre_bureau'], ['Président', 'Web Admin'], true)) {
+                    include_once "commun/barre_navigation_pres.php";
                 } else {
-
-                    // 🔴 Récupération des actualités
-                    $actualites = EEA_Database::fetch_actualites();
-
-                    $nom_prenom = $found["prenom"] . " " . $found["nom"];
-
-                    // Inclusion de la barre selon le rôle
-                    if (!empty($found["membre_bureau"])) {
-
-                        if ($found["membre_bureau"] === "Président") {
-                            include "commun/barre_navigation_pres.php";
-                        } else {
-                            include "commun/barre_navigation_conn.php";
-                        }
-
-                    } else {
-
-                        if ($found["membre_assoc"] === "Étudiant/e") {
-                            include "commun/barre_conn_etu.php";
-                        } elseif ($found["membre_assoc"] === "Alumni/e") {
-                            include "commun/barre_conn_ancien.php";
-                        } else {
-                            include "commun/barre_navigation.php";
-                        }
-                    }
+                    include_once "commun/barre_navigation_conn.php";
                 }
+
+            }
+            /* 🔵 MEMBRE DE L’ASSOCIATION */
+            elseif (!empty($found['membre_assoc'])) {
+
+                if ($found['membre_assoc'] === "Étudiant/e") {
+                    include_once "commun/barre_conn_etu.php";
+                }
+                elseif ($found['membre_assoc'] === "Alumni/e") {
+                    include_once "commun/barre_conn_ancien.php";
+                }
+                else {
+                    // Valeur métier inconnue
+                    header("Location: /?dest=logout");
+                    exit;
+                }
+
+            }
+            /* ⚠️ ÉTAT IMPOSSIBLE */
+            else {
+                header("Location: /?dest=logout");
+                exit;
             }
         }
     ?>
-
   <!-- ===================== -->
   <!-- HEADER -->
   <!-- ===================== -->
@@ -92,7 +99,7 @@
         <p>
         Université de Lille – Filière Électronique, Énergie Électrique et Automatique
         </p>
-  </header>
+    </header>
 
   <!-- ===================== -->
   <!-- CONTENU PRINCIPAL -->

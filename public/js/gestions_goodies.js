@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const rows        = document.querySelectorAll("#table-goodies tbody tr");
     const noResult    = document.getElementById("no-result");
 
+
+
     function filterTable() {
 
         
@@ -48,6 +50,11 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => card.classList.remove("show"), 3000);
     }
 
+    function validateAddForm() 
+    {
+        document.getElementById("btn-add-goodies").disabled = !(addNom.value.trim() && addDesc.value.trim() && addPrix.value.trim()  && addDesc.value.length > 50);
+    }
+
     /* =========================================================
        🟢 MODAL : AJOUT GOODIES
     ========================================================= */
@@ -60,7 +67,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const addPrix = document.getElementById("add-prix-goodies");
     const addLien = document.getElementById("add-lien-goodies");
     const addDesc = document.getElementById("add-desc-goodies");
-    const btnAdd  = document.getElementById("btn-add-goodies");
+
+
+    const counterAdd = document.getElementById("add-desc-counter");
+    addDesc.value = "";
+
 
     function openModal(modal, box) {
         modal.style.display = "flex";
@@ -77,9 +88,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }, { once: true });
     }
 
+   
+
+  
+
+    addNom?.addEventListener("input", validateAddForm);
+    addPrix?.addEventListener("input", validateAddForm);
+    addLien?.addEventListener("input", validateAddForm);
+    addDesc?.addEventListener("input", validateAddForm);
+    addDesc?.addEventListener("input", () => {
+        addDesc.value = addDesc.value.slice(0, 2500);
+        counterAdd.textContent = `${addDesc.value.length} / 2500 caractères`;
+        validateAddForm();
+    });
+
     btnAddGoodies?.addEventListener("click", () =>
         openModal(modalAdd, modalAddBox)
     );
+
 
     modalAdd?.querySelector(".modal-btn-cancel")
         ?.addEventListener("click", () =>
@@ -90,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.target === modalAdd) closeModal(modalAdd, modalAddBox);
     });
 
-    btnAdd?.addEventListener("click", async () => {
+    document.getElementById("btn-add-goodies")?.addEventListener("click", async () => {
 
         const payload = {
             nom_goodies: addNom.value.trim(),
@@ -98,12 +124,12 @@ document.addEventListener("DOMContentLoaded", () => {
             lien:        addLien.value.trim(),
             description: addDesc.value.trim()
         };
-
+        validateAddForm();
         if (!payload.nom_goodies || !payload.prix) {
             showCard("error");
             return;
         }
-
+        console.log("pute");
         try {
             const response = await fetch("/?dest=add_goodies", {
                 method: "POST",
@@ -138,12 +164,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const editLien = document.getElementById("edit-lien-goodies");
     const editDesc = document.getElementById("edit-desc-goodies");
     const btnSave  = document.getElementById("btn-save-goodies");
+    const counterEdit    = document.getElementById("edit-desc-counter");
+
+
 
     document.querySelectorAll(".btn-change").forEach(btn => {
         btn.addEventListener("click", async () => {
 
             const id = btn.dataset.id;
-         
+            
             btnSave.dataset.id = id;
 
             openModal(modalEdit, modalEditBox);
@@ -156,6 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 editPrix.value = data.data.prix ?? "";
                 editLien.value = data.data.lien ?? "";
                 editDesc.value = data.data.description ?? "";
+                counterEdit.textContent = `${editDesc.value.length} / 2500 caractères`;
 
             } catch {
                 showCard("error");
@@ -163,6 +193,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    editDesc?.addEventListener("input" , ()=>{
+        editDesc.value = editDesc.value.slice(0, 2500);
+        
+        counterEdit.textContent = `${editDesc.value.length} / 2500 caractères`;
+
+    } )
     modalEdit?.querySelector(".modal-btn-cancel")
         ?.addEventListener("click", () =>
             closeModal(modalEdit, modalEditBox)
@@ -188,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            const res = await fetch(`/?dest=update_goodies&id_goodies=${btnSave.dataset.id}`, {
+            const res = await fetch(`/?dest=update_goodies`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
@@ -219,11 +255,11 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", async () => {
 
             const id = btn.dataset.id;
- 
+            console.log(id);
             if (!id) return;
 
             try {
-                const res = await fetch("/?dest=remove_goodies", {
+                const res = await fetch("/?dest=delete_goodies", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ id_goodies: id })
@@ -242,5 +278,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+
+    
 
 });

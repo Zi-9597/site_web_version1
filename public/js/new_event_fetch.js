@@ -87,9 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!eventId) return;
 
             try {
-                const response = await fetch(`/?dest=fetch_event&id_event=${eventId}`);
+                const response = await fetch(`/?dest=get_events&id_event=${eventId}`);
                 const result = await response.json();
-                console.log(result);
                 if (!result || !result.data) return;
 
                 const ev = result.data;

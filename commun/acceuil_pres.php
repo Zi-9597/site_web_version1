@@ -11,14 +11,14 @@
 
             <!-- Titre principal -->
             <h1 class="hero-title">
-                Le réseau qui <span>nous rassemble</span><br>
-                tout simplement
+                Se <span>Retrouver </span> <span>Partager</span> Avancer <span> Ensemble</span>
+
             </h1>
 
             <!-- Texte descriptif -->
             <p class="presentation_text">
-               L’association réunit étudiants et anciens diplômés autour de valeurs de partage, de solidarité et de convivialité, 
-               en proposant des activités et des rencontres qui renforcent les liens et l’esprit de communauté.
+               L’association unit étudiants et anciens diplômés autour de valeurs humaines fortes: le partage, la solidarité et la convivialité. 
+               Elle propose des moments de rencontre qui rapprochent, créent du lien et nourrissent un véritable esprit de communauté
             </p>
 
 
@@ -88,10 +88,9 @@
                     <div class="section-intro">
                         <h2>Un réseau professionnel qui ouvre des portes</h2>
                         <p>
-                            L’association développe un réseau professionnel solide entre étudiants et anciens diplômés.
-                            À travers les interventions d’entreprises, les forums, les visites professionnelles et les échanges avec les alumni, elle offre aux étudiants une meilleure compréhension du monde 
-                            du travail et des opportunités concrètes d’orientation et d’insertion professionnelle,
-                            tout en favorisant des liens durables entre les générations.
+                            L’association fait vivre un réseau professionnel dynamique réunissant étudiants et anciens diplômés. En proposant des rencontres avec des entreprises, des forums, 
+                            des visites professionnelles et des échanges avec les alumni, elle accompagne les étudiants dans la découverte du monde du travail et les aide à construire leur avenir professionnel, 
+                            tout en renforçant des liens durables entre les générations.
                         </p>
                     </div>
 
@@ -105,21 +104,21 @@
                             <div class="section-text">
                                 <h3>Participation aux forums académiques</h3>
                                 <p>
-                                    Présence active lors des forums afin d’informer et d’orienter
-                                    les étudiants sur les parcours académiques et professionnels.
+                                    L’association est activement présente lors des forums afin d’accompagner les étudiants, 
+                                    de les informer et de les orienter dans leurs choix académiques et professionnels.
                                 </p>
                             </div>
                         </div>
 
                         <div class="section-item reverse">
                             <div class="section-image">
-                                <img src="public/pictures/img_evenements/img_1.jpg" alt="Interventions entreprises">
+                                <img src="public/pictures/img_evenements/img_1.jpg" id="visite_entreprise" alt="Interventions entreprises">
                             </div>
                             <div class="section-text">
-                                <h3>Interventions des entreprises</h3>
+                                <h3>Rencontres avec les entreprises</h3>
                                 <p>
-                                    Organisation de rencontres avec des entreprises partenaires
-                                    pour rapprocher les étudiants du monde professionnel.
+                                    Des échanges sont organisés avec des entreprises partenaires pour permettre aux 
+                                    étudiants de mieux comprendre le monde professionnel et de découvrir ses opportunités.
                                 </p>
                             </div>
                         </div>
@@ -131,8 +130,8 @@
                             <div class="section-text">
                                 <h3>Visites et échanges professionnels</h3>
                                 <p>
-                                    Découverte du fonctionnement des entreprises à travers
-                                    des visites et des échanges directs avec des professionnels.
+                                    L’association propose des visites d’entreprises et des moments d’échange directs avec des professionnels, 
+                                    offrant une immersion concrète dans les réalités du monde du travail.
                                 </p>
                             </div>
                         </div>
@@ -144,8 +143,8 @@
                             <div class="section-text">
                                 <h3>Rencontres avec les alumni</h3>
                                 <p>
-                                    Des échanges privilégiés avec les anciens diplômés pour
-                                    partager expériences, conseils et opportunités professionnelles.
+                                    Des temps de partage privilégiés avec les anciens diplômés permettent d’échanger sur les parcours, de bénéficier de conseils et de 
+                                    créer des opportunités professionnelles dans un esprit de transmission et de solidarité.
                                 </p>
                             </div>
                         </div>
@@ -161,14 +160,14 @@
 
                     <!-- ===== INTRO ACTIVITÉS ===== -->
                     <div class="section-intro">
-                        <h2>Des activités pour créer du lien</h2>
+                        <h2>Une vie associative riche et conviviale</h2>
                         <p>
-                            L’association organise tout au long de l’année des activités sportives,
-                            culturelles et conviviales afin de renforcer les liens entre étudiants,
-                            favoriser l’intégration des nouveaux arrivants et créer de véritables
-                            moments de partage. Ces événements permettent de développer l’esprit
-                            d’équipe, d’encourager les échanges entre promotions et d’offrir aux
-                            étudiants un cadre dynamique et épanouissant en dehors des cours.
+                            
+                            L’association propose tout au long de l’année des activités sportives, culturelles et conviviales destinées aux étudiants, favorisant les rencontres, 
+                            l’intégration des nouveaux arrivants et le partage entre promotions. Ces événements contribuent à créer une ambiance chaleureuse, à renforcer l’esprit 
+                            d’équipe et à offrir aux étudiants un cadre de vie dynamique et épanouissant en dehors des cours.
+                            Par ailleurs, l’association organise également des repas et moments de retrouvailles entre anciens diplômés, offrant l’occasion de se retrouver, 
+                            d’échanger des souvenirs et de maintenir des liens forts au sein de la communauté.
                         </p>
                     </div>
 

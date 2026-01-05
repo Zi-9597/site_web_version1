@@ -305,7 +305,8 @@
 
         public static function fetchUserJobs(
             ?string $email = null,
-            ?bool $job_type = null): array 
+            ?int $id_offre = null
+        ): array 
         {
             $pdo = self::getInstance();
 
@@ -340,7 +341,13 @@
                 $params[':email'] = $email;
             }
 
-    
+            /* =========================================================
+            🔎 FILTRE ID OFFRE (OPTIONNEL)
+            ========================================================= */
+            if (!empty($id_offre)) {
+                $sql .= " AND o.id_offre = :id_offre";
+                $params[':id_offre'] = $id_offre;
+            }
 
             /* =========================================================
             📊 GROUP & TRI
@@ -358,6 +365,7 @@
 
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+
 
 
 
@@ -467,28 +475,51 @@
             }
         }
 
-        public static function fetch_events(?string $id_membre = null, ?int $id_event = null): array
+        public static function fetch_events(
+            ?string $id_membre = null,
+            ?int $id_event = null
+        ): array 
         {
             $pdo = self::getInstance();
 
             try {
-                // Base de la requête
-                $sql = "SELECT * FROM evenements WHERE 1=1 ";
+                /************************************************
+                 *  REQUÊTE DE BASE AVEC JOINTURE
+                 ************************************************/
+                $sql = "
+                    SELECT 
+                        e.*,
+                        m.nom,
+                        m.prenom
+                    FROM evenements e
+                    INNER JOIN subscribers m 
+                        ON m.id_membre COLLATE utf8mb4_unicode_ci 
+                        = e.id_membre COLLATE utf8mb4_unicode_ci
+                    WHERE 1=1
+                ";
+
                 $params = [];
 
-                // Filtrer par id_membre si fourni
+                /************************************************
+                 *  FILTRE PAR MEMBRE (OPTIONNEL)
+                 ************************************************/
                 if (!empty($id_membre)) {
-                    $sql .= " AND id_membre = :id_membre ";
-                    $params['id_membre'] = $id_membre;
+                    $sql .= " AND e.id_membre = :id_membre";
+                    $params[':id_membre'] = $id_membre;
                 }
 
-                // Filtrer par id_event si fourni
+                /************************************************
+                 *  FILTRE PAR ÉVÈNEMENT (OPTIONNEL)
+                 ************************************************/
                 if (!empty($id_event)) {
-                    $sql .= " AND id_event = :id_event ";
-                    $params['id_event'] = $id_event;
+                    $sql .= " AND e.id_event = :id_event";
+                    $params[':id_event'] = $id_event;
                 }
 
-                $sql .= " ORDER BY date_event ASC";
+                /************************************************
+                 *  TRI
+                 ************************************************/
+                $sql .= " ORDER BY e.date_event ASC";
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute($params);
@@ -501,6 +532,7 @@
                 );
             }
         }
+
 
         public static function updateEvent(array $data): bool
         {
@@ -541,16 +573,16 @@
         public static function fetch_actualites(?int $actu_id = null): array
         {
             $pdo = self::getInstance();
-
             try {
                 $sql = "
                     SELECT 
-                        actu_id,
-                        titre_actu,
-                        lien_actu,
-                        desc_actu,
-                        date_depot
-                    FROM actualites
+                        a.*,
+                        m.nom,
+                        m.prenom
+                    FROM actualites a
+                    INNER JOIN subscribers m
+                    ON m.id_membre COLLATE utf8mb4_unicode_ci 
+                    = a.id_membre COLLATE utf8mb4_unicode_ci 
                     WHERE 1=1
                 ";
 
@@ -576,7 +608,7 @@
             }
         }
 
-        public static function addActualite(array $data): bool
+        public static function addActualite(array $data , string $id_membre): bool
         {
             $pdo = self::getInstance();
 
@@ -586,11 +618,13 @@
                         titre_actu,
                         lien_actu,
                         desc_actu,
+                        id_membre,
                         date_depot
                     ) VALUES (
                         :titre_actu,
                         :lien_actu,
                         :desc_actu,
+                        :id_membre,
                         CURDATE()
                     )
                 ";
@@ -600,7 +634,8 @@
                 return $stmt->execute([
                     ':titre_actu' => $data['titre_actu'],
                     ':lien_actu'  => $data['lien_actu'],
-                    ':desc_actu'  => $data['desc_actu']
+                    ':desc_actu'  => $data['desc_actu'],
+                    ':id_membre'  => $id_membre
                 ]);
 
             } catch (Exception $e) {
@@ -760,7 +795,7 @@
             ]);
         }
 
-        public static function addGoodies(array $data): bool
+        public static function addGoodies(array $data , string $id_membre): bool
         {
             $pdo = self::getInstance();
 
@@ -769,12 +804,14 @@
                     nom_goodies,
                     prix,
                     lien,
-                    description
+                    description,
+                    id_membre
                 ) VALUES (
                     :nom_goodies,
                     :prix,
                     :lien,
-                    :description
+                    :description,
+                    :id_membre
                 )
             ";
 
@@ -784,7 +821,8 @@
                 ':nom_goodies' => $data['nom_goodies'],
                 ':prix'        => $data['prix'],
                 ':lien'        => $data['lien'] ?? null,
-                ':description' => $data['description']
+                ':description' => $data['description'],
+                ':id_membre'   => $id_membre
             ]);
         }
 
@@ -823,18 +861,19 @@
                 ':id_goodies' => $id_goodies
             ]);
         }
-        public static function fetchGoodies(?int $id_goodies = null): array
+        public static function fetchGoodies(?int $id_goodies = null , ?string $id_membre = null): array
         {
             $pdo = self::getInstance();
 
             $sql = "
                 SELECT
-                    goodies_id,
-                    nom_goodies,
-                    prix,
-                    lien,
-                    description
-                FROM goodies
+                    g.*,
+                    m.nom,
+                    m.prenom
+                FROM goodies g
+                INNER JOIN subscribers m
+                ON m.id_membre COLLATE utf8mb4_unicode_ci 
+                = g.id_membre COLLATE utf8mb4_unicode_ci 
                 WHERE 1=1
             ";
 

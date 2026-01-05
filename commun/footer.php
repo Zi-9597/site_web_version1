@@ -45,13 +45,13 @@
         <div class="sub_info_assoc">
 
             <span>
-                <a href="/?dest=contact_assoc<?php if ($id_user) echo '&id_user=' . htmlspecialchars($id_comb, ENT_QUOTES, 'UTF-8'); ?>">
+                <a href="/?dest=contact_assoc">
                    Nous contacter
                 </a>
             </span>
 
             <span>
-                <a href="/?dest=apropos<?php if ($id_user) echo '&id_user=' . htmlspecialchars($id_comb, ENT_QUOTES, 'UTF-8'); ?>">
+                <a href="/?dest=apropos">
                     À propos de nous
                 </a>
             </span>

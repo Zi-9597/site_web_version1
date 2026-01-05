@@ -126,12 +126,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Fonction pour afficher un message sous le bouton
-    function showMessage(type, formData) {
-        elements.box_div.innerHTML = ""; // vider avant de réafficher
+   function showMessage(type, formData) 
+   {
+
+        elements.box_div.innerHTML = ""; // Nettoyage
 
         const msgBox = document.createElement("div");
 
+        // -------------------------------
         // Styles
+        // -------------------------------
         msgBox.style.marginTop = "15px";
         msgBox.style.padding = "12px 16px";
         msgBox.style.borderRadius = "8px";
@@ -141,35 +145,55 @@ document.addEventListener('DOMContentLoaded', () => {
         msgBox.style.color = "#333";
         msgBox.style.opacity = "0";
         msgBox.style.transition = "opacity 0.5s ease";
-        msgBox.style.borderLeft = `6px solid ${type === "success" ? "#28a745" : "#dc3545"}`;
+        msgBox.style.borderLeft =
+            `6px solid ${type === "success" ? "#28a745" : "#dc3545"}`;
 
-        // Récupérer champs
-        const nom  = formData.get("nom_event");
-        const date = formData.get("date");
-        const lieu = formData.get("lieu_event");
+        // -------------------------------
+        // Données utilisateur (SAFE)
+        // -------------------------------
+        const nom  = formData.get("nom_event") || "-";
+        const date = formData.get("date") || "-";
 
-        msgBox.innerHTML = `
-            <strong style="color:${type === "success" ? "#28a745" : "#dc3545"}">
-                ${type === "success" ? "✅ Événement ajouté" : "❌ Erreur"}
-            </strong><br>
-            <span>Nom : ${nom || "-"}</span><br>
-            <span>Date : ${date || "-"}</span><br>
-        `;
+        // -------------------------------
+        // Construction DOM sécurisée
+        // -------------------------------
+        const title = document.createElement("strong");
+        title.textContent =
+            type === "success" ? "✅ Événement ajouté" : "❌ Erreur";
+        title.style.color =
+            type === "success" ? "#28a745" : "#dc3545";
+
+        const spanNom = document.createElement("span");
+        spanNom.textContent = `Nom : ${nom}`;
+
+        const spanDate = document.createElement("span");
+        spanDate.textContent = `Date : ${date}`;
+
+       
+
+        // -------------------------------
+        // Ajout dans le message
+        // -------------------------------
+        msgBox.appendChild(title);
+        msgBox.appendChild(document.createElement("br"));
+        msgBox.appendChild(spanNom);
+        msgBox.appendChild(document.createElement("br"));
+        msgBox.appendChild(spanDate);
+        msgBox.appendChild(document.createElement("br"));
 
         elements.box_div.appendChild(msgBox);
 
-        // Apparition
+        // -------------------------------
+        // Animations
+        // -------------------------------
         setTimeout(() => { msgBox.style.opacity = "1"; }, 50);
 
-        // Disparition après 5s
         setTimeout(() => {
             msgBox.style.opacity = "0";
-            setTimeout(() => {
-                msgBox.style.display = "none";
-                msgBox.remove();
-            }, 500);
+            setTimeout(() => msgBox.remove(), 500);
         }, 5000);
     }
+
 
     
     elements.form_event.addEventListener("submit" , e=>
@@ -177,12 +201,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         e.preventDefault();
 
-        const params =  new URLSearchParams(window.location.search); 
+       
         const data_form = new FormData(elements.form_event);
 
-        const user_id = params.get("id_user"); 
 
-        const url = `/?dest=add_event&id_user=${encodeURIComponent(user_id)}`; 
+        const url = `/?dest=ajouter_event`; 
 
         fetch(url , 
         {

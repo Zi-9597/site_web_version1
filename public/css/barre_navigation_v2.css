@@ -130,8 +130,6 @@
     z-index: 10;
     opacity: 1;
     transition: opacity 0.6s ease-out;
-    
-
 }
 
 .nav_1_hidden {
@@ -247,6 +245,12 @@
 
 .container_conn_insc div {
     width: 100%;
+}
+
+.connect_span_comm
+{
+ 
+    font-size: 21px;
 }
 
 .container_conn_insc div a {

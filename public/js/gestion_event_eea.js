@@ -92,19 +92,20 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", async () => {
 
             const id = btn.dataset.id;
+           
             btnSave.dataset.id = id;
-            console.log(btnSave.dataset.id);
+           
             openModal();
   
-            const response = await fetch(`/?dest=info_cherche_events&id_event=${id}`);
+            const response = await fetch(`/?dest=get_events&id_event=${id}`);
             const data = await response.json();
-
             // Remplissage modal
-            fNom.value = data.nom_event;
-            fDate.value = data.date_event;
-            fDesc.value = data.desc_event;
-            fUrl.value  = data.url_form ?? "";
-            fDateCreation.value = data.date_creation.split(" ")[0];
+            fNom.value = data.data.nom_event;
+            fDate.value = data.data.date_event;
+            fDesc.value = data.data.desc_event;
+            fUrl.value  = data.data.url_form ?? "";
+            
+            fDateCreation.value = data.data.date_creation.split(" ")[0];
         });
     });
 
@@ -156,23 +157,28 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", async () => 
         {
 
-                const id = btn.dataset.id;
-                const response = await fetch(`/?dest=suppression_event&id_event=${id}`, {
-                method: "POST"
+            const id = btn.dataset.id;
+
+            const response = await fetch(`/?dest=delete_event`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id_event: id
+                })
             });
 
-        const result = await response.json();
+            const result = await response.json();
 
-        if (result.success) {
-            showCard("success");      // Affiche une carte verte
-            closeModal();             // Ferme le modal
-            setTimeout(() => {
-                location.reload();
-            }, 3000);
-        } else {
-            showCard("error");       // Affiche une carte rouge
-        }
-     });
+            if (result.success) {
+                showCard("success");
+                setTimeout(() => location.reload(), 3000);
+            } else {
+                showCard("error");
+            }
+        });
+
 
 
 

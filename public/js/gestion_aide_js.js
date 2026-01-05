@@ -32,19 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const fEmail     = document.getElementById("edit-email-aide");
     const fTelephone = document.getElementById("edit-telephone-aide");
     const fDate      = document.getElementById("edit-date-aide");
+
    
-    // const box   = modal.querySelector(".modal-content");
-
-    // // Champs du modal
-    // const fNom          = document.getElementById("edit-nom-event");
-    // const fDate         = document.getElementById("edit-date-event");
-    // const fDesc         = document.getElementById("edit-desc-event");
-    // const fUrl          = document.getElementById("edit-url-form");
-    // const fDateCreation = document.getElementById("edit-date-creation");
-    // const btnSave = document.getElementById("btn-save-offre");
-
-
-
     /* ============================================================================
        🔎 FILTRAGE TABLEAU
     ============================================================================ */
@@ -137,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!aideId) return;
 
             try {
-                const response = await fetch(`/?dest=fetch_aide&aide_id=${aideId}`);
+                const response = await fetch(`/?dest=fetch_aides&aide_id=${aideId}`);
                 const data = await response.json();
 
                 const nom = data.nom ?? "";
@@ -193,36 +182,39 @@ document.addEventListener("DOMContentLoaded", () => {
     const deleteButtons = document.querySelectorAll(".btn-delete");
 
     deleteButtons.forEach(btn => {
-
         btn.addEventListener("click", async () => {
 
             const aideId = btn.dataset.id;
             if (!aideId) return;
 
-            try {
-                const response = await fetch(`/?dest=delete_aide&aide_id=${aideId}`, {
-                    method: "POST"
-                });
+        try 
+        {
+            const response = await fetch("/?dest=delete_aides", 
+            {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                aide_id: aideId
+                })
+            });
 
-                const result = await response.json();
+            const result = await response.json();
 
-                if (result.success) {
+            if (result.success) {
+                showNotif("success");
+                setTimeout(() => location.reload(), 2000);
+            } else {
+                showNotif("error");
+            }
 
-                    // Supprime la carte ou la ligne correspondante
-                    const container = btn.closest(".aide-card, tr");
-                    if (container) container.remove();
-
-                    showNotif("success");
-
-                } else {
-                    showNotif("error");
-                }
-
-            } catch (err) {
+            } catch (e) {
                 showNotif("error");
             }
         });
     });
+            
 
 
     window.addEventListener("pageshow", () => {
