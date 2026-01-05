@@ -85,14 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
      * - Sinon doit commencer par /jobs/
      * =======================================================
      */
-    function validateLinkedin() {
+    function validateLinkJob() {
         const { linkedin, form_link } = formElements;
-        const regexLinkedInJob = /^https:\/\/(www\.)?linkedin\.com\/jobs(\/|$)/;
-
+        const regexLinkJob = /^(https?\/\/)?(www.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/\S*)?/
         const linkedin_value = linkedin.value.trim();
 
         // Cas accepté : vide ou valide
-        if (linkedin_value === "" || regexLinkedInJob.test(linkedin_value)) {
+        if (linkedin_value === "" || regexLinkJob.test(linkedin_value)) {
             form_link.style.display = "none";
             return true;
         }
@@ -123,13 +122,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         const hasSpecialite = specialiteSet.size > 0;
-        const linkedinOK = validateLinkedin();
+        const linkedinOK = validateLinkJob();
 
         // Le bouton est activé seulement si
         // → titre rempli, description remplie,
         // → au moins une spécialité,
         // → type de contrat choisi,
-        // → lien LinkedIn valide
+        // → lien valide
         formElements.submitBtn.disabled = !(hasTitle && hasDescription && hasSpecialite && contrat_valeur && linkedinOK);
     }
 
@@ -241,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Contenu dynamique (pro + clair)
             msgBox.innerHTML = `
             <strong style="color:${type === "success" ? "#28a745" : "#dc3545"}">
-                ${type === "success" ? "✅ Événement ajouté" : "❌ Erreur"}
+                ${type === "success" ? "✅ Offre ajoutée" : "❌ Erreur"}
             </strong><br>
             <span>Nom de l'offre : ${formData.get("titre_offre") || "-"}</span><br>
             <span>Date de dépôt : ${date_depot || "-"}</span><br>
@@ -257,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             msgBox.innerHTML = `
             <strong style="color:${type === "success" ? "#28a745" : "#dc3545"}">
-                ${type === "success" ? "✅ Événement ajouté" : "❌ Erreur"}
+                ${type === "success" ? "✅ Offre ajoutée" : "❌ Erreur"}
             </strong><br>
             <span>Erreur : ${erreur}</span><br>
             `;
@@ -283,39 +282,50 @@ document.addEventListener('DOMContentLoaded', () => {
      * Soumission du formulaire via Fetch (POST)
      * =======================================================
      */
-    formElements.form.addEventListener("submit", e => {
-        e.preventDefault(); // Empêche le rechargement page
+    
+    formElements.form.addEventListener("submit", async (e) => 
+    {
+        e.preventDefault(); // Empêche le rechargement de la page
 
-        const params = new URLSearchParams(window.location.search);
-        const data_form = new FormData(formElements.form);
-        const user_id = params.get("id_user");
+        const dataForm = new FormData(formElements.form);
+        const url = "/?dest=ajouter_contrat";
 
-        const url = `/?dest=ajout_emploie&id_user=${encodeURIComponent(user_id)}`;
-        
-        fetch(url, {
-            method: "POST",
-            body: data_form
-        })
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                body: dataForm
+            });
 
-        .then(response => {
-            if (!response.ok)
-                throw new Error(`Server problem: ${response.status}`);
-            return response.json();
-        })
-
-        .then(result => {
-            if (result.status) {
-                showMessage("success", data_form, result.mail, result.dateDepot );
-            } else {
-                showMessage("error", data_form , result.mail, result.dateDepot , result.message);
+            if (!response.ok) {
+                throw new Error("Erreur réseau");
             }
+
+            const result = await response.json();
+
+            if (result.success === true) {
+                showMessage(
+                    "success",
+                    dataForm,
+                    result.email ?? null,
+                    result.dateDepot ?? null
+                );
+            } else {
+                showMessage(
+                    "error",
+                    dataForm,
+                    null,
+                    null,
+                    result.message ?? "Une erreur est survenue"
+                );
+            }
+
             resetFormulaire();
             formElements.submitBtn.disabled = true;
-        })
 
-        .catch(() => showMessage("error", data_form));
+        } catch (error) {
+            showMessage("error", dataForm);
+        }
     });
-
 
     /**
      * =======================================================

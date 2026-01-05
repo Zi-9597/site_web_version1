@@ -1,146 +1,426 @@
+/* =========================================================
+   RESET GLOBAL
+========================================================= */
 
 *{
-    outline: 0;
-    border: 0;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    appearance: 0;
-    text-decoration: none;
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    list-style:none;
+    text-decoration:none;
+    box-sizing:border-box;
+    appearance:none;
 }
 
-/*On définit le fond de la page web (qu'onn peut le changer dans background color */
-body
-{
-    background-color: rgba(101, 168, 207, 0.836);
-    overflow-x: hidden;
+/* =========================================================
+   BODY — FOND STYLE 2ᵉ IMAGE (VAGUES)
+========================================================= */
+body{
+  font-family:'Inter','Nunito',system-ui,sans-serif;
+  color:#0f172a;
+  overflow-x:hidden;
+
+  /* Fond global "blurry gradient" bleu/violet/orange (sans cercles) */
+  background:
+    /* couche 1 : bleu -> transparent */
+    linear-gradient(120deg,
+      rgba(96,165,250,0.35) 0%,
+      rgba(96,165,250,0.08) 45%,
+      transparent 75%
+    ),
+
+    /* couche 2 : violet -> transparent */
+    linear-gradient(220deg,
+      rgba(99,102,241,0.32) 0%,
+      rgba(99,102,241,0.10) 50%,
+      transparent 78%
+    ),
+
+    /* couche 3 : orange -> transparent */
+    linear-gradient(160deg,
+      rgba(251,146,60,0.28) 0%,
+      rgba(251,146,60,0.08) 55%,
+      transparent 80%
+    ),
+
+    /* base clean */
+    linear-gradient(180deg, #f8fbff 0%, #ffffff 60%, #f8fbff 100%);
+
+  /* petit plus : rendu plus doux */
+  background-attachment: fixed;
+}
+/* Liens */
+a{color:inherit}
+
+/* =========================================================
+   🚫 NAV_2 — STRICTEMENT INCHANGÉE
+========================================================= */
+/* =========================================================
+   NAV_2 — CLAIR MAIS PLUS PROFOND (BLEU / BLANC / ORANGE)
+========================================================= */
+.nav_2{
+    position:fixed;
+    display:flex;
+    width:350px;
+    height:650px;
+    overflow-y:auto;
+    z-index:9999;
+    opacity:0;
+    transform:translateX(-100%);
+    transition:all .5s ease-out;
+    flex-direction:column;
+
+    /* 🔥 FOND PLUS FONCÉ MAIS LUMINEUX */
+    background:
+      linear-gradient(
+        180deg,
+        rgba(248,250,252,0.97) 0%,   /* blanc */
+        rgba(224,231,255,0.96) 55%,  /* bleu clair */
+        rgba(254,215,170,0.95) 100%  /* orange doux */
+      );
+
+    backdrop-filter: blur(16px);
+    box-shadow: 0 22px 65px rgba(15,23,42,0.35);
+    border-right: 1px solid rgba(30,64,175,0.25);
 }
 
-body.active
-{
-    overflow: hidden;
-}
-/*On met tous les liens hypertextes en noirs */
-a{
-    color: black;
+.nav_2_show{
+    opacity:1;
+    transform:translateX(0);
 }
 
-/* Début de la mise en forme de la barre de navigation */
-.nav_2
-{
-    
-    position: fixed;
+/* Items */
+.nav_2>span{
+    display:flex;
+    flex:0 0 80px;
+    margin-bottom:6px;
+    position:relative;
+}
+
+/* Liens */
+.nav_2>span>a{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    font-family:'Nunito';
+    font-size:20px;
+    font-weight:700;
+    color:#1e293b; /* bleu foncé */
+    border-radius:16px;
+    transition:all .25s ease;
+}
+
+/* ✨ Hover plus contrasté */
+.nav_2>span>a:hover{
+    background:
+      linear-gradient(
+        90deg,
+        rgba(30,64,175,0.18),   /* bleu foncé */
+        rgba(251,146,60,0.22)   /* orange */
+      );
+    color:#041336;
+    box-shadow: 0 12px 34px rgba(30,64,175,0.35);
+    transform: translateX(8px);
+}
+
+/* Séparateurs élégants */
+.nav_2>span::after{
+    content:"";
+    position:absolute;
+    bottom:0;
+    left:18%;
+    width:64%;
+    height:1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(30,64,175,0.35),
+      transparent
+    );
+}
+
+/* Réseaux sociaux & auth */
+.reseau_sociaux,
+.insc_conn_nav2{
+    display:flex;
+    gap:14px;
+    padding:14px 22px;
+}
+
+.reseau_sociaux a,
+.insc_conn_nav2 a{
+    color:#1e293b;
+    opacity:.85;
+    transition:.2s;
+}
+
+.reseau_sociaux a:hover,
+.insc_conn_nav2 a:hover{
+    color:#1d4ed8;
+    opacity:1;
+}
+
+.overlay{
+    position:fixed;
+    top:0;left:0;
+    display:none;
+    z-index:10;
+    background-color:rgba(0,0,0,.2);
+    width:100%;
+    height:100%;
+    opacity:0;
+    transition:opacity .3s ease-out;
+}
+.overlay.active{display:block;opacity:1}
+@media(max-width:1200px){.list_nav_1{display:none}}
+@media(max-height:700px){
+    .nav_2{height:250px}
+    .nav_2>span>a{font-size:25px}
+}
+
+/* =========================================================
+   HERO / INTRO — VAGUES COMME IMAGE 2
+========================================================= */
+.accueil_presentation{
+    position:relative;
+    padding:120px 6% 170px;
+    overflow:hidden;
+    background:#f9fbff;
+}
+
+/* BLOBS / VAGUES HAUTES */
+.accueil_presentation::before{
+    content:"";
+    position:absolute;
+    inset:-30% -25% auto -25%;
+    height:120%;
+    background:
+      radial-gradient(55% 65% at 75% 35%, rgba(99,102,241,.30), transparent 70%),
+      radial-gradient(50% 60% at 55% 45%, rgba(96,165,250,.28), transparent 72%),
+      radial-gradient(45% 55% at 40% 60%, rgba(251,146,60,.24), transparent 70%),
+      radial-gradient(40% 50% at 65% 60%, rgba(147,197,253,.26), transparent 75%);
+    filter:blur(10px);
+    z-index:0;
+}
+
+/* BLOBS / VAGUES BASSES */
+.accueil_presentation::after{
+    content:"";
+    position:absolute;
+    inset:auto -35% -40% -35%;
+    height:90%;
+    background:
+      radial-gradient(50% 60% at 30% 40%, rgba(99,102,241,.22), transparent 72%),
+      radial-gradient(45% 55% at 50% 45%, rgba(96,165,250,.24), transparent 72%),
+      radial-gradient(40% 50% at 70% 40%, rgba(251,146,60,.22), transparent 70%);
+    filter:blur(12px);
+    z-index:0;
+}
+
+/* =========================================================
+   CONTENU HERO
+========================================================= */
+.presentation_intro{
+    position:relative;
+    z-index:2;
+    max-width:1500px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1.5fr 0.9fr;
+    align-items:center;
+    gap:250px;
+}
+
+/* Texte */
+.hero-title{
+    font-size:3.3rem;
+    font-weight:900;
+    line-height:1.05;
+    margin-bottom:26px;
+}
+.hero-title span{
+    color:#6366f1;
+    font-style:italic;
+}
+.presentation_text{
+    font-size:35px;
+    line-height:1.7;
+    color:#030c3f;
+    max-width: 800px;
+    text-align: justify;
+
+}
+
+/* Boutons */
+.hero-actions{
+    margin-top:36px;
+    display:flex;
+    gap:18px;
+}
+.btn-primary{
+    padding:15px 38px;
+    border-radius:999px;
+    font-weight:700;
+    background:linear-gradient(90deg,#f59e0b,#fb923c);
+    color:white;
+    box-shadow:0 18px 42px rgba(245,158,11,.45);
+    transition:.25s;
+}
+.btn-primary:hover{transform:translateY(-3px)}
+.btn-secondary{
+    padding:15px 34px;
+    border-radius:999px;
+    font-weight:700;
+    color:#6366f1;
+    border:2px solid #6366f1;
+    background:transparent;
+}
+
+/* =========================================================
+   IMAGE + ANNEAU (STYLE IMAGE 2)
+========================================================= */
+.presentation_image{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:2;
+}
+.presentation_image img{
+    width:630px;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    border-radius:50%;
+    background:white;
+    box-shadow:0 30px 70px rgba(15,23,42,.25);
+    z-index:3;
+}
+.presentation_image::before{
+    content:"";
+    position:absolute;
+    width:640px;
+    height:654px;
+    border-radius:50%;
+    background:conic-gradient(
+        from 30deg,
+        #6366f1,
+        #60a5fa,
+        #f59e0b,
+        #6366f1
+    );
+    z-index:1;
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+/* =========================================================
+   STATS — SVG + CHIFFRES (STYLE MAQUETTE)
+========================================================= */
+
+.stats-bar{
+    position: relative;
+    z-index: 2;
+    margin: 110px auto 0;
+    max-width: 900px;
+
     display: flex;
-    width: 350px;
-    height: 650px;
-    overflow-y: auto;
-    z-index: 9999;
-    opacity: 0;
-    box-shadow:0 1rem 1rem rgba(0,0,0,0.5);
-    transform: translateX(-100%);
-    transition: all 0.5s ease-out;
+    justify-content: space-between;
+    gap: 30px;
+
+    padding: 26px 40px;
+    background: rgba(255,255,255,0.97);
+    border-radius: 26px;
+    box-shadow: 0 20px 50px rgba(15,23,42,0.18);
+}
+
+.stat-item{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    padding: 16px 20px;
+    border-radius: 18px;
+    background: rgba(248,250,252,0.95);
+
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.stat-item:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(30,64,175,0.25);
+}
+
+/* Icône */
+.stat-icon{
+    min-width: 44px;
+    height: 44px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(
+      135deg,
+      rgba(30,64,175,0.18),
+      rgba(251,146,60,0.22)
+    );
+}
+
+/* Icône Font Awesome */
+.stat-icon i{
+    font-size: 30px;
+
+    /* 🔵 BLEU FONCÉ (comme la maquette) */
+    color: #1e3a8a;
+
+    /* petit rendu net */
+    opacity: 0.95;
+}
+
+/* Texte */
+.stat-text{
     display: flex;
     flex-direction: column;
-    background-color:  rgb(16, 83, 226);;
-    
 }
 
-.nav_2_show
-{
-    opacity: 1;
-    transform: translateX(0%);
-
+.stat-number{
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #1d4ed8;
+    line-height: 1;
 }
 
-.nav_2 > span
-{
-
-    display: flex;
-   
-    flex : 0 0 80px;
-    
-    margin-bottom: 10px; /* Optional: spacing between spans */
-    box-sizing: border-box; 
-    
+.stat-label{
+    font-size: 25px;
+    font-weight: 600;
+    color: #4329b8;
 }
-
-
-.nav_2 > span > a
-{
-    display: flex; /* Use flex to align text */
-    align-items: center; /* Vertically center text */
-    justify-content: center; /* Horizontally center text */
-    font-family: 'Nunito';
-    font-size: 20px;
-    width: 100%;
-    transition: background-color 0.5s ease-out;
-   
-}
-
-.nav_2 > span > a:hover
-{
-    background-color: azure;
-    border-radius: 10px;
-    color :rgb(16, 83, 226)
-}
-
-.reseau_sociaux
-{
-    display: flex;
-    gap : 5px;
-}
-
-.insc_conn_nav2
-{
-    display: flex;
-    gap : 15px;
-}
-/* Permettant de bloquer et ajouter une couche noir au niveau de la page web quand la fenêtre est réduite etque la personne appuie sur le boutton connection
-inscription */
-
-.overlay
-{
-    position: fixed;
-    top : 0; 
-    left : 0;
-    display: none;
-    z-index: 10;
-    background-color: rgba(0,0,0,0.2);
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 0.3s ease-out;
-
-}
-
-.overlay.active
-{
-    display: block;
-    opacity: 1;
-}
-
-.container
-{
-    overflow-y: scroll;
-}
-
-@media only screen and (max-width: 1200px) {
-    
-    .list_nav_1
-    {
-        display: none;
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media(max-width:900px){
+    .presentation_intro{
+        grid-template-columns:1fr;
+        text-align:center;
     }
-  }
-
-@media only screen and (max-height: 700px) {
-    
-    .nav_2
-    {
-        height: 250px;
+    .hero-actions{
+        justify-content:center;
+        flex-wrap:wrap;
     }
-
-    .nav2 > span > a
-    {
-        font-size: 25px;
+    .presentation_image::before{
+        display:none;
     }
-  }
+}
+@media(max-width:700px){
+    .stats-bar{
+        flex-direction:column;
+        gap:22px;
+        align-items:center;
+    }
+    .hero-title{font-size:2.4rem}
+}

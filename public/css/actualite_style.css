@@ -1,0 +1,188 @@
+/* -----------------------------------------------------------
+   🎨 BLOC GLOBAL AVEC TITRE VIOLET
+----------------------------------------------------------- */
+.box-with-title {
+    background: #ffffff;
+    border-radius: 16px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 60px 30px 40px;
+    position: relative;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.18);
+}
+
+/* Titre violet */
+.title-box {
+         max-width: 1200px;
+    margin: 30px auto;
+    padding: 14px 25px;
+    border-radius: 12px;
+    text-align: center;
+    background: linear-gradient(135deg, #b66ae2, #8922e9);
+    color : white;
+    font-family: 'Nunito';
+    margin-bottom: 50px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.18);
+    
+}
+
+/* =========================================================
+   📰 WRAPPER – FOND FIXE + LOGO FILIGRANE
+========================================================= */
+
+.annonces-wrapper {
+    max-width: 1200px;
+    margin: 40px auto;
+    position: relative;
+
+    background-color: #ffffff;
+
+    /* Logo filigrane FIXE */
+    background-image: url("../pictures/logo_5.png");
+    background-repeat: repeat-y;
+    background-position: center top;
+    background-size: 320px auto;
+
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Couche blanche pour lisibilité */
+.annonces-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.94);
+    pointer-events: none;
+}
+
+/* =========================================================
+   📰 CONTENEUR SCROLLABLE
+========================================================= */
+
+.annonces-container {
+    max-height: 70vh;
+    overflow-y: auto;
+
+    padding: 40px 25px;
+
+    background: transparent;
+
+    position: relative;
+    border-radius: 10px;
+    z-index: 1;
+}
+
+/* =========================================================
+   🃏 CARTE ACTUALITÉ
+========================================================= */
+
+.annonce-card {
+    background-color: rgba(255, 255, 255, 0.97);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-bottom: 24px;
+
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    font-family: 'Nunito';
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.annonce-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+    background: #9a0dad7e;
+}
+
+/* =========================================================
+   🧩 CONTENU DE LA CARTE
+========================================================= */
+
+.card-header {
+    margin-bottom: 10px;
+}
+
+.card-date {
+    font-size: 15px;
+    color: #7a7a7a;
+    display: block;
+    margin-bottom: 4px;
+    font-weight : bold;
+}
+
+.card-title {
+    font-size: 25px;
+    font-weight: 700;
+    margin: 0;
+    color: #2c2c2c;
+}
+
+.card-text {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #444;
+    margin: 12px 0 18px;
+}
+
+/* =========================================================
+   🔘 BOUTON "LIRE PLUS"
+========================================================= */
+
+.btn-lire-plus {
+    background-color: transparent;
+    border: 1px solid #6a0dad;
+    color: #6a0dad;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-lire-plus:hover {
+    background-color: #6a0dad;
+    color: #ffffff;
+}
+
+/* =========================================================
+   🧭 SCROLLBAR DISCRÈTE
+========================================================= */
+
+.annonces-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.annonces-container::-webkit-scrollbar-thumb {
+    background-color: #bdbdbd;
+    border-radius: 4px;
+}
+
+.annonces-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* =========================================================
+   📱 RESPONSIVE MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .annonces-wrapper {
+        margin: 20px 10px;
+        background-size: 220px auto;
+    }
+
+    .annonces-container {
+        max-height: 80vh;
+        padding: 30px 15px;
+    }
+
+    .card-title {
+        font-size: 18px;
+    }
+
+    .card-text {
+        font-size: 14px;
+    }
+}

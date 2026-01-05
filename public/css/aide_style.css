@@ -1,0 +1,287 @@
+/* =========================================================
+   📦 CONTENEUR PRINCIPAL
+========================================================= */
+
+.aide-page {
+    max-width: 960px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+
+/* =========================================================
+   📦 CONTENEUR TITRE + TEXTE
+========================================================= */
+
+.container-title {
+    margin-bottom: 50px;
+    background:
+      radial-gradient(700px 450px at 15% 20%, rgba(99,102,241,.32), transparent 70%),
+      radial-gradient(600px 400px at 75% 15%, rgba(96,165,250,.30), transparent 70%),
+      radial-gradient(650px 420px at 85% 65%, rgba(251,146,60,.30), transparent 72%),
+      radial-gradient(520px 360px at 30% 75%, rgba(248,113,113,.26), transparent 70%),
+      radial-gradient(500px 360px at 55% 45%, rgba(139,92,246,.22), transparent 72%),
+      linear-gradient(180deg, #f8f9ff 0%, #ffffff 60%);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   🟣 BANDEAU TITRE
+========================================================= */
+
+.title-h1 {
+    padding: 30px 40px;
+    margin-bottom: 25px;
+
+    background: linear-gradient(135deg, #b66ae2, #8922e9);
+    border-radius: 14px;
+    font-family: 'Nunito';
+    text-align: center;
+    color: #ffffff;
+
+
+}
+
+.title-h1 h1 {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   📄 TEXTE INTRODUCTIF
+========================================================= */
+
+.aide-title-box {
+    background: none;
+    padding: 35px 40px;
+    border-radius: 14px;
+
+  
+}
+
+.aide-title-box p {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.9;
+    color: #444;
+}
+
+
+/* =========================================================
+   📝 FORMULAIRE
+========================================================= */
+
+.aide-form {
+    background-color: #ffffff;
+    padding: 40px 45px;
+    border-radius: 14px;
+
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   📋 GROUPES DE CHAMPS
+========================================================= */
+
+.form-group {
+    margin-bottom: 26px;
+    font-family : 'Nunito';
+    font-size: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+
+    font-size: 16px;
+    font-weight: 700;
+    color: #2c2c2c;
+    font-size: 20px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+
+    border-radius: 10px;
+    border: 1.5px solid #d1d5db;
+
+    font-size: 16px;
+    font-family: "Nunito", sans-serif;
+    color: #333;
+    font-size: 21px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #8922e9;
+    box-shadow: 0 0 0 3px rgba(137, 34, 233, 0.15);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    color: #666;
+}
+
+
+/* =========================================================
+   🔘 ACTIONS FORMULAIRE
+========================================================= */
+
+.form-actions {
+    text-align: center;
+    margin-top: 35px;
+    font-family : 'Nunito'
+}
+
+.form-actions button {
+    padding: 14px 40px;
+    border-radius: 30px;
+    border: none;
+
+    background-color: #8922e9;
+    color: #ffffff;
+
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+
+    transition: background-color 0.25s ease, transform 0.15s ease;
+}
+
+.form-actions button:hover {
+    background-color: #7518c9;
+    transform: translateY(-2px);
+}
+
+.form-actions button:active {
+    transform: translateY(0);
+}
+
+.form-actions button:disabled {
+    background-color: #b9a6d8;      /* couleur grisée */
+    cursor: not-allowed;            /* curseur interdit */
+    opacity: 0.6;
+    transform: none;                /* pas d’animation */
+    pointer-events: none;           /* BLOQUE le clic */
+}
+
+/* Empêcher hover et active quand disabled */
+.form-actions button:disabled:hover,
+.form-actions button:disabled:active {
+    background-color: #b9a6d8;
+    transform: none;
+}
+
+
+/* =========================================================
+   🔢 COMPTEUR DE CARACTÈRES
+========================================================= */
+
+.char-counter {
+    margin-top: 6px;
+    font-size: 15px;
+    color: #666;
+    text-align: right;
+    transition: color 0.2s ease;
+}
+
+/* Approche de la limite */
+.char-counter.warning {
+    color: #e67e22; /* orange */
+}
+
+/* Limite atteinte */
+.char-counter.danger {
+    color: #e53935; /* rouge */
+    font-weight: 700;
+}
+
+
+/* ============================
+   🔔 CARTES DE NOTIFICATION
+============================ */
+
+.notif-card {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+
+    padding: 16px 22px;
+    border-radius: 14px;
+
+    font-family: "Nunito", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+
+    color: #fff;
+
+    /* Animation de base */
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+
+    z-index: 9999;
+    pointer-events: none;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+}
+
+/* ✅ Succès */
+.notif-card.success {
+    background: linear-gradient(135deg, #4CAF50, #2E7D32);
+}
+
+/* ❌ Erreur */
+.notif-card.error {
+    background: linear-gradient(135deg, #E53935, #B71C1C);
+}
+
+/* 🔥 Visible */
+.notif-card.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+
+/* =========================================================
+   📱 RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .title-h1 {
+        padding: 25px 20px;
+    }
+
+    .title-h1 h1 {
+        font-size: 26px;
+    }
+
+    .aide-title-box,
+    .aide-form {
+        padding: 30px 25px;
+    }
+
+    .aide-title-box p {
+        font-size: 15px;
+    }
+}

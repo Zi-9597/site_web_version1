@@ -1,199 +1,239 @@
-p
-{
-    font-family: 'Nunito';
+/* =====================================================
+   SECTIONS COMMUNES
+===================================================== */
+.section-bloc{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+
+    padding: 140px 6%;
+    overflow: hidden;
+    margin: auto;
+    width: 80%;
+    margin-bottom: 30px;
+}
+
+/* ---------- INTRO ---------- */
+.section-intro{
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+    
+}
+
+.section-intro h2{
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #0f172a;
+    margin-bottom: 24px;
+}
+
+.section-intro p{
     font-size: 25px;
-    font-weight: bold;
+    line-height: 1.75;
+    color: #475569;
+}
+
+/* ---------- ITEMS ---------- */
+.section-items{
+    display: flex;
+    flex-direction: column;
+    gap: 90px;
+}
+
+/* ---------- ITEM ---------- */
+.section-item{
+    display: flex;
+    align-items: center;
+    gap: 70px;
+}
+
+/* alternance */
+.section-item.reverse{
+    flex-direction: row-reverse;
+}
+
+/* ---------- IMAGE ---------- */
+.section-image{
+    flex: 1;
+}
+
+.section-image img{
+    width: 100%;
+    max-width: 420px;
+    height: 300px;
+    border-radius: 24px;
+    object-fit: cover;
+    box-shadow: 0 28px 65px rgba(15,23,42,0.25);
+}
+
+/* ---------- TEXTE (CARD) ---------- */
+.section-text{
+    flex: 1;
+    padding: 44px 48px;
+    border-radius: 28px;
+    backdrop-filter: blur(6px);
+
+    transition: box-shadow .3s ease, transform .3s ease;
+}
+
+.section-item:hover .section-text{
+    box-shadow: 0 25px 60px rgba(15,23,42,0.25);
+    transform: translateY(-6px);
+}
+
+.section-text h3{
+    font-size: 2.05rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 14px;
+}
+
+.section-text p{
+    font-size: 1.55rem;
+    line-height: 1.7;
+    color: #475569;
+}
+
+/* =====================================================
+   RÉSEAU — AMBIANCE PRO
+===================================================== */
+.section-reseau{
+    background:
+      radial-gradient(700px 450px at 15% 20%, rgba(99,102,241,.32), transparent 70%),
+      radial-gradient(600px 400px at 75% 15%, rgba(96,165,250,.30), transparent 70%),
+      radial-gradient(650px 420px at 85% 65%, rgba(251,146,60,.30), transparent 72%),
+      radial-gradient(520px 360px at 30% 75%, rgba(248,113,113,.26), transparent 70%),
+      radial-gradient(500px 360px at 55% 45%, rgba(139,92,246,.22), transparent 72%),
+      linear-gradient(180deg, #f8f9ff 0%, #ffffff 60%);
+}
+
+/* sous-blocs texte réseau */
+.section-reseau .section-text{
+    background:
+      linear-gradient(
+        135deg,
+        rgba(99,102,241,0.10),
+        rgba(251,146,60,0.12)
+      );
 }
 
 
-.img-pres
-{
+
+/* =====================================================
+   ACTIVITÉS — AMBIANCE VIE ÉTUDIANTE
+===================================================== */
+.section-activites{
+    background:
+      radial-gradient(650px 420px at 20% 25%, rgba(59,130,246,.30), transparent 70%),
+      radial-gradient(600px 400px at 80% 65%, rgba(244,114,182,.28), transparent 72%),
+      radial-gradient(520px 360px at 45% 50%, rgba(251,191,36,.22), transparent 70%),
+      radial-gradient(480px 340px at 60% 75%, rgba(96,165,250,.22), transparent 72%),
+      linear-gradient(180deg, #ffffff 0%, #f8f9ff 60%);
+}
+
+/* sous-blocs texte activités */
+.section-activites .section-text{
+    background:
+      linear-gradient(
+        135deg,
+        rgba(59,130,246,0.10),
+        rgba(244,114,182,0.12)
+      );
+}
+/* ---------- RESPONSIVE ---------- */
+@media(max-width: 900px){
+    .section-item,
+    .section-item.reverse{
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .section-image img{
+        max-width: 100%;
+    }
+}
+
+
+/* =========================
+   SLIDER GLOBAL
+========================= */
+.slider-section{
     position: relative;
     width: 100%;
-    margin-bottom: 20px;
+    overflow: hidden;
+    padding: 120px 0;
 }
 
-.img-pres > p
-{
-
-    position: absolute;
-    top: 5%;
-    left : 10%;
-    font-size: 30px;
-    background-color: white;
-    color: rgb(25, 154, 214);
-    display: block;
-    width: 50%;
-    font-family: "Nunito";
-}
-
-.img-pres > .img_evenement
-{
+/* Fenêtre visible */
+.slider-window{
     width: 100%;
-    height: auto;
-
+    overflow: hidden;
 }
 
-.img_txt_reseau 
-{
-    
-    width: 70%;
-    height: 700px;
-    overflow: hidden; 
-    margin-bottom: 10px; 
-    margin: auto;
+/* Track mobile */
+.slider-track{
+    display: flex;
+    transition: transform 0.6s ease;
 }
 
-.img_txt_activite
-{
-    
-    width: 70%;
-    height: 800px;
-    overflow: hidden; 
-    margin: auto;
-  
+/* Chaque slide */
+.slider-slide{
+    min-width: 100%;
+    padding: 0 6%;
+    box-sizing: border-box;
 }
 
-.list_avantage
-{
-    width: 70%;
-    height: 250px;
-    overflow: hidden; 
-    margin-bottom: 10px; 
-    margin: auto;
-    margin-bottom: 50px;
+/* =========================
+   FLÈCHES
+========================= */
+.slider-arrow{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
 
-
-}
-
-.list_avantage ul
-{
-    color: black;
-    background-color: white;
-    font-weight:normal;
-    font-family: 'Nunito';
-    font-size: 25px;
-    padding: 15px;
-}
-.mini-des
-{
+    background: rgba(0,0,0,0.55);
     color: white;
-    background-color: rgb(141, 126, 224);
+    font-size: 2.2rem;
+    z-index: 10;
+
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.slider-arrow:hover{
+    background: rgba(0,0,0,0.75);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.slider-arrow.left{ left: 25px; }
+.slider-arrow.right{ right: 25px; }
+
+/* =========================
+   DOTS
+========================= */
+.slider-dots{
     display: flex;
-    justify-content: center; 
-
+    justify-content: center;
+    gap: 12px;
+    margin-top: 40px;
 }
 
-.img_sub_reseau  , .img_sub_activite
-{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    transition: transform 1.2s ease-out;
-   
-     
-}
-.img-div-reseau , .img-div-activite
-{
-    position: relative
+.dot{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.25);
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
-.img-div-reseau > p , .img-div-activite > p
-{
-    position: absolute;
-    top : 10%;
-    color: black;
-    background-color: white;
-    font-weight:normal;
-    
-}
-.img-div-reseau , .img-div-activite
-{
-    min-width: 100%;  
-
-}
-
-.img-div-reseau  > .img_evenement , .img-pres > .img_evenement
-{
-    width: 100%;
-    height: 90%;
-
-}
-.img-div-activite > .img_evenement 
-{
-    width: 100%;
-    height: 90%;
-
-}
-
-
-@media (max-width:1200px) {
-
-
-    .img-pres
-    {
-        width: 100%;
-        margin-bottom: 10px;
-        
-    }
-    .img-pres > p
-    {
-        position: absolute;
-        top: 20px;
-        font-size: 15px;
-        background-color: white;
-        color: rgb(25, 154, 214);
-        display: block;
-        width: 60%;
-        font-weight: bold;
-    }
-    .img_txt_reseau, .img_txt_activite
-    {
-        width: 100%;
-        height: auto;
-    
-    }
-    .list_avantage
-    {
-        width: 100%;
-        height: auto;
-        
-        margin-bottom: 20px;
-        margin-top: -18px;
-
-    }
-
-    .list_avantage > ul
-    {
-       
-        font-size: 15px;
-    }
-
- 
-    
-}
-
-@media (max-width:700px) {
-
-  
-
-
-    .img-pres > p
-    {
-        position: absolute;
-        top: 160px;
-        left: 0px;
-        font-size: 15px;
-        background-color: white;
-        color: rgb(25, 154, 214);
-        display: block;
-        width: 100%;
-        font-weight: bold;
-    }
-    .img-div-reseau > p, .img-div-activite > p
-    {
-        font-size: 16px;
-    
-    }
-
+.dot.active{
+    background: #1d4ed8;
+    transform: scale(1.4);
 }

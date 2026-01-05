@@ -1,0 +1,191 @@
+/* =====================================================
+   WRAPPER GLOBAL — FOND DOUX & BLUR
+===================================================== */
+.eea-wrapper{
+    position: relative;
+    width: 75%;
+    margin: 0 auto;
+    padding: 120px 6% 140px;
+    overflow: hidden;
+
+    /* Dégradé léger de base */
+    background:
+      linear-gradient(
+        160deg,
+        rgba(59,130,246,0.08),
+        rgba(251,146,60,0.08),
+        rgba(255,255,255,0.95)
+      );
+
+    border-radius: 40px;
+    margin-bottom: 100px;
+
+
+}
+
+/* =====================================================
+   BLOBS FLOUTÉS
+===================================================== */
+.eea-wrapper::before,
+.eea-wrapper::after{
+    content:"";
+    position:absolute;
+    z-index:0;
+    filter: blur(90px);
+    opacity: 0.85;
+}
+
+/* Blob haut */
+.eea-wrapper::before{
+    width: 520px;
+    height: 520px;
+    top: -180px;
+    left: -160px;
+
+    background:
+      radial-gradient(circle,
+        rgba(139,92,246,0.35),
+        rgba(59,130,246,0.30),
+        transparent 70%
+      );
+}
+
+/* Blob bas */
+.eea-wrapper::after{
+    width: 600px;
+    height: 600px;
+    bottom: -220px;
+    right: -200px;
+
+    background:
+      radial-gradient(circle,
+        rgba(251,146,60,0.35),
+        rgba(248,113,113,0.30),
+        transparent 72%
+      );
+}
+
+/* =====================================================
+   BLOBS FLOUTÉS
+===================================================== */
+.eea-wrapper::before,
+.eea-wrapper::after{
+    content:"";
+    position:absolute;
+    z-index:0;
+    filter: blur(90px);
+    opacity: 0.85;
+}
+
+/* Blob haut */
+.eea-wrapper::before{
+    width: 520px;
+    height: 520px;
+    top: -180px;
+    left: -160px;
+
+    background:
+      radial-gradient(circle,
+        rgba(139,92,246,0.35),
+        rgba(59,130,246,0.30),
+        transparent 70%
+      );
+}
+
+/* Blob bas */
+.eea-wrapper::after{
+    width: 600px;
+    height: 600px;
+    bottom: -220px;
+    right: -200px;
+
+    background:
+      radial-gradient(circle,
+        rgba(251,146,60,0.35),
+        rgba(248,113,113,0.30),
+        transparent 72%
+      );
+}
+
+
+/* =====================================================
+   CONTENU AU PREMIER PLAN
+===================================================== */
+.eea-wrapper > *{
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =====================================================
+   SECTIONS
+===================================================== */
+.eea-wrapper section{
+    max-width: 900px;
+    margin: 0 auto 80px;
+}
+
+.eea-wrapper h2{
+    font-size: 2.4rem;
+    font-weight: 900;
+    margin-bottom: 22px;
+    color: #0f172a;
+}
+
+.eea-wrapper p {
+    font-size: 1.45rem;
+    line-height: 1.75;
+    color: #020735;
+    margin-bottom: 18px;
+    text-align: justify;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+.eea-header{
+    margin-top: 100px;
+    text-align: center;
+    margin-bottom: 75px;
+}
+
+.eea-header h1{
+    font-size: 3.2rem;
+    font-weight: 900;
+    color: #1e3a8a;
+    margin-bottom: 14px;
+}
+
+.eea-header p{
+    font-size: 1.85rem;
+    color: #475569;
+}
+
+.reseaux-sociaux
+{
+  display: flex;
+  flex-direction: row;
+  gap : 20px;
+}
+
+.reseau_footer
+{
+  gap : 10px;
+  width: 250px;
+}
+@media(max-width: 900px){
+    .eea-wrapper{
+        width: 95%;
+        padding: 90px 5% 110px;
+        border-radius: 26px;
+    }
+
+    .eea-header h1{
+        font-size: 2.4rem;
+    }
+
+    .eea-wrapper h2{
+        font-size: 2rem;
+    }
+}
