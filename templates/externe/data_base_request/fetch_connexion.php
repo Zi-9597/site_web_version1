@@ -73,6 +73,7 @@
         'email'         => $userDb['email']
     ];
 
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(24));
     // Création de l'activité
     $_SESSION['last_activity'] = time();
 

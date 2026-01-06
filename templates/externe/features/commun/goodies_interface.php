@@ -188,7 +188,7 @@
 
 
     <?php require 'commun/footer.php';?>
-    <script src="public/js/affichage_goodies.js"></script>
+    <script src="public/js/affichage_goodies.js?v=<?= filemtime('public/js/affichage_goodies.js') ?>"></script>
     <script src="public/js/gestion_slide_bar_4.js?v=<?= filemtime('public/js/gestion_slide_bar_4.js') ?>"></script>
 
 </body>

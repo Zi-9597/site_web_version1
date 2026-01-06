@@ -1,8 +1,12 @@
 <?php
     /************************************************************
      *  CONTROLLER : AJOUT D’UNE OFFRE D’EMPLOI (AJAX)
-     *  - Sécurité centralisée via init.php
-     *  - Accès réservé aux utilisateurs connectés
+     *
+     *  Sécurité :
+     *  - Utilisateur connecté obligatoire
+     *  - Méthode POST uniquement
+     *  - Données issues d’un formulaire (FormData)
+     *  - Protection CSRF (token généré à la connexion)
      ************************************************************/
 
     require_once "commun/init.php";
@@ -35,7 +39,30 @@
     }
 
     /* =========================================================
-    3️⃣ DONNÉES FORMULAIRE
+    3️⃣ PROTECTION CSRF
+    =========================================================
+    - Le token est généré à la connexion
+    - Il est stocké en session
+    - Le formulaire DOIT renvoyer le même token
+    ========================================================= */
+
+    $csrf_client = $_POST['pikachu_csrf'] ?? '';
+
+    if (
+        empty($csrf_client) ||
+        empty($_SESSION['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $csrf_client)
+    ) {
+        http_response_code(403);
+        echo json_encode([
+            "success" => false,
+            "message" => "CSRF invalide"
+        ]);
+        exit;
+    }
+
+    /* =========================================================
+    4️⃣ DONNÉES FORMULAIRE
     ========================================================= */
 
     $titre        = trim($_POST['titre_offre'] ?? '');
@@ -45,7 +72,7 @@
     $specialites  = !empty($_POST['specialites']) ? (array) $_POST['specialites'] : ['7'];
 
     /* =========================================================
-    4️⃣ VALIDATION MINIMALE
+    5️⃣ VALIDATION MINIMALE
     ========================================================= */
 
     if ($titre === '' || $description === '') {
@@ -58,14 +85,11 @@
     }
 
     /* =========================================================
-    5️⃣ IDENTITÉ UTILISATEUR
+    6️⃣ IDENTITÉ UTILISATEUR
     ========================================================= */
 
-    // ID issu de la session (fiable)
-    $id_member = $user['id_membre'];
-
-    // Email issu de la session (pas du POST)
-    $mail = $user['email'] ?? null;
+    $id_member = $user['id_membre'];      // issu de la session (fiable)
+    $mail      = $user['email'] ?? null;  // jamais depuis le POST
 
     if (!$mail) {
         http_response_code(500);
@@ -77,7 +101,7 @@
     }
 
     /* =========================================================
-    6️⃣ PRÉPARATION DONNÉES
+    7️⃣ PRÉPARATION DES DONNÉES
     ========================================================= */
 
     $date_now = (new DateTime())->format('Y-m-d H:i:s');
@@ -92,7 +116,7 @@
     ];
 
     /* =========================================================
-    7️⃣ INSERTION BASE
+    8️⃣ INSERTION EN BASE
     ========================================================= */
 
     try {
@@ -108,24 +132,32 @@
             exit;
         }
 
+        /* =====================================================
+        9️⃣ ROTATION DU TOKEN CSRF (BONNE PRATIQUE)
+        =====================================================
+        - Empêche la réutilisation du token
+        - Le nouveau token sera présent au prochain chargement
+        ===================================================== */
+
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(24));
+
         http_response_code(200);
         echo json_encode([
-            "success"       => true,
-            "dateDepot"     => $date_now,
-            "type_contrat"  => $type_contrat,
-            "email"         => $mail, 
-            "message"       => ""
+            "success"      => true,
+            "dateDepot"    => $date_now,
+            "type_contrat" => $type_contrat,
+            "email"        => $mail,
+            "message"      => ""
         ]);
         exit;
 
     } catch (Throwable $e) {
 
-        // Sécurité : pas de fuite d’erreur interne
+        // Sécurité : aucune fuite d’erreur interne
         http_response_code(500);
         echo json_encode([
             "success" => false,
             "message" => "Erreur serveur"
         ]);
         exit;
-    }
-?>
+}

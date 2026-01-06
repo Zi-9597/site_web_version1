@@ -313,7 +313,8 @@
 
         </div>
     </div>
-
+    
+    <input type="hidden" id="pikachu_csrf" value=<?= htmlspecialchars($_SESSION["csrf_token"]) ?> >
     <!-- ================= NOTIFICATIONS ================= -->
     <div id="card-success" class="notif-card success">
         ✔️ Actualité mise à jour avec succès !

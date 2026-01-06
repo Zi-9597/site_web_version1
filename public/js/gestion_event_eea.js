@@ -24,8 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const fUrl          = document.getElementById("edit-url-form");
     const fDateCreation = document.getElementById("edit-date-creation");
     const btnSave = document.getElementById("btn-save-offre");
+    const EditNum = document.getElementById("edit-desc-counter");
+    
+    const fPikachu = document.getElementById("pikachu_csrf");
 
-
+    
 
     /* ============================================================================
        🔎 FILTRAGE TABLEAU
@@ -94,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const id = btn.dataset.id;
            
             btnSave.dataset.id = id;
-           
+            
             openModal();
   
             const response = await fetch(`/?dest=get_events&id_event=${id}`);
@@ -106,6 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
             fUrl.value  = data.data.url_form ?? "";
             
             fDateCreation.value = data.data.date_creation.split(" ")[0];
+            EditNum.textContent = `${fDesc.value.trim().length} / 2500 caracters`;
         });
     });
 
@@ -114,21 +118,29 @@ document.addEventListener("DOMContentLoaded", () => {
     💾 SAUVEGARDE D’UN ÉVÈNEMENT (AJAX)
     ============================================================================ */
 
+    fDesc.addEventListener("input" , ()=>{
+
+        fDesc.value = fDesc.value.slice(0,2500);
+        EditNum.textContent = `${fDesc.value.trim().length} / 2500 caracters`;
+        
+
+    })
+
     btnSave.addEventListener("click", async () => {
 
         const id_event = btnSave.dataset.id;   // ID récupéré lors de l’ouverture du modal
-
         // Payload envoyé au backend
         const payload = {
             id_event: id_event,
             nom_event: fNom.value.trim(),
             date_event: fDate.value,
             desc_event: fDesc.value.trim(),
-            url_form: fUrl.value.trim()
+            url_form: fUrl.value.trim(),
+            pikachu_csrf : fPikachu.value.trim()
         };
 
         // Requête serveur
-        const response = await fetch(`/?dest=update_event&id_event=${id_event}`, {
+        const response = await fetch(`/?dest=update_event`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
@@ -165,7 +177,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    id_event: id
+                    id_event: id,
+                    pikachu_csrf : fPikachu.value.trim()
                 })
             });
 

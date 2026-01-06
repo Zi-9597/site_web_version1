@@ -3,9 +3,7 @@
     📌 CONTROLLER – UPDATE MEMBRE (AJAX / JSON)
     - init.php inclus
     - Accès STRICT : Président & Web Admin uniquement
-    - Deux modes :
-        1) action = "make_ancien"
-        2) update normal
+    - Protection CSRF + rotation
     ============================================================================ */
 
     require_once "commun/init.php";
@@ -14,10 +12,14 @@
     try {
 
         /* ============================================================
-        🔐 1) UTILISATEUR CONNECTÉ (garanti par init.php)
+        🔐 1) UTILISATEUR CONNECTÉ
         ============================================================ */
         if (!$user) {
-            header("Location: /?dest=logout");
+            http_response_code(401);
+            echo json_encode([
+                'success' => false,
+                'error' => 'Non authentifié'
+            ]);
             exit;
         }
 
@@ -28,7 +30,11 @@
             empty($user['membre_bureau']) ||
             !in_array($user['membre_bureau'], ['Président', 'Web Admin'], true)
         ) {
-            header("Location: /?dest=logout");
+            http_response_code(403);
+            echo json_encode([
+                'success' => false,
+                'error' => 'Accès interdit'
+            ]);
             exit;
         }
 
@@ -41,6 +47,24 @@
             echo json_encode([
                 'success' => false,
                 'error'   => 'Identifiant membre manquant'
+            ]);
+            exit;
+        }
+
+        /* ============================================================
+        🛡️ 3️⃣ bis — VÉRIFICATION CSRF
+        ============================================================ */
+        $pikachu_csrf = $data['pikachu_csrf'] ?? '';
+
+        if (
+            empty($_SESSION['csrf_token']) ||
+            empty($pikachu_csrf) ||
+            !hash_equals($_SESSION['csrf_token'], $pikachu_csrf)
+        ) {
+            http_response_code(403);
+            echo json_encode([
+                'success' => false,
+                'error'   => 'CSRF invalide'
             ]);
             exit;
         }
@@ -81,6 +105,11 @@
 
             $updated = EEA_Database::updateMember($payload);
 
+            if ($updated) {
+                // 🔁 Rotation CSRF
+                $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+            }
+
             echo json_encode([
                 'success' => (bool) $updated
             ]);
@@ -115,9 +144,13 @@
         }
 
         /* ============================================================
-        💾 8) UPDATE EN BASE
+        💾 8) UPDATE EN BASE + ROTATION CSRF
         ============================================================ */
         $updated = EEA_Database::updateMember($payload);
+
+        if ($updated) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
 
         echo json_encode([
             'success' => (bool) $updated
@@ -126,7 +159,6 @@
 
     } catch (Throwable $e) {
 
-        // ⚠️ log serveur en prod
         echo json_encode([
             'success' => false,
             'error'   => 'Erreur serveur'

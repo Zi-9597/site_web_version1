@@ -26,6 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const fDate    = document.getElementById("edit-date");
     const modalFieldSpecialites = document.querySelector(".modal-field-specialites");
 
+    //CSRF Pikachu
+    const pikachu_csrf = document.getElementById("pikachu_csrf") ;
+
 
 
     /* ============================================================================
@@ -195,15 +198,14 @@ document.addEventListener("DOMContentLoaded", () => {
             id_offre : id_offre,
             titre_offre : fTitre.value.trim(),
             url_linkedin : fUrl.value.trim(),
+            pikachu_csrf : pikachu_csrf.value.trim(),
             description : fDesc.value.trim(),
             type_contrat : fContrat.value,
+
             specialites : [...fSpecs.options]
                 .filter(o => o.selected)
                 .map(o => o.value)
         };
-
-
-        console.log(id_offre);
         const response = await fetch(`/?dest=update_offre`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -216,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (result.success) {
             showCard("success");
             closeModal();
-            setTimeout(() => location.reload(), 3000);
+            setTimeout(() => location.reload(), 2500);
         } else {
             showCard("error");
         }
@@ -232,8 +234,14 @@ document.addEventListener("DOMContentLoaded", () => {
         {
 
             const id = btn.dataset.id;
-            const response = await fetch(`/?dest=delete_offre&id_offre=${id}`, {
-            method: "POST"
+            const payload = {
+                id_offre : id,
+                pikachu_csrf : pikachu_csrf.value.trim()
+            };
+            const response = await fetch(`/?dest=delete_offre`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body   : JSON.stringify(payload)
         });
 
         const result = await response.json();

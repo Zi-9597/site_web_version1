@@ -220,6 +220,7 @@
 
             <!-- Bouton d’envoi -->
             <div class="form-actions">
+                <input type="hidden" id="pikachu" value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) ?>">
                 <button type="submit" disabled>Envoyer ma demande</button>
             </div>
 

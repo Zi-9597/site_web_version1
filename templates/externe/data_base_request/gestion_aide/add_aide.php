@@ -28,6 +28,10 @@
     ========================================================== */
     $data = json_decode(file_get_contents("php://input"), true);
 
+   
+
+    
+
     // Les données doivent être un tableau
     if (!is_array($data)) {
         echo json_encode([
@@ -37,6 +41,24 @@
         exit;
     }
 
+     //Variable permettant de récupéer la CSRF
+    $pikachu = $data["pikachu"] ?? null;
+
+
+    /* ===== CSRF CHECK ===== */
+    if (
+        empty($pikachu) ||
+        empty($_SESSION['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $pikachu)
+    ) 
+    {
+        http_response_code(403);
+        echo json_encode([
+            'success' => false,
+            'error'   => 'CSRF invalide'
+        ]);
+        exit;
+    }
     /* ==========================================================
     3️⃣ CONTRÔLE DE LA SESSION (OBLIGATOIRE)
     ========================================================== */
@@ -71,6 +93,7 @@
     $data['nom']      = $user['nom'];
     $data['prenom']   = $user['prenom'];
     $data['email']    = $user['email'];
+    
 
     /* ==========================================================
     5️⃣ VALIDATION DES DONNÉES
@@ -142,7 +165,12 @@
                 'message'       => trim($data['message'])
             ]
         );
-
+        /*  Si l'ajout a été fait, on change le token afin d'éviter de réutiliser le même token 
+        par sécurité */
+        if ($ok) 
+        {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(24));
+        }
         echo json_encode([
             'success' => (bool)$ok
         ]);

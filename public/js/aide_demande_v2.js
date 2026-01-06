@@ -16,7 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const counter   = document.querySelector(".char-counter");
     const emailInfo = document.querySelector(".email-info");
-
+    //Nom de variable drôle (CSRF TOken Creation)
+    const pikachu = document.getElementById("pikachu");
     /* =====================================================
        🔢 COMPTEUR DE CARACTÈRES (MESSAGE)
     ===================================================== */
@@ -25,25 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         validateForm();
     });
 
-    /* =====================================================
-       ✉️ VALIDATION EMAIL
-       - Refuse @univ-lille.fr
-       - Message devient rouge si interdit
-    ===================================================== */
-    function isEmailValid() 
-    {
-        // ✅ CAS ÉTUDIANT (email readonly, pas de .email-info)
-        if (!emailInfo) {
-            return true; // email déjà validé côté PHP
-        }
-
-        // ✅ CAS NON CONNECTÉ
-        const email = emailInput.value.trim().toLowerCase();
-        const forbidden = email.endsWith("@univ-lille.fr");
-
-        emailInfo.style.color = forbidden ? "red" : "#444";
-        return !forbidden;
-    }
+ 
 
     emailInput.addEventListener("input", validateForm);
 
@@ -58,8 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
             emailInput.value.trim() !== "" &&
             typeInput.value !== "" &&
             sujetInput.value.trim() !== "" &&
-            msgInput.value.trim() !== "" &&
-            isEmailValid();
+            msgInput.value.trim() !== "";
 
         submitBtn.disabled = !isValid;
     }
@@ -114,7 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
             telephone: telInput.value.trim(),
             type_aide_id: typeInput.value,
             sujet: sujetInput.value.trim(),
-            message: msgInput.value.trim()
+            message: msgInput.value.trim(),
+            pikachu : pikachu.value.trim()
         };
 
 

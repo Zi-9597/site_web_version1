@@ -4,6 +4,7 @@
      * - Sécurité centralisée via init.php
      * - L’utilisateur doit être connecté
      * - L’offre doit appartenir à l’utilisateur
+     * - Protection CSRF + rotation du token
      ************************************************************/
 
     require_once "commun/init.php";
@@ -42,6 +43,25 @@
         echo json_encode([
             "success" => false,
             "message" => "JSON invalide"
+        ]);
+        exit;
+    }
+
+    /* =========================================================
+    🛡️ 2️⃣ bis — VÉRIFICATION CSRF
+    ========================================================= */
+
+    $pikachu_csrf = $input['pikachu_csrf'] ?? '';
+
+    if (
+        empty($_SESSION['csrf_token']) ||
+        empty($pikachu_csrf ) ||
+        !hash_equals($_SESSION['csrf_token'], $pikachu_csrf )
+    ) {
+        http_response_code(403);
+        echo json_encode([
+            "success" => false,
+            "message" => "CSRF invalide"
         ]);
         exit;
     }
@@ -139,12 +159,17 @@
     );
 
     /* =========================================================
-    6️⃣ UPDATE EN BASE
+    6️⃣ UPDATE EN BASE + ROTATION CSRF
     ========================================================= */
 
     try {
 
         $ok = EEA_Database::updateJob($idOffre, $offreData, $specialites);
+
+        if ($ok) {
+            // 🔁 Rotation du token CSRF après action sensible
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
 
         http_response_code($ok ? 200 : 500);
         echo json_encode([
@@ -161,4 +186,5 @@
         ]);
         exit;
     }
+
 ?>

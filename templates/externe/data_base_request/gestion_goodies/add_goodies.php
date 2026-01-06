@@ -1,34 +1,54 @@
 <?php
     /* ============================================================================
-    📌 CONTROLLER – AJOUT D’UN GOODIES (SÉCURISÉ)
-    - Appelé via AJAX (JSON)
-    - Accès réservé : Membres du bureau uniquement
+    📌 CONTROLLER – AJOUT D’UN GOODIES (AJAX / JSON)
+    - Accès réservé : membres du bureau
+    - Protection CSRF + rotation
     ============================================================================ */
 
     require_once "commun/init.php";
     header("Content-Type: application/json");
 
     /* ============================================================
-    🔐 1️⃣ SÉCURITÉ : UTILISATEUR CONNECTÉ
-    (init.php garantit déjà la validité de la session)
+    1️⃣ UTILISATEUR CONNECTÉ
     ============================================================ */
 
     if (!$user) {
-        header("Location: /?dest=logout");
+        http_response_code(401);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Non authentifié'
+        ]);
         exit;
     }
 
     /* ============================================================
-    🔐 2️⃣ AUTORISATION : MEMBRE DU BUREAU UNIQUEMENT
+    2️⃣ AUTORISATION : MEMBRE DU BUREAU
     ============================================================ */
 
     if (empty($user['membre_bureau'])) {
-        header("Location: /?dest=logout");
+        http_response_code(403);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Accès interdit'
+        ]);
         exit;
     }
 
     /* ============================================================
-    📥 3️⃣ LECTURE & VALIDATION DU JSON
+    3️⃣ MÉTHODE HTTP
+    ============================================================ */
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(405);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Méthode non autorisée'
+        ]);
+        exit;
+    }
+
+    /* ============================================================
+    4️⃣ LECTURE DU JSON
     ============================================================ */
 
     $data = json_decode(file_get_contents("php://input"), true);
@@ -37,13 +57,32 @@
         http_response_code(400);
         echo json_encode([
             'success' => false,
-            'message' => 'Données JSON invalides'
+            'message' => 'JSON invalide'
         ]);
         exit;
     }
 
     /* ============================================================
-    🧪 4️⃣ VALIDATION DES CHAMPS
+    🛡️ 4️⃣ bis — CSRF (pikachu)
+    ============================================================ */
+
+    $pikachu_csfr = $data['pikachu_csfr'] ?? '';
+
+    if (
+        empty($_SESSION['csrf_token']) ||
+        empty($pikachu_csfr) ||
+        !hash_equals($_SESSION['csrf_token'], $pikachu_csfr)
+    ) {
+        http_response_code(403);
+        echo json_encode([
+            'success' => false,
+            'message' => 'CSRF invalide'
+        ]);
+        exit;
+    }
+
+    /* ============================================================
+    5️⃣ VALIDATION DES CHAMPS
     ============================================================ */
 
     $nom  = trim($data['nom_goodies'] ?? '');
@@ -55,19 +94,19 @@
         http_response_code(400);
         echo json_encode([
             'success' => false,
-            'message' => 'Champs obligatoires manquants ou invalides'
+            'message' => 'Champs manquants ou invalides'
         ]);
         exit;
     }
 
     /* ============================================================
-    🧼 5️⃣ CONTRÔLES MINIMAUX
+    6️⃣ CONTRÔLES MINIMAUX
     ============================================================ */
 
     if (
         mb_strlen($nom) > 255 ||
         mb_strlen($desc) > 3000 ||
-        $prix < 0
+        (float)$prix < 0
     ) {
         http_response_code(400);
         echo json_encode([
@@ -78,23 +117,29 @@
     }
 
     /* ============================================================
-    💾 6️⃣ INSERTION EN BASE
+    7️⃣ INSERTION + ROTATION CSRF
     ============================================================ */
 
     try {
 
-        $success = EEA_Database::addGoodies(
+        $ok = EEA_Database::addGoodies(
             [
                 'nom_goodies' => $nom,
-                'prix'        => (float) $prix,
+                'prix'        => (float)$prix,
                 'lien'        => $lien !== '' ? $lien : null,
                 'description' => $desc
             ],
             $user['id_membre']
         );
 
+        if ($ok) {
+            // 🔁 Rotation du token après action sensible
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+
+        http_response_code($ok ? 200 : 500);
         echo json_encode([
-            'success' => (bool) $success
+            'success' => (bool)$ok
         ]);
         exit;
 

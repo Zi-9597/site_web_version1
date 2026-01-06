@@ -29,7 +29,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const rows        = $$("#table-offres tbody tr");
     const noResult    = $("#no-result");
     const searchTitle = $("#search-titre-actu");
-
+    /* ============================================================
+       📦 RÉFÉRENCES CSFR
+    ============================================================ */
+    const fPikachu    = $("#pikachu_csrf");
+    
     /* ============================================================
        🔎 FILTRAGE TABLEAU
     ============================================================ */
@@ -107,10 +111,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await postJSON("/?dest=add_actualite", {
                 titre_actu: fAddTitre.value.trim(),
                 lien_actu:  fAddLien.value.trim(),
-                desc_actu:  fAddDesc.value.trim()
+                desc_actu:  fAddDesc.value.trim(),
+                pikachu_csfr : fPikachu.value.trim()
             });
 
+            btnSaveAdd.disabled = true
             result.success ? showCard("success") : showCard("error");
+            closeModal(modalAdd, modalAddBox);
             if (result.success) setTimeout(() => location.reload(), 2000);
 
         } catch {
@@ -150,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
             openModal(modalEdit , modalEditBox);
             try {
                 const data = await fetch(`/?dest=get_actualites&id_actu=${btn.dataset.id}`).then(r => r.json());
-                console.log(data)
+               
             
                 btnSaveEdit.dataset.id = btn.dataset.id;
                 fEditTitre.value = data.titre_actu ?? "";
@@ -184,10 +191,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 actu_id: btnSaveEdit.dataset.id,
                 titre_actu: fEditTitre.value.trim(),
                 lien_actu:  fEditLien.value.trim(),
-                desc_actu:  fEditDesc.value.trim()
+                desc_actu:  fEditDesc.value.trim(),
+                pikachu_csfr : fPikachu.value.trim()
             });
-
+            btnSaveEdit.disabled = true;
             result.success ? showCard("success") : showCard("error");
+            closeModal(modalEdit, modalEditBox);
             if (result.success) setTimeout(() => location.reload(), 2000);
 
         } catch {
@@ -202,9 +211,10 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", async () => {
             try {
                 const result = await postJSON("/?dest=delete_actualite", {
-                    actu_id: btn.dataset.id
+                    actu_id: btn.dataset.id,
+                    pikachu_csfr : fPikachu.value.trim()
                 });
-
+                btn.disabled = true;
                 result.success ? showCard("success") : showCard("error");
                 if (result.success) setTimeout(() => location.reload(), 2000);
 

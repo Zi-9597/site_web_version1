@@ -210,7 +210,6 @@
                         <input class="prof-input" id="profession-input" name="profession" placeholder="Votre profession">
                     </div>
                 </div>
-                <input type="hidden" name="id_insc" value="<?php echo $_GET['id_insc']; ?>">
             </div>
 
             <!-- Bouton de soumission du formulaire -->

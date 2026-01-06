@@ -151,10 +151,8 @@
                     <label for="membre-assoc">Membre Associé :</label>
                     <select id="membre-assoc">
                         <option value="">Tous</option>
-                        <option value="Professeur/e">Professeur/e</option>
                         <option value="Alumni/e">Alumni/e</option>
                         <option value="Étudiant/e">Étudiant/e</option>
-                        <option value="Alternant/e">Alternant/e</option>
                     </select>
                 </div>
 
@@ -397,7 +395,7 @@
 
         </div>
     </div>
-
+    <input type="hidden"  id="pikachu_csrf" value=<?= htmlspecialchars($_SESSION["csrf_token"]) ?> >
     <div id="update-message" class="update-msg"></div>
 
     

@@ -35,6 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Désactive le bouton de soumission par défaut pour éviter une soumission prématurée.
     elements.submitButton.disabled = true;
 
+    //Récupération du token via hidden input
+    const pikachu_csrf = document.getElementById("pikachu_csrf").value.trim();
+
     function validateDate() 
     {
         // Récupère la valeur saisie dans le champ de date
@@ -120,8 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const isValid = valid_date &&
             valid_description &&
             elements.nom_event.value.trim() !== "";
-
-            console.log(isValid)
         elements.submitButton.disabled = !isValid; // Active ou désactive le bouton
     }
 
@@ -196,48 +197,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     
-    elements.form_event.addEventListener("submit" , e=>
-    {
-
+    elements.form_event.addEventListener("submit", e => {
         e.preventDefault();
 
-       
         const data_form = new FormData(elements.form_event);
+        const url = "/?dest=ajouter_event";
 
-
-        const url = `/?dest=ajouter_event`; 
-
-        fetch(url , 
-        {
+        fetch(url, {
             method: "POST",
-            body : data_form
-
+            body: data_form
         })
-        .then(response =>
-        {
-            if(!(response.ok))
-            {
+        .then(response => {
+            if (!response.ok) {
                 throw new Error(`Server problem ... : ${response.status}`);
             }
-
-            showMessage("success", data_form);
-            resetForm();
-            elements.submitButton.disabled = true;
+            return response.json();
         })
-        .catch(() =>
-        {
+        .then(result => {
+
+            if (result.status === "success") {
+                showMessage("success", data_form);
+
+                // 🔁 Reload après affichage du message
+                setTimeout(() => {
+                    location.reload();
+                }, 3000); // ⏱️ 3 secondes (ajuste si tu veux)
+            } else {
+                showMessage("error", data_form);
+            }
+        })
+        .catch(() => {
             showMessage("error", data_form);
-        })
+        });
+    });
 
-
-
-
-
-        
-    })
 
     function resetForm() {
         elements.form_event.reset();
+        // Comme on supprime toutes les infos de la balise form, on reutiise la variable auquel on a stocké pikachu_token pour l'affecter à ce input
+        document.getElementById("pikachu_csrf").value = pikachu_csrf;
         elements.char_count.textContent = "0 / 500 caractères";
         elements.char_count.style.color = 'red';
         elements.date_format.style.color = 'red';

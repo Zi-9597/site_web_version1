@@ -1,5 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+     /* =========================================================
+       🔍 CSRF TOKEN PIKACHU
+    ========================================================= */
+
+    const pikachu_csrf = document.getElementById("pikachu_csfr");
     /* =========================================================
        🔍 FILTRAGE DU TABLEAU DES GOODIES
     ========================================================= */
@@ -10,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const noResult    = document.getElementById("no-result");
 
 
-
+    
     function filterTable() {
 
         
@@ -122,14 +127,14 @@ document.addEventListener("DOMContentLoaded", () => {
             nom_goodies: addNom.value.trim(),
             prix:        addPrix.value,
             lien:        addLien.value.trim(),
-            description: addDesc.value.trim()
+            description: addDesc.value.trim(),
+            pikachu_csfr : pikachu_csrf.value.trim()
         };
         validateAddForm();
         if (!payload.nom_goodies || !payload.prix) {
             showCard("error");
             return;
         }
-        console.log("pute");
         try {
             const response = await fetch("/?dest=add_goodies", {
                 method: "POST",
@@ -138,10 +143,10 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             const result = await response.json();
-
+            closeModal(modalAdd, modalAddBox);
             if (result.success) {
                 showCard("success");
-                closeModal(modalAdd, modalAddBox);
+                
                 setTimeout(() => location.reload(), 3000);
             } else {
                 showCard("error");
@@ -215,7 +220,8 @@ document.addEventListener("DOMContentLoaded", () => {
             nom_goodies: editNom.value.trim(),
             prix:        editPrix.value,
             lien:        editLien.value.trim(),
-            description: editDesc.value.trim()
+            description: editDesc.value.trim(),
+            pikachu_csfr : pikachu_csrf.value.trim()
         };
 
         if (!payload.nom_goodies || !payload.prix) {
@@ -231,10 +237,9 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             const result = await res.json();
-       
+            closeModal(modalEdit, modalEditBox);
             if (result.success) {
                 showCard("success");
-                closeModal(modalEdit, modalEditBox);
                 setTimeout(() => location.reload(), 3000);
             } else {
                 showCard("error");
@@ -262,7 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const res = await fetch("/?dest=delete_goodies", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ id_goodies: id })
+                    body: JSON.stringify({ id_goodies: id  , pikachu_csrf : pikachu_csrf.value.trim()})
                 });
 
                 const result = await res.json();

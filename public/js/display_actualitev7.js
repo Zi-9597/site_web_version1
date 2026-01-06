@@ -80,9 +80,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Date de publication
                 dateEl.textContent = "Date de publication : " + formatDate(data.date_depot);
+                dateEl.style.fontSize = '15px';
 
                 // Description (retours à la ligne respectés)
-                descEl.innerHTML = (data.desc_actu || "").replace(/\n/g, "<br>");
+                descEl.textContent = data.desc_actu || "";
+                descEl.style.whiteSpace = "pre-line";
 
                 // Lien complémentaire (optionnel)
                 if (data.lien_actu && data.lien_actu.trim() !== "") {
@@ -93,9 +95,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     linkBox.style.display = "none";
                 }
 
+                const em = document.createElement("em");
+                em.textContent = `Publié par le Bureau EEA le ${formatDate(data.date_depot)}`
                 // Signature institutionnelle
-                signatureEl.innerHTML =
-                    `<em>Publié par le Bureau EEA le ${formatDate(data.date_depot)}</em>`;
+                signatureEl.innerHTML =  "";
+                signatureEl.appendChild(em);
+                   
 
                 // Ouverture du modal
                 openModal();

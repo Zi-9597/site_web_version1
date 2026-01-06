@@ -33,6 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const fTelephone = document.getElementById("edit-telephone-aide");
     const fDate      = document.getElementById("edit-date-aide");
 
+    /* ===== Récupération CSRF ===== */
+    const fPikachu = document.getElementById("pikachu_csrf")
+
    
     /* ============================================================================
        🔎 FILTRAGE TABLEAU
@@ -196,7 +199,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                aide_id: aideId
+                aide_id: aideId,
+                pikachu_csrf : fPikachu.value.trim()
                 })
             });
 

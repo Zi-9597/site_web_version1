@@ -20,6 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const changeButtons = document.querySelectorAll(".btn-change");
 
+    // Identification CSRF
+    const pikachu_csrf = document.getElementById("pikachu_csrf");
+
     /* ==========================================================
     2) ÉTAT CENTRAL DES FILTRES
     - Un seul objet = source de vérité
@@ -385,7 +388,8 @@ document.addEventListener("DOMContentLoaded", () => {
             email:     fieldEmail.value.trim(),
             phone:     fieldPhone.value.trim(),
             ville:     fieldVille.value.trim(),
-            metier:    fieldMetier.value.trim()
+            metier:    fieldMetier.value.trim(),
+            pikachu_csrf : pikachu_csrf.value.trim()
         };
 
         try {
@@ -440,6 +444,7 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                 const response = await postJSON("/?dest=update_adherent", {
                     id_member: id_member,
+                    pikachu_csrf : pikachu_csrf.value.trim(),
                     action: "make_ancien"
                 });
 
