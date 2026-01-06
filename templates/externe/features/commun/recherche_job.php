@@ -41,7 +41,7 @@
 
         // Sécurité minimale : page réservée aux connectés
         if (!$user) {
-            header("Location: /?dest=acceuil");
+            header("Location: /?dest=logout");
             exit;
         }
 

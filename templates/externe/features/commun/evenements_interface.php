@@ -36,6 +36,19 @@
         - init.php est déjà inclus
         - fallback sécurité déjà géré
         ========================================================== */
+        // ID membre issu de la session (déjà validée par init.php)
+        $id_member = $user['id_membre'];
+
+        /************************************************************
+         *  VÉRIFICATION UTILISATEUR EN BASE
+         *  ➜ Sécurité défensive : compte toujours existant
+         ************************************************************/
+        $found = EEA_Database::fetc_user_id($id_member);
+
+        if (!$found || !is_array($found)) {
+            header("Location: /?dest=logout");
+            exit;
+        }
 
         /* =========================
         1️⃣ RÉCUPÉRATION DES ÉVÈNEMENTS

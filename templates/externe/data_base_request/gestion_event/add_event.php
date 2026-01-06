@@ -3,13 +3,14 @@
      *  CONTROLLER : AJOUT D'ÉVÉNEMENT
      *  - Sécurité centralisée via init.php
      *  - Accès STRICTEMENT réservé aux membres du bureau
+     *  - Protection CSRF + rotation du token
      ************************************************************/
 
     require_once "commun/init.php";
     header('Content-Type: application/json; charset=utf-8');
 
     /* =========================================================
-    1️⃣ SÉCURITÉ : UTILISATEUR CONNECTÉ
+    1️⃣ UTILISATEUR CONNECTÉ
     ========================================================= */
 
     if (!$user) {
@@ -22,8 +23,7 @@
     }
 
     /* =========================================================
-    2️⃣ SÉCURITÉ : MEMBRE DU BUREAU UNIQUEMENT
-    ➜ Protection même en accès direct (GET / POST manuel)
+    2️⃣ MEMBRE DU BUREAU UNIQUEMENT
     ========================================================= */
 
     if (empty($user['membre_bureau'])) {
@@ -49,7 +49,26 @@
     }
 
     /* =========================================================
-    4️⃣ RÉCUPÉRATION DES DONNÉES
+    🛡️ 4️⃣ VÉRIFICATION CSRF
+    ========================================================= */
+
+    $pikachu_client = $_POST['pikachu_csrf'] ?? '';
+
+    if (
+        empty($_SESSION['csrf_token']) ||
+        empty($pikachu_client) ||
+        !hash_equals($_SESSION['csrf_token'], $pikachu_client)
+    ) {
+        http_response_code(403);
+        echo json_encode([
+            "status"  => "error",
+            "message" => "CSRF invalide"
+        ]);
+        exit;
+    }
+
+    /* =========================================================
+    5️⃣ RÉCUPÉRATION DES DONNÉES
     ========================================================= */
 
     $nom_event  = trim($_POST["nom_event"]  ?? '');
@@ -58,7 +77,7 @@
     $url_event  = trim($_POST["url_form"]   ?? '');
 
     /* =========================================================
-    5️⃣ VALIDATION MINIMALE
+    6️⃣ VALIDATION MINIMALE
     ========================================================= */
 
     if ($nom_event === '' || $date_event === '') {
@@ -71,13 +90,13 @@
     }
 
     /* =========================================================
-    6️⃣ IDENTITÉ UTILISATEUR (SESSION FIABLE)
+    7️⃣ IDENTITÉ UTILISATEUR
     ========================================================= */
 
     $id_membre = $user['id_membre'];
 
     /* =========================================================
-    7️⃣ FORMATAGE DATE ÉVÉNEMENT
+    8️⃣ FORMATAGE DATE ÉVÉNEMENT
     ========================================================= */
 
     $d = DateTime::createFromFormat('d/m/Y', $date_event);
@@ -86,13 +105,13 @@
         : (new DateTime())->format('Y-m-d 00:00:00');
 
     /* =========================================================
-    8️⃣ DATE DE CRÉATION
+    9️⃣ DATE DE CRÉATION
     ========================================================= */
 
     $date_creation = (new DateTime())->format('Y-m-d H:i:s');
 
     /* =========================================================
-    9️⃣ DONNÉES BASE
+    🔟 DONNÉES BASE
     ========================================================= */
 
     $data = [
@@ -105,12 +124,15 @@
     ];
 
     /* =========================================================
-    🔟 INSERTION EN BASE
+    🚀 INSERTION + ROTATION CSRF
     ========================================================= */
 
     try {
 
         if (EEA_Database::addEvent($data)) {
+
+            // 🔁 ROTATION DU TOKEN CSRF (bonne pratique)
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
             http_response_code(200);
             echo json_encode([

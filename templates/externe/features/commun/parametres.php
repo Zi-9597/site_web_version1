@@ -48,6 +48,10 @@
          *  - $user est valide (session)
          ************************************************************/
 
+        if (!$user) {
+            header("Location: /?dest=logout");
+            exit;
+        }
         // ID utilisateur depuis la session
         $id_member = $user['id_membre'];
 

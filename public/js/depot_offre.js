@@ -323,13 +323,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
 
             if (result.success === true) {
+
+                // ✅ Message succès
                 showMessage(
                     "success",
                     dataForm,
                     result.email ?? null,
                     result.dateDepot ?? null
                 );
+
+                // 🔁 RECHARGEMENT DE LA PAGE (CSRF + données à jour)
+                setTimeout(() => {
+                    location.reload();
+                }, 2500); // 2,5 secondes → l'utilisateur voit le message
+
             } else {
+
+                // ❌ Message erreur (PAS de reload)
                 showMessage(
                     "error",
                     dataForm,
@@ -343,9 +353,11 @@ document.addEventListener('DOMContentLoaded', () => {
             formElements.submitBtn.disabled = true;
 
         } catch (error) {
+
             showMessage("error", dataForm);
         }
     });
+
 
     /**
      * =======================================================

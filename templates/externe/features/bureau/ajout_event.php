@@ -79,7 +79,7 @@
       </div>
 
       <!-- Formulaire -->
-      <form id="formulaire-evenement">
+      <form id="formulaire-evenement" autocomplete="off">
         
           <!-- Nom de l'événement -->
           <div class="formulaire-element">
@@ -128,7 +128,8 @@
 
           <!-- Bouton -->
           <div class="button_submit">
-              <button type="submit" id="button_submit" disabled>Ajouter l'événement</button>
+                <input type="hidden" name="pikachu_csrf" id="pikachu_csrf" value=<?= htmlspecialchars($_SESSION["csrf_token"]) ?> >
+                <button type="submit" id="button_submit" disabled>Ajouter l'événement</button>
           </div>
           <div id="box_present"></div>
         

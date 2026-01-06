@@ -263,7 +263,7 @@
                 <!-- DATE -->
                 <div class="modal-field">
                     <label for="edit-date">Date de création :</label>
-                    <input type="date" id="edit-date" readonly>
+                    <input type="date" id="edit-date" readonly disabled>
                 </div>
 
             </div>
@@ -277,6 +277,7 @@
         </div>
     </div>
 
+    <input type="hidden" id="pikachu_csrf" value=<?=  htmlspecialchars($_SESSION["csrf_token"]) ?>>
     
 
     <!-- Carte SUCCESS -->

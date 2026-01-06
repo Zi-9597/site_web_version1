@@ -3,29 +3,40 @@
     📌 CONTROLLER – AJOUT D’UNE ACTUALITÉ (AJAX / JSON)
     - Sécurité centralisée via init.php
     - Accès STRICT : membres du bureau uniquement
+    - Protection CSRF + rotation du token
     ============================================================================ */
 
     require_once "commun/init.php";
     header('Content-Type: application/json');
 
     /* ============================================================
-    1️⃣ AUTORISATION : MEMBRE DU BUREAU UNIQUEMENT
+    1️⃣ SÉCURITÉ : UTILISATEUR CONNECTÉ
     ============================================================ */
 
-    // Utilisateur non connecté ou session invalide → logout (déjà partiellement géré par init.php)
     if (!$user) {
-        header("Location: /?dest=logout");
-        exit;
-    }
-
-    // Utilisateur connecté MAIS pas membre du bureau → logout immédiat
-    if (empty($user['membre_bureau'])) {
-        header("Location: /?dest=logout");
+        http_response_code(401);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Utilisateur non authentifié'
+        ]);
         exit;
     }
 
     /* ============================================================
-    2️⃣ MÉTHODE HTTP
+    2️⃣ AUTORISATION : MEMBRE DU BUREAU UNIQUEMENT
+    ============================================================ */
+
+    if (empty($user['membre_bureau'])) {
+        http_response_code(403);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Accès interdit'
+        ]);
+        exit;
+    }
+
+    /* ============================================================
+    3️⃣ MÉTHODE HTTP
     ============================================================ */
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -38,7 +49,7 @@
     }
 
     /* ============================================================
-    3️⃣ LECTURE & VALIDATION DU JSON
+    4️⃣ LECTURE & VALIDATION DU JSON
     ============================================================ */
 
     $data = json_decode(file_get_contents("php://input"), true);
@@ -53,7 +64,26 @@
     }
 
     /* ============================================================
-    4️⃣ VALIDATION DES CHAMPS
+    🛡️ 4️⃣ bis — VÉRIFICATION CSRF
+    ============================================================ */
+
+    $pikachu_csfr = $data['pikachu_csfr'] ?? '';
+
+    if (
+        empty($_SESSION['csrf_token']) ||
+        empty($pikachu_csfr) ||
+        !hash_equals($_SESSION['csrf_token'], $pikachu_csfr)
+    ) {
+        http_response_code(403);
+        echo json_encode([
+            'success' => false,
+            'message' => 'CSRF invalide'
+        ]);
+        exit;
+    }
+
+    /* ============================================================
+    5️⃣ VALIDATION DES CHAMPS
     ============================================================ */
 
     $titre = trim($data['titre_actu'] ?? '');
@@ -70,7 +100,7 @@
     }
 
     /* ============================================================
-    5️⃣ CONTRÔLES MINIMAUX (ANTI ABUS)
+    6️⃣ CONTRÔLES MINIMAUX (ANTI ABUS)
     ============================================================ */
 
     if (mb_strlen($titre) > 255 || mb_strlen($desc) > 3000) {
@@ -83,7 +113,7 @@
     }
 
     /* ============================================================
-    6️⃣ INSERTION EN BASE
+    7️⃣ INSERTION EN BASE + ROTATION CSRF
     ============================================================ */
 
     try {
@@ -96,6 +126,11 @@
             ],
             $user['id_membre'] // 🔒 ID FORCÉ depuis la session
         );
+
+        if ($ok) {
+            // 🔁 Rotation du token après action sensible
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
 
         http_response_code($ok ? 200 : 500);
         echo json_encode([

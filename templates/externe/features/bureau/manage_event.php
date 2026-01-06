@@ -46,7 +46,7 @@
         ========================================================= */
 
         if (empty($user['membre_bureau'])) {
-            header("Location: /?dest=acceuil");
+            header("Location: /?dest=logout");
             exit;
         }
 
@@ -181,6 +181,7 @@
                 <div class="modal-field">
                     <label>Description :</label>
                     <textarea id="edit-desc-event" rows="5"></textarea>
+                    <div class="char-counter" id="edit-desc-counter" style="font-size: 16px;">0 / 2500 caractères </div>
                 </div>
 
                 <div class="modal-field">
@@ -202,6 +203,8 @@
 
         </div>
     </div>
+    <!-- Récupération du CSRF -->
+    <input type="hidden" id="pikachu_csrf" value=<?= htmlspecialchars($_SESSION["csrf_token"]) ?> >
     <!-- Carte SUCCESS -->
     <div id="card-success" class="notif-card success">
         ✔️ Offre mise à jour avec succès !
