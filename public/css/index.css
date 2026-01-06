@@ -62,8 +62,8 @@ a{color:inherit}
 .nav_2{
     position:fixed;
     display:flex;
-    width:350px;
-    height:650px;
+    width:450px;
+    height:600px;
     overflow-y:auto;
     z-index:9999;
     opacity:0;

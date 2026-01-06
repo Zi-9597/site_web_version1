@@ -192,6 +192,8 @@
                  <p id="char-count">0 / 500 caractères</p>
             </div>
 
+            <!-- CSRF Code Identification -->
+            <input type="hidden" name="pikachu_csrf" id="pikachu" value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) ?>">
             <!-- Bouton -->
             <div class="button_submit">
                 <button type="submit" id="button_submit" disabled>Publier l’offre</button>

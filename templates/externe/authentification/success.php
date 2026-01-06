@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="public/css/barre_navigation_v2.css?v=<?= filemtime('public/css/barre_navigation_v2.css') ?>">
     <link rel="stylesheet" href="public/css/index.css?v=<?= filemtime('public/css/index.css') ?>">
     <link rel="stylesheet" href="public/css/logo_gestion.css">
-
+    <link rel="shortcut icon" href="public/pictures/logo_v8.jpeg">
     <link rel="stylesheet" href="public/css/footer.css?v=<?= filemtime('public/css/footer.css') ?>">
     <link rel="stylesheet" href="public/css/success.css">
     <!-- Importation des polices depuis Google Fonts -->

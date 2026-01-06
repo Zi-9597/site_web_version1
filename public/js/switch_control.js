@@ -11,7 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
         phone: document.getElementById("phone"),
         city: document.getElementById("city-input"),
         profession: document.getElementById("profession-input"),
-        pMail: document.getElementById("p_mail")
+        pMail: document.getElementById("p_mail"),
+        pikachu : document.getElementById("pikachu")
     };
 
     // ----------------------------------------------------
@@ -126,6 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const input  = document.getElementById(target);
 
             let newValue = input.value.trim();
+            let pikachu = fields.pikachu.value.trim();
 
             // ----------------------------------------------------
             // CAS SPÉCIAL : SECTION = "Autre"
@@ -149,7 +151,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         field: target,
-                        value: newValue
+                        value: newValue,
+                        pikachu_csrf : pikachu
                     })
                 });
 
@@ -172,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
                  // ✅ --- CAS SUCCÈS (ne s’exécute QUE si data.success === true) ---
-                btn.innerText = "Valider";
+                btn.innerText = "Chargement ...";
                 btn.style.backgroundColor = "#27ae60"; // vert
                 btn.style.color = "#fff";
 
@@ -223,12 +226,17 @@ document.addEventListener("DOMContentLoaded", () => {
      */
     window.addEventListener('pageshow', () => {
         Object.keys(fields).forEach((key) => {
-            const element = fields[key];
 
-            if (element instanceof HTMLInputElement) element.value = "";
-            if (element instanceof HTMLSelectElement) element.selectedIndex = 0;
+            if (key !== "pikachu")
+            {
+                 const element = fields[key];
 
-            if (key === "inputFiliere") element.disabled = true;
+                if (element instanceof HTMLInputElement) element.value = "";
+                
+
+                if (key === "inputFiliere") element.disabled = true;
+            }
+           
         });
     });
 

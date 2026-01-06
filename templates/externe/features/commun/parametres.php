@@ -118,6 +118,8 @@
 
     <!-- FORMULAIRE D'INSCRIPTION -->
     <form id="loginForm">
+        
+    
 
         <div class="container-formulaire" id="container-formulaire-id">
 
@@ -152,7 +154,7 @@
                                     class="email-input" 
                                     id="mail-input" 
                                     name="email"
-                                    placeholder="<?php echo $found['email']; ?>">
+                                    placeholder="<?= htmlspecialchars($found['email']) ?>">
                                 <p id="p_mail"></p>
                             </div>
                         </div>
@@ -346,6 +348,7 @@
             </div> <!-- Fin formulaire-inscription -->
 
         </div>
+        <input type="hidden" id="pikachu" value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) ?>">
 
     </form>
     <script src="public/js/switch_control.js?v=<?= filemtime('public/js/switch_control.js') ?>"></script>

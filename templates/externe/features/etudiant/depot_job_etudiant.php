@@ -76,7 +76,7 @@
         }
     ?>
 
-
+    
     <div class="container-formulaire">
         <!-- Bandeau violet -->
         <div class="descritpion-evenement">
@@ -91,7 +91,7 @@
         </div>
 
         <!-- Formulaire -->
-        <form id="formulaire-offre">
+        <form id="formulaire-offre" autocomplete="off">
             
             <!-- Titre du job -->
             <div class="formulaire-element">
@@ -112,6 +112,9 @@
                 <p id="char-count">0 / 500 caractères</p>
             </div>
 
+
+            <!-- CSRF Code Identification -->
+             <input type="hidden" name="pikachu_csrf" id="pikachu" value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) ?>">
             <!-- Bouton -->
             <div class="button_submit">
                 <button type="submit" id="button_submit" disabled>Publier le job</button>

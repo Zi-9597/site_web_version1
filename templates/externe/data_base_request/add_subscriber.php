@@ -2,6 +2,8 @@
 
 
     require_once "require_db.php";
+    include_once 'commun/uuid_v4.php';
+    $uuid = uuid7(); 
 
     // On vérifie que le formulaire a bien été envoyé
     if ($_SERVER["REQUEST_METHOD"] === "POST")     
@@ -20,7 +22,6 @@
         $pays       = trim($_POST['city'] ?? '');
         $ville      = trim($_POST['country'] ?? '');
         $profession = trim($_POST['profession'] ?? '');
-        $id_insc =    trim($_POST["id_insc"] ?? '');
         $hashed_password = password_hash($password , PASSWORD_DEFAULT);
 
     
@@ -42,7 +43,7 @@
 
 
         $data = [
-            'id_membre'        => $id_insc,
+            'id_membre'        => $uuid,
             'prenom'           => $prenom,
             'nom'              => $nom ,
             'section'          => $section,

@@ -113,7 +113,7 @@
                     </div>
 
                     <p class="card-text">
-                        <?= nl2br(htmlspecialchars(mb_strimwidth($actu["desc_actu"], 0, 220, "..."))) ?>
+                        <?= nl2br(htmlspecialchars(mb_strimwidth($actu["desc_actu"], 0, 110, "..."))) ?>
                     </p>
 
                     <!-- 🔘 BOUTON LIRE LA SUITE -->
@@ -183,7 +183,7 @@
 
 
     <?php require 'commun/footer.php';?>
-    <script src="public/js/display_actualitev7.js"></script>
+    <script src="public/js/display_actualitev7.js?v=<?= filemtime('public/js/display_actualitev7.js') ?>"></script>
     <script src="public/js/gestion_slide_bar_4.js?v=<?= filemtime('public/js/gestion_slide_bar_4.js') ?>"></script>
 
 </body>

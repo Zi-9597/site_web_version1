@@ -219,12 +219,14 @@ document.addEventListener('DOMContentLoaded', () => {
      * - Disparition automatique
      * =======================================================
      */
-    function showMessage(type, formData, mail_user = "", date_depot = "" , erreur = "-") 
+    function showMessage(type, formData, mail_user = "", date_depot = "", erreur = "-") 
     {
-        formElements.box_div.innerHTML = ""; // Nettoyage du bloc précédent
+        // Nettoyage du bloc précédent
+        formElements.box_div.innerHTML = "";
+
         const msgBox = document.createElement("div");
 
-        // Styles du message
+        // Styles généraux
         msgBox.style.marginTop = "15px";
         msgBox.style.padding = "12px 16px";
         msgBox.style.borderRadius = "8px";
@@ -235,46 +237,64 @@ document.addEventListener('DOMContentLoaded', () => {
         msgBox.style.opacity = "0";
         msgBox.style.transition = "opacity 0.5s ease";
         msgBox.style.borderLeft = `6px solid ${type === "success" ? "#28a745" : "#dc3545"}`;
-        if(type === "success")
-        {
-            // Contenu dynamique (pro + clair)
-            msgBox.innerHTML = `
-            <strong style="color:${type === "success" ? "#28a745" : "#dc3545"}">
-                ${type === "success" ? "✅ Offre ajoutée" : "❌ Erreur"}
-            </strong><br>
-            <span>Nom de l'offre : ${formData.get("titre_offre") || "-"}</span><br>
-            <span>Date de dépôt : ${date_depot || "-"}</span><br>
-            <span>Mail : ${mail_user || "-"}</span><br>
-            ${IS_JOB_ETUDIANT ? "" : `
-            <span>Spécialité : ${[...specialiteSet].join(", ")}</span><br>
-            `}
-            <span>Type de contrat: ${contrat_valeur}</span>
-           
-        `;
-        }
-        else
-        {
-            msgBox.innerHTML = `
-            <strong style="color:${type === "success" ? "#28a745" : "#dc3545"}">
-                ${type === "success" ? "✅ Offre ajoutée" : "❌ Erreur"}
-            </strong><br>
-            <span>Erreur : ${erreur}</span><br>
-            `;
 
-        }
-        
+        /* ============================
+        TITRE
+        ============================ */
+        const title = document.createElement("strong");
+        title.style.color = type === "success" ? "#28a745" : "#dc3545";
+        title.textContent = type === "success" ? "✅ Offre ajoutée" : "❌ Erreur";
+        msgBox.appendChild(title);
+        msgBox.appendChild(document.createElement("br"));
 
+        /* ============================
+        CONTENU
+        ============================ */
+        if (type === "success") {
+
+            const lines = [
+                `Nom de l'offre : ${formData.get("titre_offre") || "-"}`,
+                `Date de dépôt : ${date_depot || "-"}`,
+                `Mail : ${mail_user || "-"}`,
+                `Type de contrat : ${contrat_valeur || "-"}`
+            ];
+
+            // Spécialités (si pas job étudiant)
+            if (!IS_JOB_ETUDIANT && specialiteSet.size > 0) {
+                lines.push(`Spécialité : ${[...specialiteSet].join(", ")}`);
+            }
+
+            lines.forEach(text => {
+                const span = document.createElement("span");
+                span.textContent = text; // 🔐 SÉCURITÉ MAX
+                msgBox.appendChild(span);
+                msgBox.appendChild(document.createElement("br"));
+            });
+
+        } else {
+            const errorSpan = document.createElement("span");
+            errorSpan.textContent = `Erreur : ${erreur}`;
+            msgBox.appendChild(errorSpan);
+            msgBox.appendChild(document.createElement("br"));
+        }
+
+        /* ============================
+        AFFICHAGE
+        ============================ */
         formElements.form.appendChild(msgBox);
 
-        // Apparition progressive
-        setTimeout(() => { msgBox.style.opacity = "1"; }, 50);
+        // Animation apparition
+        setTimeout(() => {
+            msgBox.style.opacity = "1";
+        }, 50);
 
-        // Disparition après délai
+        // Disparition auto
         setTimeout(() => {
             msgBox.style.opacity = "0";
             setTimeout(() => msgBox.remove(), 500);
         }, 7000);
     }
+
 
 
     /**
