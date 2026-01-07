@@ -4,17 +4,10 @@
      *  ➜ Accès autorisé à TOUS les utilisateurs connectés
      ************************************************************/
 
-    require_once "commun/init.php";
+    // Chargement de la base et de la classe EEA_Database
+    include_once "require_db.php";
     header("Content-Type: application/json");
 
-    /* =========================================================
-    1️⃣ SÉCURITÉ : UTILISATEUR CONNECTÉ
-    ========================================================= */
-
-    if (!$user) {
-        header("Location: /?dest=logout");
-        exit;
-    }
 
     /* =========================================================
     2️⃣ RÉCUPÉRATION PARAMÈTRE (OPTIONNEL)

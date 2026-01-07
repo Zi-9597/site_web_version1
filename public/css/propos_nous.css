@@ -140,6 +140,17 @@
     text-align: justify;
 }
 
+ul.legal-list {
+    list-style-type: disc !important;
+    padding-left: 30px !important;
+}
+
+ul.legal-list > li {
+    display: list-item !important;
+    list-style-type: disc !important;
+    font-size: 20px;
+    margin-bottom: 8px;
+}
 
 /* =====================================================
    HEADER

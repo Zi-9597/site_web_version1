@@ -70,22 +70,20 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", async () => {
 
             const id = btn.dataset.id;
-         
-      
 
             openModal(modalEdit, modalEditBox);
 
             try {
                 const res = await fetch(`/?dest=get_goodies&id_goodies=${id}`);
                 const data = await res.json();
-                
                 editNom.value  = data.data.nom_goodies ?? "";
                 editPrix.value = data.data.prix ?? "";
                 editLien.value = data.data.lien ?? "";
                 editDesc.value = data.data.description ?? "";
 
+
             } catch {
-                showCard("error");
+                //
             }
         });
     });

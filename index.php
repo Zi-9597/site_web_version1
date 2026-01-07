@@ -131,6 +131,9 @@
          DÉCONNEXION
       ========================= */
       "logout"         => "templates/externe/authentification/logout.php",
+
+
+      "mention_legale"   => "commun/mention_legale.php"
    ];
 
    /* ============================================================
