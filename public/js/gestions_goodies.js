@@ -14,6 +14,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const rows        = document.querySelectorAll("#table-goodies tbody tr");
     const noResult    = document.getElementById("no-result");
 
+    /* ============================================================
+    🗑️ MODAL SUPPRESSION
+    ============================================================ */
+    const modalDelete    = document.getElementById("modal-delete-goodies");
+    const modalDeleteBox = modalDelete?.querySelector(".modal-content");
+    const btnConfirmDelete = document.getElementById("btn-confirm-delete");
+    const btnCancelDelete  = document.getElementById("btn-cancel-delete");
+
+    let goodiesIdToDelete = null;
+
 
     
     function filterTable() {
@@ -255,34 +265,52 @@ document.addEventListener("DOMContentLoaded", () => {
     /* =========================================================
        🗑️ SUPPRESSION GOODIES
     ========================================================= */
+    const deleteButtons = document.querySelectorAll(".btn-delete");
 
-    document.querySelectorAll(".btn-delete").forEach(btn => {
-        btn.addEventListener("click", async () => {
-
-            const id = btn.dataset.id;
-            console.log(id);
-            if (!id) return;
-
-            try {
-                const res = await fetch("/?dest=delete_goodies", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ id_goodies: id  , pikachu_csrf : pikachu_csrf.value.trim()})
-                });
-
-                const result = await res.json();
-                if (result.success) {
-                    showCard("success");
-                    setTimeout(() => location.reload(), 3000);
-                } else {
-                    showCard("error");
-                }
-
-            } catch {
-                showCard("error");
-            }
+    deleteButtons.forEach(btn => 
+    {
+        btn.addEventListener("click", () => {
+            goodiesIdToDelete = btn.dataset.id;
+            openModal(modalDelete, modalDeleteBox);
         });
     });
+
+    /* Annuler suppression */
+    btnCancelDelete?.addEventListener("click", () => 
+    {
+        goodiesIdToDelete = null;
+        closeModal(modalDelete, modalDeleteBox);
+    });
+
+    modalDelete?.addEventListener("click", e => {
+        if (e.target === modalDelete) closeModal(modalDelete, modalDeleteBox);
+    });
+    
+    btnConfirmDelete.addEventListener("click", async () => {
+
+        const id = goodiesIdToDelete;
+        if (!id) return;
+
+        try {
+            const res = await fetch("/?dest=delete_goodies", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id_goodies: id  , pikachu_csrf : pikachu_csrf.value.trim()})
+            });
+            closeModal(modalDelete , modalDeleteBox);
+            const result = await res.json();
+            if (result.success) {
+                showCard("success");
+                setTimeout(() => location.reload(), 3000);
+            } else {
+                showCard("error");
+            }
+
+        } catch {
+            showCard("error");
+        }
+    });
+   
 
     
 

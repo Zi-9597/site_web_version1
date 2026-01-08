@@ -114,6 +114,9 @@ document.addEventListener("DOMContentLoaded", () => {
             if (result.success) {
                 showNotif("success");
                 resetFormulaire();
+                setTimeout(() => {
+                    location.reload();
+                }, 3000);
             } else {
                 showNotif("error");
             }

@@ -19,10 +19,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Nouveau modal spécifique aux évènements
     const modal = document.getElementById("modal-edit-aide");
     const modalBox = modal.querySelector(".modal-content");
-    const btnClose = modal.querySelector(".modal-btn-cancel");
-
-
     const btnView = document.querySelectorAll(".btn-display");
+
+     /* ============================================================
+   🗑️ MODAL SUPPRESSION
+    ============================================================ */
+    const modalDelete    = document.getElementById("modal-delete-aides");
+    const modalDeleteBox = modalDelete?.querySelector(".modal-content");
+    const btnConfirmDelete = document.getElementById("btn-confirm-delete");
+    const btnCancelDelete  = document.getElementById("btn-cancel-delete");
 
     /* ===== Champs du modal ===== */
     const fNomPrenom = document.getElementById("edit-nom-prenom");
@@ -32,6 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const fEmail     = document.getElementById("edit-email-aide");
     const fTelephone = document.getElementById("edit-telephone-aide");
     const fDate      = document.getElementById("edit-date-aide");
+
+    let aideIdToDelete = null
 
     /* ===== Récupération CSRF ===== */
     const fPikachu = document.getElementById("pikachu_csrf")
@@ -87,33 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* =========================================================
        🪟 MODAL – CONSULTATION D’UNE DEMANDE D’AIDE
     ========================================================= */
-    /* =========================================================
-       🪟 OUVERTURE / FERMETURE MODAL
-    ========================================================= */
-
-    function openModal() {
-        modal.style.display = "flex";
-        modalBox.classList.remove("closing");
-        modalBox.classList.add("open");
-    }
-
-    function closeModal() {
-        modalBox.classList.remove("open");
-        modalBox.classList.add("closing");
-
-        modalBox.addEventListener("animationend", () => {
-            modal.style.display = "none";
-            modalBox.classList.remove("closing");
-        }, { once: true });
-    }
-
-    btnClose.addEventListener("click", closeModal);
-
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) closeModal();
-    });
-
-
+   
     /* =========================================================
        👁️ CONSULTATION D’UNE AIDE
        - Fetch
@@ -148,14 +129,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     fDate.value = "";
                 }
 
-                openModal();
+                openModal(modal , modalBox);
 
             } catch {
                 // Erreur silencieuse (UX non bloquée)
             }
         });
     });
-
+    
+    document.getElementById("btn-close-modal").addEventListener("click" ,()=>
+    {
+        closeModal(modal , modalBox);
+    });
+    modal.onclick = e => { if (e.target === modal) closeModal(modal , modalBox); };
     /* =========================================================
        🔔 CARTES DE NOTIFICATION
     ========================================================= */
@@ -184,11 +170,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const deleteButtons = document.querySelectorAll(".btn-delete");
 
-    deleteButtons.forEach(btn => {
-        btn.addEventListener("click", async () => {
+    deleteButtons.forEach(btn => 
+    {
+        btn.addEventListener("click", () => {
+            aideIdToDelete = btn.dataset.id;
+            openModal(modalDelete, modalDeleteBox);
+        });
+    });
 
-            const aideId = btn.dataset.id;
-            if (!aideId) return;
+    /* Annuler suppression */
+    btnCancelDelete?.addEventListener("click", () => 
+    {
+        aideIdToDelete = null;
+        closeModal(modalDelete, modalDeleteBox);
+    });
+
+    modalDelete?.addEventListener("click", e => {
+        if (e.target === modalDelete) closeModal(modalDelete, modalDeleteBox);
+    });
+
+    
+    btnConfirmDelete.addEventListener("click", async () => 
+    {
+
+        const aideId = aideIdToDelete;
+        if (!aideId) return;
 
         try 
         {
@@ -203,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 pikachu_csrf : fPikachu.value.trim()
                 })
             });
-
+            closeModal(modalDelete , modalDeleteBox)
             const result = await response.json();
 
             if (result.success) {
@@ -213,11 +219,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 showNotif("error");
             }
 
-            } catch (e) {
-                showNotif("error");
-            }
-        });
+        }
+        catch (e)
+        {
+            showNotif("error");
+        }
     });
+   
             
 
 
@@ -235,8 +243,24 @@ document.addEventListener("DOMContentLoaded", () => {
         table.style.opacity = "1";
     });
 
-    document.querySelector(".modal-btn-cancel").onclick = closeModal;
-    modal.onclick = e => { if (e.target === modal) closeModal(); };
+
+    
+
+
+    function openModal(modal, box) {
+        modal.style.display = "flex";
+        box.classList.remove("closing");
+        box.classList.add("open");
+    }
+
+    function closeModal(modal, box) {
+        box.classList.remove("open");
+        box.classList.add("closing");
+        box.addEventListener("animationend", () => {
+            modal.style.display = "none";
+            box.classList.remove("closing");
+        }, { once: true });
+    }
 
 
 });

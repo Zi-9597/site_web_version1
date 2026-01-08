@@ -29,6 +29,16 @@ document.addEventListener("DOMContentLoaded", () => {
     //CSRF Pikachu
     const pikachu_csrf = document.getElementById("pikachu_csrf") ;
 
+     /* ============================================================
+    🗑️ MODAL SUPPRESSION
+    ============================================================ */
+    const modalDelete    = document.getElementById("modal-delete-offres");
+    const modalDeleteBox = modalDelete?.querySelector(".modal-content");
+    const btnConfirmDelete = document.getElementById("btn-confirm-delete");
+    const btnCancelDelete  = document.getElementById("btn-cancel-delete");
+
+    let jobsIdToDelete = null;
+
 
 
     /* ============================================================================
@@ -112,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const id = btn.dataset.id;
             btnSave.dataset.id = id; // assigne l’ID correct
             
-            openModal();
+            openModal(modal , box);
 
             const response = await fetch(`/?dest=fetch_emploie&id_job=${id}`);
             const data = await response.json();
@@ -136,27 +146,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    /* ============================================================================
-       🪟 OUVERTURE / FERMETURE MODAL
-    ============================================================================ */
-
-    function openModal() {
-        modal.style.display = "flex";
-        box.classList.add("open");
-    }
-
-    function closeModal() {
-        box.classList.remove("open");
-        box.classList.add("closing");
-
-        box.addEventListener("animationend", () => {
-            modal.style.display = "none";
-            box.classList.remove("closing");
-        }, { once: true });
-    }
-
-    document.querySelector(".modal-btn-cancel").onclick = closeModal;
-    modal.onclick = e => { if (e.target === modal) closeModal(); };
+   
+    document.getElementById("btn-cancel-modal").addEventListener("click" , ()=>
+    {
+        closeModal(modal , box);
+    })
+    modal.onclick = e => { if (e.target === modal) closeModal(modal , box); };
 
 
 
@@ -212,12 +207,13 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify(payload)
         });
 
+        closeModal(modal , box);
         const result = await response.json();
         
 
         if (result.success) {
             showCard("success");
-            closeModal();
+            
             setTimeout(() => location.reload(), 2500);
         } else {
             showCard("error");
@@ -227,42 +223,77 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ============================================================================
        💾 SUPRESSION DES OFFRES
     ============================================================================ */
-
-    btnRemo.forEach(btn =>{
-
+    btnRemo.forEach(btn =>
+    {
         btn.addEventListener("click", async () => 
         {
+            
+            jobsIdToDelete = btn.dataset.id; 
+            openModal(modalDelete , modalDeleteBox);
+        })
+    });
 
-            const id = btn.dataset.id;
-            const payload = {
-                id_offre : id,
-                pikachu_csrf : pikachu_csrf.value.trim()
-            };
-            const response = await fetch(`/?dest=delete_offre`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body   : JSON.stringify(payload)
+    btnCancelDelete?.addEventListener("click" , ()=>
+    {
+        jobsIdToDelete = null; 
+        closeModal(modalDelete , modalDeleteBox);
+    })
+    modalDelete?.addEventListener("click", e => {
+        if (e.target === modalDelete) closeModal(modalDelete, modalDeleteBox);
+    });
+    
+
+    btnConfirmDelete.addEventListener("click", async () => 
+    {
+
+        const id = jobsIdToDelete;
+        const payload = {
+            id_offre : id,
+            pikachu_csrf : pikachu_csrf.value.trim()
+        };
+        const response = await fetch(`/?dest=delete_offre`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body   : JSON.stringify(payload)
         });
 
+        closeModal(modalDelete , modalDeleteBox);             // Ferme le modal
         const result = await response.json();
 
         if (result.success) {
             showCard("success");      // Affiche une carte verte
-            closeModal();             // Ferme le modal
             setTimeout(() => {
                 location.reload();
             }, 3000);
         } else {
             showCard("error");       // Affiche une carte rouge
         }
-     });
-
-
-
     });
+
+
+
     refreshTableVisibility() 
-    document.querySelector(".modal-btn-cancel").onclick = closeModal;
-    modal.onclick = e => { if (e.target === modal) closeModal(); };
+    
+
+
+     /* ============================================================================
+       🪟 OUVERTURE / FERMETURE MODAL
+    ============================================================================ */
+
+    function openModal(modal , box) {
+        modal.style.display = "flex";
+        box.classList.add("open");
+    }
+
+    function closeModal(modal , box) {
+        box.classList.remove("open");
+        box.classList.add("closing");
+
+        box.addEventListener("animationend", () => {
+            modal.style.display = "none";
+            box.classList.remove("closing");
+        }, { once: true });
+    }
 
     
 });

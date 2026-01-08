@@ -28,6 +28,17 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const fPikachu = document.getElementById("pikachu_csrf");
 
+     /* ============================================================
+   🗑️ MODAL SUPPRESSION
+    ============================================================ */
+    const modalDelete    = document.getElementById("modal-delete-aides");
+    const modalDeleteBox = modalDelete?.querySelector(".modal-content");
+    const btnConfirmDelete = document.getElementById("btn-confirm-delete");
+    const btnCancelDelete  = document.getElementById("btn-cancel-delete");
+
+    let EventIdDelete = null;
+
+
     
 
     /* ============================================================================
@@ -98,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
            
             btnSave.dataset.id = id;
             
-            openModal();
+            openModal(modal , box);
   
             const response = await fetch(`/?dest=get_events&id_event=${id}`);
             const data = await response.json();
@@ -113,7 +124,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-
+    //Fermeture Modal Ajout
+    document.querySelector("#btn-cancel-modal").addEventListener("click" , ()=>{
+        closeModal(modal , box);
+    })
+    modal.onclick = e => { if (e.target === modal) closeModal(modal , box); };
     /* ============================================================================
     💾 SAUVEGARDE D’UN ÉVÈNEMENT (AJAX)
     ============================================================================ */
@@ -146,12 +161,13 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify(payload)
         });
 
+        closeModal(modal , box);
         const result = await response.json();
 
         // Retour visuel
         if (result.success) {
             showCard("success");
-            closeModal();
+            
             setTimeout(() => location.reload(), 3000);
         } else {
             showCard("error");
@@ -164,49 +180,63 @@ document.addEventListener("DOMContentLoaded", () => {
        💾 SUPRESSION DES ÉVENEMENTS
     ============================================================================ */
 
-    btnRemo.forEach(btn =>{
+    btnRemo.forEach(btn =>
+    {
 
         btn.addEventListener("click", async () => 
         {
-
-            const id = btn.dataset.id;
-
-            const response = await fetch(`/?dest=delete_event`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    id_event: id,
-                    pikachu_csrf : fPikachu.value.trim()
-                })
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                showCard("success");
-                setTimeout(() => location.reload(), 3000);
-            } else {
-                showCard("error");
-            }
-        });
-
-
-
-
+            
+            EventIdDelete = btn.dataset.id; 
+            openModal(modalDelete , modalDeleteBox);
+        })
     });
 
+    btnCancelDelete?.addEventListener("click" , ()=>
+    {
+        EventIdDelete = null; 
+        closeModal(modalDelete , modalDeleteBox);
+    })
+    modalDelete?.addEventListener("click", e => {
+        if (e.target === modalDelete) closeModal(modalDelete, modalDeleteBox);
+    });
+
+    btnConfirmDelete.addEventListener("click", async () => 
+    {   
+        let id = EventIdDelete;
+        const response = await fetch(`/?dest=delete_event`, 
+        {   
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id_event: id,
+                pikachu_csrf : fPikachu.value.trim()
+            })
+        });
+
+        closeModal(modalDelete , modalDeleteBox);
+        const result = await response.json();
+
+        if (result.success) {
+            showCard("success");
+            setTimeout(() => location.reload(), 3000);
+        } else {
+            showCard("error");
+        }
+    });
+    
+   
     /* ============================================================================
        🪟 OUVERTURE / FERMETURE MODAL
     ============================================================================ */
 
-    function openModal() {
+    function openModal(modal , box) {
         modal.style.display = "flex";
         box.classList.add("open");
     }
 
-    function closeModal() {
+    function closeModal(modal , box) {
         box.classList.remove("open");
         box.classList.add("closing");
 
@@ -215,9 +245,6 @@ document.addEventListener("DOMContentLoaded", () => {
             box.classList.remove("closing");
         }, { once: true });
     }
-
-    document.querySelector(".modal-btn-cancel").onclick = closeModal;
-    modal.onclick = e => { if (e.target === modal) closeModal(); };
 
 
 });

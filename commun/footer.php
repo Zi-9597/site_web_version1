@@ -58,7 +58,7 @@
 
             <span>
                 <a href="/?dest=mention_legale">
-                    Mention Légale
+                    Mentions Légales
                 </a>
             </span>
 

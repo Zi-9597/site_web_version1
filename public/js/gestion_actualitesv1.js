@@ -30,6 +30,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const noResult    = $("#no-result");
     const searchTitle = $("#search-titre-actu");
     /* ============================================================
+   🗑️ MODAL SUPPRESSION
+    ============================================================ */
+    const modalDelete    = $("#modal-delete-actu");
+    const modalDeleteBox = modalDelete?.querySelector(".modal-content");
+    const btnConfirmDelete = $("#btn-confirm-delete");
+    const btnCancelDelete  = $("#btn-cancel-delete");
+
+    let actuIdToDelete = null;
+
+    /* ============================================================
        📦 RÉFÉRENCES CSFR
     ============================================================ */
     const fPikachu    = $("#pikachu_csrf");
@@ -205,23 +215,55 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* ============================================================
-       🗑️ SUPPRESSION
+    🗑️ SUPPRESSION AVEC CONFIRMATION
     ============================================================ */
-    $$(".btn-delete").forEach(btn => {
-        btn.addEventListener("click", async () => {
-            try {
-                const result = await postJSON("/?dest=delete_actualite", {
-                    actu_id: btn.dataset.id,
-                    pikachu_csfr : fPikachu.value.trim()
-                });
-                btn.disabled = true;
-                result.success ? showCard("success") : showCard("error");
-                if (result.success) setTimeout(() => location.reload(), 2000);
-
-            } catch {
-                showCard("error");
-            }
+    $$(".btn-delete").forEach(btn => 
+    {
+        btn.addEventListener("click", () => {
+            actuIdToDelete = btn.dataset.id;
+            openModal(modalDelete, modalDeleteBox);
         });
+    });
+
+    /* Annuler suppression */
+    btnCancelDelete?.addEventListener("click", () => 
+    {
+        actuIdToDelete = null;
+        closeModal(modalDelete, modalDeleteBox);
+    });
+
+    /* Confirmer suppression */
+    btnConfirmDelete?.addEventListener("click", async () => 
+    {
+        if (!actuIdToDelete) return;
+
+        try {
+            const result = await postJSON("/?dest=delete_actualite", {
+                actu_id: actuIdToDelete,
+                pikachu_csfr: fPikachu.value.trim()
+            });
+
+            closeModal(modalDelete, modalDeleteBox);
+
+            result.success ? showCard("success") : showCard("error");
+
+            if (result.success) {
+                setTimeout(() => location.reload(), 2000);
+            }
+
+        } catch {
+            closeModal(modalDelete, modalDeleteBox);
+            showCard("error");
+        }
+    });
+
+    /* Click hors modal */
+    modalDelete?.addEventListener("click", e => 
+    {
+        if (e.target === modalDelete) {
+            actuIdToDelete = null;
+            closeModal(modalDelete, modalDeleteBox);
+        }
     });
 
     /* ============================================================

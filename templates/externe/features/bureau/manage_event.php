@@ -197,8 +197,41 @@
             </div>
 
             <div class="modal-footer">
-                <button class="modal-btn-cancel" >Annuler</button>
+                <button class="modal-btn-cancel" id="btn-cancel-modal" >Annuler</button>
                 <button class="modal-btn-save" id="btn-save-offre">Valider</button>
+            </div>
+
+        </div>
+    </div>
+
+     <!-- ============================
+        🔴 MODAL : CONFIRMATION SUPPRESSION ACTUALITÉ
+    ============================== -->
+    <div id="modal-delete-aides" class="modal-overlay">
+        <div class="modal-content">
+
+            <!-- HEADER -->
+            <div class="modal-header">
+                <h2>Confirmation de suppression</h2>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body">
+                <p style="font-size:18px; font-family:'Nunito'; line-height:1.5;">
+                    ⚠️ Êtes-vous sûr de vouloir supprimer cet évènement ?
+                    <br><br>
+                    <strong>Cette action est irréversible.</strong>
+                </p>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer">
+                <button class="modal-btn-cancel" id="btn-cancel-delete">
+                    Annuler
+                </button>
+                <button class="modal-btn-save" id="btn-confirm-delete">
+                    Supprimer
+                </button>
             </div>
 
         </div>
