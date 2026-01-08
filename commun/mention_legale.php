@@ -244,7 +244,7 @@
             </p>
 
             <p> 
-                Le site de l'Université de Lille utilise uniquement des cookies/traceurs à des fins de gestion de session, personnalisation (contraste..) 
+                Le site de l'association EEEA utilise uniquement des cookies/traceurs à des fins de gestion de session, personnalisation (contraste..) 
                 et pour la réalisation de mesures d'audience internes et anonymes (adresses IP anonymisées).
             </p>
             <p>
