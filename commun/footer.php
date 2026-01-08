@@ -1,12 +1,3 @@
-<?php
-    // Récupération de l'id utilisateur depuis l'URL
-    $id_user = $_GET['id_user'] ?? null;
-?>
-
-
-
-
-
 <footer class="bas_reseau">
     <div class="logo_footer">
 
@@ -43,6 +34,12 @@
     </div>
     <div class="info_assoc">
         <div class="sub_info_assoc">
+
+            <span>
+                <a href="https://www.univ-lille.fr/"  target="_blank" rel="noopener noreferrer">
+                   Université de Lille
+                </a>
+            </span>
 
             <span>
                 <a href="/?dest=contact_assoc">

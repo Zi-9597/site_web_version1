@@ -85,7 +85,7 @@
         <span> <a href="/?dest=aides_etud"> Demander de l'aide </a> </span>
 
 
-        <span><a href="https://www.univ-lille.fr/"> Université de Lille </a> </span>
+        <span><a href="https://www.univ-lille.fr/" target="_blank" rel="noopener noreferrer"> Université de Lille </a> </span>
         <span class="reseau_sociaux"> 
             <a href="https://www.facebook.com/profile.php?viewas=100000686899395&id=100091473858926" target="_blank" rel="noopener noreferrer"> 
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">

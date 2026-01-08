@@ -129,10 +129,12 @@ p
    INFOS FOOTER — LIENS TEXTE
 ===================================================== */
 .sub_info_assoc{
-    width: 70%;
+    width: 100%;
     display: flex;
-    justify-content: center;
-    gap: 120px;
+    justify-content: space-around;
+    gap: 50px;
+
+    
 }
 
 .sub_info_assoc p,

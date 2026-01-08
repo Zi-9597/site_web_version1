@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>À propos de l'association - Association EEEA</title>
+    <title>Nous contacter - Association EEEA</title>
     <link rel="stylesheet" href="public/css/barre_navigation_v2.css?v=<?= filemtime('public/css/barre_navigation_v2.css') ?>">
     <link rel="shortcut icon" href="public/pictures/logo_v8.jpeg">
     <link rel="stylesheet" href="public/css/index.css?v=<?= filemtime('public/css/index.css') ?>">
