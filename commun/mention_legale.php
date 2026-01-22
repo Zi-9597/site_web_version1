@@ -170,7 +170,7 @@
 
             <p>
                 Le site peut inclure des liens vers d’autres sites Web ou d’autres sources Internet.
-                Dans la mesure où l’Université de Lille ne peut contrôler ces sites et ces sources
+                Dans la mesure où l’Asscoiation EEEA ne peut contrôler ces sites et ces sources
                 externes, elle ne peut être tenue pour responsable de la mise à disposition de ces
                 sites et sources externes.
             </p>
@@ -206,7 +206,7 @@
 
             <p>
                 Les photographies, textes, dessins, images et autres éléments protégés par les droits
-                de la propriété intellectuelle sont la propriété de l’Université de Lille ou de tiers
+                de la propriété intellectuelle sont la propriété de l’Asscoiation EEEA ou de tiers
                 ayant autorisé leur utilisation.
             </p>
         </section>

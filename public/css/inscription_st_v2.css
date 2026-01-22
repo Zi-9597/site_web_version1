@@ -175,14 +175,7 @@ label {
     justify-content: center;
 }
 
-#check-phone
-{
-    display: flex;
-    padding-left: 15px;
-    margin-left: 20px;
-    gap : 20px;
-    align-items: center;
-}
+
 /*Mot de passe gestion */
 
 #password-form
@@ -259,15 +252,7 @@ label {
     color: red;
 }
 
-#check-phone > p 
-{
-    font-size: 18px;
-}
 
-#check-phone > input
-{
-    transform: scale(1.3);
-}
 #bon_num
 {
     color: red;
@@ -276,6 +261,11 @@ label {
     display: none;
    
 
+}
+
+#phone
+{
+    width: 100%;
 }
 
 #button_submit {

@@ -58,16 +58,54 @@
         }
 
 
-        public static function addSubscriber(array $data):bool
+        public static function addSubscriber(array $data): bool
         {
-
             $pdo = self::getInstance();
-            $sql_add = "INSERT INTO subscribers
-            (id_membre, prenom, nom, section, membre_assoc, membre_bureau, email, phone_number, mot_de_passe, date_naissance, date_inscription, pays, ville, metier, genre) 
-            VALUES 
-            (:id_membre, :prenom, :nom, :section, :membre_assoc, :membre_bureau, :email, :phone_number, :mot_de_passe, :date_naissance, :date_inscription, :pays, :ville, :metier, :genre)";
 
-            $stmt = $pdo->prepare($sql_add); 
+            $sql_add = "
+                INSERT INTO subscribers
+                (
+                    id_membre,
+                    prenom,
+                    nom,
+                    section,
+                    membre_assoc,
+                    membre_bureau,
+                    email,
+                    phone_number,
+                    mot_de_passe,
+                    date_naissance,
+                    date_inscription,
+                    pays,
+                    ville,
+                    metier,
+                    genre,
+                    confirmation_token,
+                    is_validate
+                )
+                VALUES
+                (
+                    :id_membre,
+                    :prenom,
+                    :nom,
+                    :section,
+                    :membre_assoc,
+                    :membre_bureau,
+                    :email,
+                    :phone_number,
+                    :mot_de_passe,
+                    :date_naissance,
+                    :date_inscription,
+                    :pays,
+                    :ville,
+                    :metier,
+                    :genre,
+                    :confirmation_token,
+                    :is_validated
+                )
+            ";
+
+            $stmt = $pdo->prepare($sql_add);
             return $stmt->execute($data);
         }
 
@@ -80,7 +118,30 @@
             $stmt = $pdo->prepare($sql_fetch);
             $stmt->execute(['email' => $mail]);
 
-            return $stmt->fetch();
+            $result =  $stmt->fetch(PDO::FETCH_ASSOC);
+            //Si je trouve l'info par rapport au mail, alors je renvoie le tableau contenant ce mail sinon un tableau vide
+            return $result ?: [];
+        }
+
+        public static function confirmSubscriber(string $token): bool
+        {
+            $pdo = self::getInstance();
+
+            $sql = "
+                UPDATE subscribers
+                    SET is_validate = 1 ,
+                    confirmation_token = NULL
+                WHERE confirmation_token = :token
+                AND is_validate = 0
+                AND date_inscription >= NOW() - INTERVAL 24 HOUR
+            ";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                'token' => $token
+            ]);
+
+            return $stmt->rowCount() === 1;
         }
 
         public static function fetc_user_id(string $id_member): ?array

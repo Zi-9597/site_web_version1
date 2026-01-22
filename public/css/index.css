@@ -151,7 +151,7 @@ a{color:inherit}
 
 .reseau_sociaux a,
 .insc_conn_nav2 a{
-    color:#1e293b;
+    color:red;
     opacity:.85;
     transition:.2s;
 }

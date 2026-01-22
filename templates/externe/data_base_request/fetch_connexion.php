@@ -47,13 +47,19 @@
     $userDb = EEA_Database::fetc_user_mail($mail);
 
     if (
-        !$userDb ||
-        empty($userDb['mot_de_passe']) ||
-        !password_verify($password, $userDb['mot_de_passe'])
-    ) {
-        echo json_encode(["success" => false, "message" => "Erreur de connexion"]);
+    !$userDb
+    || empty($userDb['mot_de_passe'])
+    || !password_verify($password, $userDb['mot_de_passe'])
+    || (int)$userDb['is_validate'] !== 1
+    ) 
+    {
+        echo json_encode([
+            "success" => false,
+            "message" => "Erreur de connexion"
+        ]);
         exit;
     }
+
 
     /* ==================================================
     CONNEXION RÉUSSIE

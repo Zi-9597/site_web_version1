@@ -3,6 +3,7 @@
 
     require_once "require_db.php";
     include_once 'commun/uuid_v4.php';
+    require_once "mail_class.php";
     $uuid = uuid7(); 
 
     // On vérifie que le formulaire a bien été envoyé
@@ -18,7 +19,7 @@
         $membre     = trim($_POST['membre_assoc'] ?? '');
         $autre_fil = trim($_POST['autre_fil'] ?? '');
         $section    = trim($_POST['section'] ?? '');
-        $phone      = trim($_POST['phone'] ?? '');
+        $phone      = trim($_POST['phone_e164'] ?? '');
         $pays       = trim($_POST['city'] ?? '');
         $ville      = trim($_POST['country'] ?? '');
         $profession = trim($_POST['profession'] ?? '');
@@ -38,9 +39,11 @@
       
         
         $today = date_create("now")->format('Y-m-d H:i:s');
+
  
 
-
+        // Génération du token de confirmation
+        $confirmation_token = bin2hex(random_bytes(32));
 
         $data = [
             'id_membre'        => $uuid,
@@ -57,7 +60,10 @@
             'pays'             => $pays,
             'ville'            => $ville ,
             'metier'           => $profession,
-            'genre'            => $civil
+            'genre'            => $civil,
+            // 🔐 Confirmation
+            'confirmation_token'  => $confirmation_token,
+            'is_validated'        => 0
         ];
 
    
@@ -65,12 +71,14 @@
 
         if(EEA_Database::addSubscriber($data))
         {
+            $mailer = EEA_Mailer::getInstance(); 
+            $mailer->sendWelcome($email , $prenom , $nom ,$confirmation_token);
             header("Location: /?dest=success");
             exit;
         }
         else
         {
-            header("Location: /error.php");
+            header("Location: /?erreur_inscription");
             exit;
         }
     }

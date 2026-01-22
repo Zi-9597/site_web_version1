@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Permet de rendre le site responsive -->
     <title>Inscription - Association EEA</title> <!-- Titre de la page affiché dans l'onglet du navigateur -->
 
+    <!-- intl-tel-input CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
+
+    <!-- intl-tel-input JS -->
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
+
+    <!-- Utils (validation & format) -->
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js"></script>
+
+    
     <!-- Inclusion des feuilles de style pour la mise en forme -->
     <link rel="stylesheet" href="public/css/barre_navigation_v2.css?v=<?= filemtime('public/css/barre_navigation_v2.css') ?>">
     <link rel="stylesheet" href="public/css/index.css?v=<?= filemtime('public/css/index.css') ?>">
@@ -139,7 +149,7 @@
                         <label for="date-naissance">Section EEA</label>
                         <select id="filiere-section" name="section">
                             <option value="" selected disabled hidden>Sélectionner</option>
-                            <option value="Autre" selected>La section n'est pas mentionnée</option>
+                            <option value="Autre">Autre</option>
                             <!-- Liste des options -->
                             <optgroup label="Licence">
                                 <option value="L2-EEA">Licence 2 EEA</option>
@@ -168,24 +178,31 @@
                             </optgroup>
                             <!-- Ajoutez ici les autres sections -->
                         </select>
-                        <input type="text" id="autre-filiere" placeholder="Mettre votre ancienne filière" name="autre_fil" disabled>
+                        <input type="text" id="autre-filiere" placeholder="Mettre votre filière et université (si autre que Lille)" name="autre_fil" disabled>
                     </div>
                 </div>
 
                 <!-- Champ pour le numéro de téléphone -->
                 <div class="formulaire-element" id="tel-form">
                     <div id="container-phone">
-                        <i class="bi bi-telephone"></i> <!-- Icône téléphone -->
+                        <i class="bi bi-telephone"></i>
                         <div id="element-tel">
-                            <label for="tel">Numéro de téléphone : +33</label>
-                            <input id="phone" type="tel" class="form-control" name="phone" placeholder="Numéro de téléphone (France)">
+                            <label for="phone">Numéro de téléphone :</label>
+                            <input
+                                id="phone"
+                                type="tel"
+                                class="form-control"
+                                name="phone"
+                                placeholder="Numéro de téléphone">
                         </div>
                     </div>
-                    <div id="check-phone">
-                        <p>Si vous n'avez pas de numéro français</p>
-                        <input type="checkbox" id="tel-available">
-                    </div>
-                    <p id="bon_num">Vous n'avez pas mis le bon numéro</p>
+
+                    <p id="bon_num">
+                        Vous n'avez pas mis le bon numéro
+                    </p>
+
+                    <!-- 🔥 CE CHAMP EST LA CLÉ -->
+                    <input type="hidden" id="phone_e164" name="phone_e164">
                 </div>
 
                 <!-- Champs pour le pays, la ville et la profession -->
@@ -218,6 +235,7 @@
             </div>
         </div>
     </form>
+   
 
     <!-- Inclusion du pied de page -->
     <script src="public/js/gestion_slide_bar_4.js?v=<?= filemtime('public/js/gestion_slide_bar_4.js') ?>"></script>
