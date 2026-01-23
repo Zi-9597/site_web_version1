@@ -113,6 +113,7 @@
                     <th>Date de l'évènement </th>
                     <th>Crée par </th>
                     <th class="col-modifier">Modifier</th>
+                    <th class="col-modifier">Participants</th>
                     <th class="col-supprimer">Supprimer</th>
                     
                     <!-- Colonne changement (cachée par défaut) -->
@@ -132,9 +133,16 @@
                             <td><?= htmlspecialchars($event['prenom'] . ' ' . $event['nom']) ?></td>
                             <!-- Bouton Modifier -->
                             <td>
-                                <button class="btn-change"
+                                <button class="btn-change" 
                                     data-id="<?= htmlspecialchars($event['id_event']) ?>">
                                     ✏️ Modifier
+                                </button>
+                            </td>
+                            <!-- Bouton Modifier -->
+                            <td>
+                                <button class="btn-participate" 
+                                        data-id="<?= htmlspecialchars($event['id_event']) ?>">
+                                        🙋 Participants
                                 </button>
                             </td>
 
@@ -236,11 +244,85 @@
 
         </div>
     </div>
+
+        <!-- ============================
+    🟣 MODAL : LISTE DES PARTICIPANTS
+    ============================== -->
+    <div id="modal-participants-event" class="modal-overlay">
+        <div class="modal-content modal-large" id="modal-participants">
+
+            <!-- ===== HEADER ===== -->
+            <div class="modal-header">
+                <h2 id="participants-event-title">
+                    Liste des membres inscrits
+                </h2>
+            </div>
+
+            <!-- ===== BODY ===== -->
+            <div class="modal-body">
+
+                <!-- Infos résumé (optionnel, prêt pour AJAX) -->
+                <div class="participants-info">
+                    <span id="participants-count">
+                        👥 Total participants : 0
+                    </span>
+                </div>
+
+                <!-- Conteneur scrollable -->
+                <div class="participants-table-wrapper">
+
+                    <table id="participants-table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Email</th>
+                                <th>Téléphone</th>
+                                <th>Date d’inscription</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="participants-table-body">
+                            
+                           
+
+                            <!-- <tr>
+                                <td>Dupont</td>
+                                <td>Jean</td>
+                                <td>jean@email.com</td>
+                                <td>+33 6 12 34 56 78</td>
+                                <td>12/03/2026</td>
+                            </tr> -->
+                           
+                        </tbody>
+                    </table>
+
+                    <!-- Message si aucun participant -->
+                    <div id="participants-empty" class="no-result">
+                        Aucun participant inscrit pour cet événement.
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ===== FOOTER ===== -->
+            <div class="modal-footer">
+                <button class="modal-btn-cancel">
+                    Fermer
+                </button>
+                 <button class="modal-btn-save" id="csv_export">
+                    Exporter en CSV
+                </button>
+            </div>
+
+        </div>
+    </div>
+
     <!-- Récupération du CSRF -->
     <input type="hidden" id="pikachu_csrf" value=<?= htmlspecialchars($_SESSION["csrf_token"]) ?> >
     <!-- Carte SUCCESS -->
     <div id="card-success" class="notif-card success">
-        ✔️ Offre mise à jour avec succès !
+        ✔️ Évènements mis à jour avec succès !
     </div>
 
     <!-- Carte ERROR -->

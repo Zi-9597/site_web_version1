@@ -76,7 +76,8 @@
         'nom'           => $userDb['nom'],
         'membre_assoc'  => $userDb['membre_assoc'],
         'membre_bureau' => $userDb['membre_bureau'] ?? null,
-        'email'         => $userDb['email']
+        'email'         => $userDb['email'],
+        'telephone'     => $userDb['phone_number']
     ];
 
     $_SESSION['csrf_token'] = bin2hex(random_bytes(24));

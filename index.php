@@ -53,6 +53,8 @@
       ========================= */
       "rech_event"     => "templates/externe/features/commun/evenements_interface.php",
       "get_events"     => "templates/externe/data_base_request/fetch_events.php",
+      "add_inscris"   => "templates/externe/data_base_request/gestion_event/add_inscris.php",
+      "get_participants" => "templates/externe/data_base_request/gestion_event/fetch_inscris.php",
 
       /* =========================
          AIDES (ÉTUDIANTS)

@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 .title-box {
      max-width: 1200px;
     margin: 30px auto;
@@ -294,7 +285,7 @@ td:last-child {
 
 
 
-.total_information
+.total_information 
 {
    
     margin-bottom: 250px;
@@ -307,7 +298,7 @@ td:last-child {
 
 
 
-.no-result {
+.no-result{
     display: none;
     width: 100%;
     max-width: 1800px;
@@ -349,7 +340,7 @@ td:last-child {
 ----------------------------------------------------------- */
 
 /* bouton vert */
-.btn-change , .btn-display , .btn-make-ancien {
+.btn-change , .btn-display , .btn-make-ancien , .btn-change-inscri , .btn-participate {
     background: #22c55e;
     color: white;
     padding: 6px 12px;
@@ -361,7 +352,7 @@ td:last-child {
     font-family: 'Nunito';
 }
 
-.btn-change:hover  , .btn-display:hover , .btn-make-ancien:hover{
+.btn-change:hover  , .btn-display:hover , .btn-make-ancien:hover , .btn-change-inscri:hover , .btn-participate:hover{
     background: #16a34a;
 }
 
@@ -386,7 +377,57 @@ td:last-child {
     background: #be123c;
 }
 
+/* Parie Modal des inscrits aux évènements */
+.participants-info {
+    margin-bottom: 15px;
+    text-align: center;
+}
 
+#participants-count {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 20px;              /* 🔥 plus gros */
+    font-weight: 700;
+    color: #1a73e8;               /* bleu pro */
+    background: #f1f6ff;          /* fond doux */
+    border-radius: 10px;
+    border: 1px solid #d6e4ff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    letter-spacing: 0.5px;
+}
+
+#modal-participants
+{
+    width: 1500px;
+}
+
+.td-date-inscription {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;            /* 🔥 espace naturel entre date et heure */
+    white-space: nowrap;
+}
+
+
+.td-date-inscription .date {
+    display: block;
+    font-weight: 600;
+    font-size: 20px;
+    color: #100974; /* gris foncé */
+}
+
+.td-date-inscription .heure {
+    display: block;
+    font-size: 20px;
+    color: #1d0c81; /* gris doux */
+    margin-top: 2px;
+}
+
+#csv_export:disabled
+{
+    background-color: gray;
+}
 /* -----------------------------------------------------------
    🟣 RESPONSIVE
 ----------------------------------------------------------- */

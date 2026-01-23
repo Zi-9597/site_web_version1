@@ -71,7 +71,6 @@
 
         <span><a href="/">  Accueil  </a></span>
         <span> <a href="/?dest=actualite"> Actualité </a></span>
-        <span> <a href="/?dest=rech_event"> Participer à un évènement </a> </span>
         <span><a href="/?dest=goodies"> Goodies </a> </span>
         <span><a href="https://www.univ-lille.fr/" target="_blank" rel="noopener noreferrer"> Université de Lille </a> </span>
         <span class="reseau_sociaux"> 

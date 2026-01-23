@@ -184,7 +184,60 @@
             return $stmt->fetchAll();
         }
 
+        public static function isAlreadyRegistered(int $idEvent, string $email): bool
+        {
+            $pdo = self::getInstance();
 
+            $sql = "SELECT 1
+                    FROM evenement_inscriptions
+                    WHERE id_event = :id_event
+                    AND email = :email
+                    LIMIT 1";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                'id_event' => $idEvent,
+                'email'    => $email
+            ]);
+
+            return (bool) $stmt->fetchColumn();
+        }
+
+        public static function addInscription_Event(array $user): bool
+        {
+            $pdo = self::getInstance();
+
+            $sql = "INSERT INTO evenement_inscriptions
+                    (id_event, nom, prenom, email , tel_num)
+                    VALUES
+                    (:id_event, :nom, :prenom, :email , :tel_num)";
+
+            $stmt = $pdo->prepare($sql);
+
+            return $stmt->execute([
+                'id_event' => $user['id_event'],
+                'nom'      => $user['nom'],
+                'prenom'   => $user['prenom'],
+                'email'    => $user['email'],
+                'tel_num'  => $user['tel_num']
+            ]);
+        }
+
+        public static function fetchParticipantsByEventId(int $idEvent): array
+        {
+            $pdo = self::getInstance();
+
+            $sql = "SELECT nom, prenom, email, tel_num, date_inscription
+                    FROM evenement_inscriptions
+                    WHERE id_event = :id_event
+                    ORDER BY date_inscription DESC";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(['id_event' => $idEvent]);
+
+            // Retourne un tableau de lignes (associatif)
+            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        }
         public static function addJob(array $data , array $specialitie):bool
         {
             $pdo = self::getInstance();
