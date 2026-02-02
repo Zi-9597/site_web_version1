@@ -72,6 +72,9 @@
         <span><a href="/">  Accueil  </a></span>
         <span> <a href="/?dest=actualite"> Actualité </a></span>
         <span><a href="/?dest=goodies"> Goodies </a> </span>
+        <span><a href="https://nextcloud.univ-lille.fr/index.php/s/jSNCSKNnmbn6QR4" target="_blank" rel="noopener noreferrer"> Santé et accompagnements </a> </span>
+        <span><a href="https://nextcloud.univ-lille.fr/index.php/s/dRCkZ4o684tEiYe" target="_blank" rel="noopener noreferrer"> Guide des étudiants étrangers en France </a> </span>
+        <span><a href="https://nextcloud.univ-lille.fr/index.php/s/C5wnSywSostxWPM" target="_blank" rel="noopener noreferrer"> Guide des aides pour les étudiants </a> </span>
         <span><a href="https://www.univ-lille.fr/" target="_blank" rel="noopener noreferrer"> Université de Lille </a> </span>
         <span class="reseau_sociaux"> 
                 <a href="https://www.facebook.com/profile.php?viewas=100000686899395&id=100091473858926" target="_blank" rel="noopener noreferrer"> 
