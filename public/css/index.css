@@ -602,3 +602,90 @@ body .modal-header { padding: 18px 24px; background: #0d2146; } body .modal-head
     body .filtre-membre-grid, body .specialites-grid, body .types-grid { grid-template-columns: 1fr; }
     body .button_submit, body .button_submit > button { width: 100%; }
 }
+
+/* CHANGE: unified calm interface for page headers, filters, data tables and forms. */
+body { min-width: 320px; background: #f5f8fb; color: #243b53; }
+body .title-box,
+body .descritpion-inscription,
+body .descritpion-evenement,
+body .title-h1 {
+    width: min(calc(100% - 40px), 1180px);
+    margin: 40px auto 24px;
+    padding: clamp(26px, 4vw, 44px);
+    text-align: left;
+    border: 1px solid #d9e4f0;
+    border-radius: 18px;
+    background: #102a43;
+    box-shadow: 0 12px 30px rgba(16, 42, 67, 0.12);
+}
+body .title-box h1,
+body .descritpion-inscription h1,
+body .descritpion-evenement h1,
+body .title-h1 h1 { color: #fff; font-size: clamp(1.8rem, 3.4vw, 2.7rem); letter-spacing: -0.035em; }
+body .title-box p,
+body .descirption-courte p,
+body .descritpion-inscription p,
+body .descritpion-evenement p { max-width: 760px; color: #d9e5f1; font-size: 1rem !important; font-weight: 500; line-height: 1.7; text-align: left; }
+body .container-formulaire,
+body .form_total,
+body .aide-form,
+body .box-with-title { width: min(calc(100% - 40px), 1180px); margin: 24px auto 48px; border-radius: 18px; border-color: #d9e4f0; box-shadow: 0 12px 30px rgba(16, 42, 67, 0.08); }
+body .box-with-title { padding: 32px; background: #fff; }
+body .box-title { position: static; display: inline-flex; margin: 0 0 24px; padding: 0; color: #102a43; background: transparent; box-shadow: none; font-size: 1.25rem; font-weight: 800; }
+body .filtre-membre { margin: 0 0 18px; padding: 24px; border: 1px solid #dce6f0; border-radius: 12px; background: #f8fafc; }
+body .filtre-membre:last-child { margin-bottom: 0; }
+body .titre-fm { position: static; display: block; margin: 0 0 16px; padding: 0; color: #486581; background: transparent; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+body .filtre-membre-grid { gap: 18px 24px; background: transparent; }
+body .filter-item { font-size: 1rem; }
+body .filter-item label { color: #334e68; font-size: 0.88rem; }
+body .filter-item input,
+body .filter-item select { min-height: 44px; padding: 10px 12px; border: 1px solid #bcccdc; border-radius: 8px; background: #fff; color: #243b53; font-size: 0.95rem; }
+body .filter-item input:focus,
+body .filter-item select:focus { border-color: #2d6fae; box-shadow: 0 0 0 3px rgba(45, 111, 174, 0.15); }
+body .specialites-grid,
+body .types-grid { gap: 10px; }
+body .specialites-grid span,
+body .types-grid span { padding: 10px 12px; border-color: #cbd8e6; border-radius: 8px; background: #fff; color: #334e68; font-size: 0.88rem; font-weight: 700; }
+body .specialites-grid span:hover,
+body .types-grid span:hover { border-color: #2d6fae; background: #f0f6fb; }
+body .specialites-grid input:checked + span,
+body .types-grid input:checked + span { border-color: #2d6fae; background: #e7f0f8; color: #102a43; }
+body .total_information { width: min(calc(100% - 40px), 1180px); margin: 0 auto 48px; overflow-x: auto; align-items: stretch; }
+body table { min-width: 680px; margin: 0; border: 1px solid #d9e4f0; border-radius: 14px; box-shadow: 0 10px 26px rgba(16, 42, 67, 0.08); }
+body thead { background: #102a43; }
+body th { padding: 14px 16px; color: #fff; font-size: 0.73rem; letter-spacing: 0.07em; }
+body td { padding: 15px 16px; color: #334e68; font-size: 0.9rem; text-align: left; }
+body td:last-child { font-size: 0.9rem; color: inherit; font-style: normal; }
+body td:nth-child(2) { color: #334e68; }
+body tbody tr:nth-child(even) { background: #f8fafc; }
+body tbody tr:hover { background: #edf5fc; }
+body .btn-change,
+body .btn-display,
+body .btn-make-ancien,
+body .btn-change-inscri,
+body .btn-participate { min-height: 38px; padding: 8px 12px; border-radius: 7px; background: #2d6fae; font-size: 0.82rem; font-weight: 800; }
+body .btn-change:hover,
+body .btn-display:hover,
+body .btn-make-ancien:hover,
+body .btn-change-inscri:hover,
+body .btn-participate:hover { background: #1d578c; }
+body .btn-delete { min-height: 38px; padding: 8px 12px; border-radius: 7px; background: #fff; border: 1px solid #e9b8bf; color: #a61b2b; font-size: 0.82rem; font-weight: 800; }
+body .btn-delete:hover { background: #a61b2b; color: #fff; }
+body .modal-header { background: #102a43; }
+body .modal-header h2 { font-size: 1.25rem; }
+body .modal-footer { display: flex; justify-content: flex-end; gap: 10px; background: #f8fafc; }
+body .modal-btn-cancel { margin: 0; background: #fff; border: 1px solid #bcccdc; color: #334e68; }
+body .modal-btn-cancel:hover { background: #edf2f7; color: #102a43; }
+body .modal-btn-save { background: #2d6fae; }
+body .modal-btn-save:hover { background: #1d578c; }
+body .modal-engagement { border-left-color: #2d6fae !important; background: #edf5fc !important; color: #334e68; }
+body .no-result { max-width: none; min-height: 120px; height: auto; border: 1px dashed #bcccdc; border-radius: 12px; box-shadow: none; color: #486581; font-size: 1rem; }
+@media (max-width: 760px) {
+    body .title-box, body .descritpion-inscription, body .descritpion-evenement, body .title-h1, body .container-formulaire, body .form_total, body .aide-form, body .box-with-title, body .total_information { width: calc(100% - 24px); }
+    body .title-box, body .descritpion-inscription, body .descritpion-evenement, body .title-h1 { margin-top: 24px; padding: 24px; border-radius: 14px; }
+    body .box-with-title, body .filtre-membre { padding: 18px; border-radius: 12px; }
+    body .filtre-membre-grid { grid-template-columns: 1fr; }
+    body .specialites-grid, body .types-grid { grid-template-columns: 1fr; }
+    body .modal-footer { flex-direction: column-reverse; }
+    body .modal-footer button { width: 100%; }
+}

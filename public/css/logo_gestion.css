@@ -39,6 +39,24 @@
     height: auto;
 }
 
+/* CHANGE: compact institutional brand strip shared by every public interface. */
+.logo_lille {
+    min-height: 88px;
+    margin: 0;
+    padding: 16px clamp(20px, 5vw, 72px);
+    background: #ffffff;
+    border-bottom: 1px solid #e4eaf2;
+}
+.u_lille { width: min(300px, 54vw); max-width: none; }
+.u_assoc { width: min(84px, 18vw); max-width: none; }
+.logo_ulille, .logo_assoc { width: 100%; max-width: none; max-height: 58px; object-fit: contain; }
+@media (max-width: 600px) {
+    .logo_lille { min-height: 70px; padding: 12px 18px; }
+    .u_lille { width: min(220px, 60vw); }
+    .u_assoc { width: 54px; }
+    .logo_ulille, .logo_assoc { max-height: 42px; }
+}
+
 @media (max-width:1200px) {
 
     .u_lille

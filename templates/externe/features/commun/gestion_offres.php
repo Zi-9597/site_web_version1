@@ -2,7 +2,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -99,7 +99,7 @@
     
        <!-- Titre de la page -->
     <div class="title-box">
-        <h1>Gestion des Offres</h1>
+        <h1>Mes offres publiées</h1>
         <p style="font-size:20px; margin-top:10px; font-family:'Nunito';">
             Retrouvez toutes vos offres déposées et utilisez les actions disponibles pour 
             les modifier, les mettre à jour ou les supprimer si nécessaire.
@@ -110,25 +110,25 @@
     <!-- Bloc des filtres -->
    <!-- ===== BLOC GLOBAL : FILTRES + ACTION ===== -->
     <div class="box-with-title">
-        <span class="box-title">Filtre des offres</span>
+        <span class="box-title">Retrouver une offre</span>
 
         <!-- ==== PARTIE FILTRE ==== -->
         <div class="filtre-membre">
-            <span class="titre-fm">Filtre Offre</span>
+            <span class="titre-fm">Recherche</span>
 
             <div class="filtre-membre-grid">
 
                 <!-- Prénom -->
                 <div class="filter-item">
-                    <label for="search-titre">Nom Offre :</label>
+                    <label for="search-titre-offre">Titre ou mot-clé</label>
                     <input type="text" id="search-titre-offre" placeholder="Rechercher le nom de l'offre...">
                 </div>
 
                 <!-- Section -->
                 <div class="filter-item">
-                    <label for="filiere-type">Type d'offre :</label>
+                    <label for="filiere-section">Type de contrat</label>
                     <select id="filiere-section">
-                        <option value="">Tous type d'offres</option>
+                        <option value="">Tous les types de contrat</option>
                         <option value="Stage">Stage</option>
                         <option value="CDD/CDI">CDD/CDI</option>
                         <option value="Job Étudiant">Alternance</option>

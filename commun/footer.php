@@ -1,5 +1,9 @@
+<!-- CHANGE: footer regrouped into clear institutional, social and legal areas. -->
 <footer class="bas_reseau">
-    <div class="logo_footer">
+    <div class="footer-partners">
+        <p>Association EEA</p>
+        <span>Une communauté étudiante et alumni de l'Université de Lille</span>
+        <div class="logo_footer">
 
         <div class="u_lille_foot">
             <img class="logo_ulille_foot" src="public/pictures/logo_univ_5.png" alt="Logo Lille">
@@ -9,10 +13,11 @@
             <img class="logo_uassoc_foot" src="public/pictures/logo_5.png" alt="Logo Assoc">
         </div>
 
+        </div>
     </div>
     <div class="rejoindre">
         <p class="mini_message">
-            Nous Rejoindre : 
+            Suivez l'association
         </p>
         <div class="reseau_footer">
             <a href="https://www.facebook.com/profile.php?viewas=100000686899395&id=100091473858926" target="_blank" rel="noopener noreferrer"> 
@@ -60,7 +65,7 @@
             </span>
 
         </div>
-
+        <p class="footer-copyright">© <?= date('Y') ?> Association EEA</p>
     </div>
         
 

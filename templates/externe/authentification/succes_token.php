@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <!-- Définition du type de document et langage principal -->
     <meta charset="UTF-8"> <!-- Encodage des caractères en UTF-8 -->

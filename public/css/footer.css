@@ -176,3 +176,16 @@ p {
 .rejoindre { gap: 14px; padding: 32px 20px 24px; }.rejoindre p { color: #fff; font-size: 1rem; font-weight: 700; }.reseau_footer { width: min(260px, 75%); justify-content: center; gap: 13px; }.reseau_footer a { width: 40px; height: 40px; background: rgba(255,255,255,0.1); }.reseau_footer svg { width: 19px; height: 19px; color: #fff; }.reseau_footer a:hover { background: #1d5fd1; }
 .info_assoc { padding: 18px 7% 28px; }.sub_info_assoc { justify-content: center; gap: 12px 30px; }.sub_info_assoc a { color: #dce8fa; font-size: 0.88rem; font-weight: 600; }.sub_info_assoc a:hover { color: #f3a32b; }
 @media (max-width: 700px) { .logo_footer { gap: 20px; }.rejoindre p { font-size: 0.95rem; } }
+
+/* CHANGE: calm, legible footer with a white partner-logo strip. */
+.bas_reseau { margin-top: 72px; background: #102a43; color: #d9e5f1; }
+.footer-partners { display: grid; justify-items: center; gap: 6px; padding: 36px 20px 28px; background: #f8fafc; color: #334e68; border-top: 1px solid #e2e8f0; }
+.footer-partners > p { margin: 0; font-size: 1rem; font-weight: 800; color: #102a43; }
+.footer-partners > span { font-size: 0.88rem; text-align: center; color: #627d98; }
+.logo_footer { width: min(600px, 100%); gap: clamp(30px, 7vw, 76px); padding: 18px 0 0; background: transparent; border: 0; }
+.u_lille_foot { width: min(270px, 57%); }.u_assoc_foot { width: min(82px, 22%); }
+.logo_uassoc_foot, .logo_ulille_foot { max-height: 58px; }
+.rejoindre { padding: 28px 20px 18px; gap: 12px; }.rejoindre p { margin: 0; color: #f7fafc; letter-spacing: 0.01em; }.reseau_footer a { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.14); }.reseau_footer a:hover { background: #2d6fae; transform: translateY(-2px); }
+.info_assoc { display: grid; gap: 18px; padding: 20px 20px 28px; border-top: 1px solid rgba(217,229,241,0.16); }.sub_info_assoc { gap: 10px 26px; }.sub_info_assoc a { font-size: 0.84rem; color: #d9e5f1; }.sub_info_assoc a:hover { color: #ffffff; }
+.footer-copyright { margin: 0; text-align: center; font-size: 0.76rem; font-weight: 500; color: #9fb3c8; }
+@media (max-width: 600px) { .bas_reseau { margin-top: 48px; }.footer-partners { padding-top: 28px; }.logo_footer { padding-top: 14px; }.info_assoc { padding-bottom: 24px; } }

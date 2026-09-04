@@ -317,3 +317,28 @@
 .nav_2>span { flex-basis: 55px; margin: 0; }.nav_2>span>a { justify-content: flex-start; padding: 0 14px; font-size: 1rem; color: #304562; }.nav_2>span>a:hover { color: #1d5fd1; background: #edf4ff; box-shadow: none; transform: none; }.nav_2>span::after { display: none; }
 @media (max-width: 1200px) { .rubrique_1 { justify-content: flex-end; } }
 @media (max-width: 500px) { .menu_nav_1, .rubrique_1 { min-height: 62px; } .connect_span_comm, .subscribe_class_comm { display: none; } .container_conn_insc div a { width: 38px; padding: 0; } }
+
+/* CHANGE: consistent navigation hierarchy, accessible controls and a clean mobile drawer. */
+.nav_1 { position: relative; z-index: 100; background: #fff; border-bottom: 1px solid #dde5ef; }
+.menu_nav_1 { min-height: 64px; padding: 0 clamp(18px, 5vw, 72px); }
+.rubrique_1 { min-height: 64px; gap: 20px; }
+.list_nav_1 li a { padding: 8px 12px; font-size: 0.9rem; letter-spacing: 0.01em; }
+.container_conn_insc div a { min-height: 38px; padding: 0 14px; font-size: 0.88rem; }
+#container_dash_id { flex: 0 0 36px; margin-right: 10px; border-radius: 8px; }
+#container_dash_id:hover, #container_dash_id:focus-visible { background: #edf3fa; }
+#container_dash_id div { width: 22px; height: 2px; background: #102a43; }
+#container_dash_id div:nth-child(1) { transform: translateY(-7px); }
+#container_dash_id div:nth-child(3) { transform: translateY(7px); }
+#container_dash_id.active div:nth-child(1) { transform: translateY(2px) rotate(45deg); }
+#container_dash_id.active div:nth-child(3) { transform: translateY(-2px) rotate(-45deg); }
+.nav_2 { width: min(390px, 92vw); height: 100dvh; padding: 22px 16px; background: #fff; border-right: 1px solid #d9e3ef; box-shadow: 18px 0 48px rgba(16, 42, 67, 0.18); }
+.nav_2 > span { flex: 0 0 auto; min-height: 48px; }
+.nav_2 > span > a { justify-content: flex-start; padding: 12px 14px; font-size: 0.96rem; font-weight: 700; border-radius: 9px; }
+.nav_2 > span > a:hover, .nav_2 > span > a:focus-visible { color: #1557a0; background: #edf5fc; box-shadow: none; transform: none; }
+.nav_2 .reseau_sociaux { margin-top: 12px; justify-content: flex-start; padding: 12px 14px; }
+.overlay { background: rgba(16, 42, 67, 0.42); backdrop-filter: blur(2px); }
+@media (max-width: 700px) {
+    .list_nav_1 { display: none; }
+    .rubrique_1 { justify-content: flex-end; }
+    .container_conn_insc { gap: 4px; }
+}

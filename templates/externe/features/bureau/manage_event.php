@@ -1,7 +1,7 @@
 <?php require_once "commun/init.php"  ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -71,10 +71,9 @@
     
        <!-- Titre de la page -->
     <div class="title-box">
-        <h1>Gestion des Évènements</h1>
+        <h1>Gestion des événements</h1>
         <p style="font-size:20px; margin-top:10px; font-family:'Nunito';">
-            Retrouvez toutes vos offres déposées et utilisez les actions disponibles pour 
-            les modifier, les mettre à jour ou les supprimer si nécessaire.
+            Consultez les événements publiés, mettez-les à jour et suivez les inscriptions des membres.
         </p>
     </div>
 
@@ -82,17 +81,17 @@
     <!-- Bloc des filtres -->
    <!-- ===== BLOC GLOBAL : FILTRES + ACTION ===== -->
     <div class="box-with-title">
-        <span class="box-title">Filtre des offres</span>
+        <span class="box-title">Retrouver un événement</span>
 
         <!-- ==== PARTIE FILTRE ==== -->
         <div class="filtre-membre">
-            <span class="titre-fm">Filtre Offre</span>
+            <span class="titre-fm">Recherche</span>
 
             <div class="filtre-membre-grid">
 
                 <!-- Prénom -->
                 <div class="filter-item">
-                    <label for="search-titre">Nom de l'évènement :</label>
+                    <label for="search-titre-offre">Nom de l'événement</label>
                     <input type="text" id="search-titre-offre" placeholder="Rechercher le nom de l'évènement...">
                 </div>
 
@@ -109,9 +108,9 @@
             <!-- En-tête du tableau -->
             <thead>
                 <tr>
-                    <th>Nom de l'évènement</th>
-                    <th>Date de l'évènement </th>
-                    <th>Crée par </th>
+                    <th>Nom de l'événement</th>
+                    <th>Date</th>
+                    <th>Créé par</th>
                     <th class="col-modifier">Modifier</th>
                     <th class="col-modifier">Participants</th>
                     <th class="col-supprimer">Supprimer</th>
@@ -135,14 +134,14 @@
                             <td>
                                 <button class="btn-change" 
                                     data-id="<?= htmlspecialchars($event['id_event']) ?>">
-                                    ✏️ Modifier
+                                    Modifier
                                 </button>
                             </td>
                             <!-- Bouton Modifier -->
                             <td>
                                 <button class="btn-participate" 
                                         data-id="<?= htmlspecialchars($event['id_event']) ?>">
-                                        🙋 Participants
+                                        Participants
                                 </button>
                             </td>
 
@@ -150,7 +149,7 @@
                             <td>
                                 <button class="btn-delete" 
                                     data-id="<?= htmlspecialchars($event['id_event']) ?>">
-                                    🗑️ Supprimer
+                                    Supprimer
                                 </button>
                             </td>
                         </tr>

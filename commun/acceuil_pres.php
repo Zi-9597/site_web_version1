@@ -9,25 +9,25 @@
         <!-- CHANGE: message d'accueil orienté réseau professionnel et parcours. -->
         <div class="presentation_content">
 
-            <p class="hero-eyebrow"><i class="fa-solid fa-circle-nodes"></i> Réseau EEA Université de Lille</p>
+            <p class="hero-eyebrow"><i class="fa-solid fa-circle-nodes"></i> Association EEA - Université de Lille</p>
             <h1 class="hero-title">
-                Construisons la suite de <span>votre parcours</span>, ensemble.
+                Le réseau qui fait avancer <span>votre parcours.</span>
             </h1>
 
             <p class="presentation_text">
-                L'association EEA relie étudiants, diplômés et professionnels pour partager des expériences,
-                découvrir des opportunités et faire grandir une communauté engagée.
+                Étudiants, diplômés et professionnels se retrouvent ici pour échanger, s'entraider et créer des
+                opportunités utiles à chaque étape de leur parcours.
             </p>
 
             <!-- CHANGE: accès directs aux parcours clés, avec les routes existantes. -->
             <div class="hero-actions">
-                <a class="btn-primary" href="/?dest=inscription">Rejoindre le réseau <i class="fa-solid fa-arrow-right"></i></a>
-                <a class="btn-secondary" href="/?dest=rech_event">Voir les événements</a>
+                <a class="btn-primary" href="/?dest=inscription">Rejoindre l'association <i class="fa-solid fa-arrow-right"></i></a>
+                <a class="btn-secondary" href="/?dest=rech_event">Découvrir les événements</a>
             </div>
 
             <div class="hero-trust">
-                <span><i class="fa-solid fa-check"></i> Ouvert aux étudiants et alumni</span>
-                <span><i class="fa-solid fa-check"></i> Gratuit et solidaire</span>
+                <span><i class="fa-solid fa-check"></i> Une communauté intergénérationnelle</span>
+                <span><i class="fa-solid fa-check"></i> Des échanges concrets, toute l'année</span>
             </div>
 
         </div>
@@ -50,7 +50,7 @@
             </div>
             <div class="stat-text">
                 <span class="stat-number">+500</span>
-                <span class="stat-label">Membres du réseau</span>
+                <span class="stat-label">Membres réunis</span>
             </div>
         </div>
 
@@ -60,7 +60,7 @@
             </div>
             <div class="stat-text">
                 <span class="stat-number">+20</span>
-                <span class="stat-label">Événements par an</span>
+                <span class="stat-label">Rendez-vous par an</span>
             </div>
         </div>
 
@@ -70,7 +70,7 @@
             </div>
             <div class="stat-text">
                 <span class="stat-number">+50</span>
-                <span class="stat-label">Opportunités partagées</span>
+                <span class="stat-label">Offres et opportunités</span>
             </div>
         </div>
 
@@ -81,7 +81,7 @@
 <section class="slider-section" aria-label="Les actions de l'association">
 
     <!-- FLÈCHE GAUCHE -->
-    <button class="slider-arrow left" id="prevSlide">‹</button>
+    <button class="slider-arrow left" id="prevSlide" type="button" aria-label="Voir le contenu précédent">‹</button>
 
     <!-- CONTENEUR -->
     <div class="slider-window">
@@ -240,12 +240,12 @@
     </div>
 
     <!-- FLÈCHE DROITE -->
-    <button class="slider-arrow right" id="nextSlide">›</button>
+    <button class="slider-arrow right" id="nextSlide" type="button" aria-label="Voir le contenu suivant">›</button>
 
     <!-- DOTS -->
     <div class="slider-dots" id="sliderDots">
-        <span class="dot active"></span>
-        <span class="dot"></span>
+        <button class="dot active" type="button" aria-label="Afficher les actions réseau"></button>
+        <button class="dot" type="button" aria-label="Afficher les activités associatives"></button>
     </div>
 
 </section>
