@@ -12,27 +12,13 @@
     1️⃣ UTILISATEUR CONNECTÉ
     ========================================================= */
 
-    if (!$user) {
-        http_response_code(401);
-        echo json_encode([
-            "success" => false,
-            "message" => "Non authentifié"
-        ]);
-        exit;
-    }
+    $user = require_authenticated_user($user);
 
     /* =========================================================
     2️⃣ AUTORISATION : MEMBRE DU BUREAU
     ========================================================= */
 
-    if (empty($user['membre_bureau'])) {
-        http_response_code(403);
-        echo json_encode([
-            "success" => false,
-            "message" => "Accès interdit"
-        ]);
-        exit;
-    }
+    require_bureau_member($user);
 
     /* =========================================================
     3️⃣ MÉTHODE HTTP
@@ -66,20 +52,7 @@
     🛡️ 4️⃣ bis — VÉRIFICATION CSRF (pikachu)
     ========================================================= */
 
-    $pikachu_csfr = $data['pikachu_csfr'] ?? '';
-
-    if (
-        empty($_SESSION['csrf_token']) ||
-        empty($pikachu_csfr) ||
-        !hash_equals($_SESSION['csrf_token'], $pikachu_csfr)
-    ) {
-        http_response_code(403);
-        echo json_encode([
-            "success" => false,
-            "message" => "CSRF invalide"
-        ]);
-        exit;
-    }
+    require_csrf($data);
 
     /* =========================================================
     5️⃣ VALIDATION DES DONNÉES
@@ -105,6 +78,9 @@
             "message" => "Données invalides"
         ]);
         exit;
+    }
+    if ($payload['lien'] !== '' && !filter_var($payload['lien'], FILTER_VALIDATE_URL)) {
+        json_response(['success' => false, 'message' => 'Lien invalide'], 400);
     }
 
     /* =========================================================

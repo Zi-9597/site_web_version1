@@ -45,17 +45,14 @@
         // Accessible à tous (connectés ou non)
         $events = EEA_Database::fetch_events();
 
-        /* =========================
-        2️⃣ UTILISATEUR NON CONNECTÉ
-        ========================= */
+       /* =========================================================
+        1️⃣ UTILISATEUR CONNECTÉ
+        ========================================================= */
 
-        if (!$user) 
-        {
-
-            // 🔴 Visiteur
-            require "commun/barre_navigation.php";
-
-        } 
+        if (!$user) {
+            header("Location: /?dest=logout");
+            exit;
+        }
         else 
         {
 
@@ -137,7 +134,8 @@
                 <tr>
                     <th>Nom de l’événement</th>
                     <th>Date</th>
-                    <th class="col-modifier">Consulter</th>
+                    <th class="col-modifier">Participer</th>
+
                 </tr>
             </thead>
 
@@ -148,11 +146,14 @@
                     <td><?= date("d/m/Y", strtotime($e["date_event"])) ?></td>
 
                     <td>
-                        <button class="btn-change"
+                        <button class="btn-change" 
                             data-id="<?= htmlspecialchars($e["id_event"]) ?>">
-                            👁️ Voir
+                            📝 Participer
                         </button>
+                        
                     </td>
+
+                    
                 </tr>
             <?php endforeach; ?>
             </tbody>
@@ -162,7 +163,8 @@
             Aucun événement trouvé
         </div>
     </div>
-   <!-- ================= MODAL AFFICHER GOODIES ================= -->
+   
+    <!-- ================= MODAL DÉTAILS + ENGAGEMENT ================= -->
     <div id="modal-edit-event" class="modal-overlay">
         <div class="modal-content">
 
@@ -178,7 +180,7 @@
                 </div>
 
                 <div class="modal-field">
-                    <label>Date (mois/jour/année)</label>
+                    <label>Date (jour/mois/année)</label>
                     <input type="date" id="edit-date-event" disabled>
                 </div>
 
@@ -191,22 +193,52 @@
                     </textarea>
                 </div>
 
-                <div class="modal-field">
-                    <label>Lien d’inscription</label>
-                    <input type="text" id="edit-url-form" disabled>
-                    <small style="color:#666;">
-                        🔗 Redirection vers le formulaire ou la plateforme associée
-                    </small>
+
+                <!-- ===== BLOC ENGAGEMENT ===== -->
+                <div class="modal-engagement" style="margin-top:20px; padding:15px; background:#f5f7fa; border-left:4px solid #1a73e8; border-radius: 8px;">
+                    <strong>Engagement de participation</strong>
+                    <p style="margin-top:8px; font-size:14px; line-height:1.5;">
+                        En confirmant votre participation, vous vous engagez à être présent(e) à cet événement.
+                        Afin de garantir une organisation équitable pour l’ensemble des membres, les absences
+                        non justifiées pourront être prises en compte lors de l’accès aux prochains événements
+                        de l’association.
+                    </p>
+                    <p style="font-size:13px; color:#555;">
+                        Merci de confirmer uniquement si vous êtes certain(e) de pouvoir y assister.
+                    </p>
                 </div>
 
             </div>
 
             <div class="modal-footer">
                 <button class="modal-btn-cancel">Fermer</button>
+                <button class="modal-btn-save" id="btn-confirm-sub">Je participe</button>
             </div>
 
         </div>
+       
     </div>
+
+    <!-- Récupération du CSRF -->
+    <input type="hidden"  id="pikachu_csrf" value=<?= htmlspecialchars($_SESSION["csrf_token"]) ?> > 
+    
+    <!-- Carte SUCCESS -->
+    <div id="card-success" class="notif-card success">
+        ✔️ Votre inscription a été validée !
+    </div>
+
+    <!-- Carte ERROR -->
+    <div id="card-error" class="notif-card error">
+        ❌ Une erreur est survenue lors l'inscription.
+    </div>
+
+    <!-- Carte ERROR -->
+    <div id="card-error-repeat" class="notif-card error">
+        ❌ Vous êtes déjà inscris pour cet évènement.
+    </div>
+
+   
+   
 
 
 

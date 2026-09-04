@@ -78,36 +78,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    /**
-     * ----------------------------------------------------------------------
-     * VALIDATION DU MOT DE PASSE
-     * ----------------------------------------------------------------------
-     * Le mot de passe doit contenir :
-     * - 8 caractères minimum
-     * - au moins un chiffre
-     * - au moins une minuscule ET une majuscule
-     * - un caractère spécial (+, -, !, _, @)
-     * Chaque règle est associée à un <li> coloré en rouge/vert.
-     */
+    /* CHANGE: accept every character and length; only an empty password is invalid. */
     function validatePassword() {
         const pwd = elements.passwordInput.value;
-
-        // Conditions requises
-        const rules = {
-            rule_1: pwd.length >= 8,
-            rule_2: /\d/.test(pwd),
-            rule_3: /(?=.*[a-z])(?=.*[A-Z])/.test(pwd),
-            rule_4: /[+\-!_@]/.test(pwd),
-        };
-
-        // Mise à jour visuelle des règles
-        let isValid = true;
-        Object.entries(rules).forEach(([rule, ok]) => {
+        const isValid = pwd.length > 0;
+        ["rule_1", "rule_2", "rule_3", "rule_4"].forEach((rule) => {
             const element = document.getElementById(rule);
-            element.style.color = ok ? "green" : "red";
-            if (!ok) isValid = false;
+            element.style.color = isValid ? "green" : "#5f6f89";
         });
-
         return isValid;
     }
 

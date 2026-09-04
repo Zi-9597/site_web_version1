@@ -140,16 +140,30 @@
             ]);
             exit;
         }
+
+        // CHANGE (account integrity): prevent two members sharing one login email.
+        $existingUser = EEA_Database::fetc_user_mail(strtolower($value));
+        if (!empty($existingUser) && !hash_equals((string) $existingUser['id_membre'], (string) $id_user)) {
+            http_response_code(409);
+            echo json_encode(["success" => false, "message" => "Email déjà utilisé"]);
+            exit;
+        }
     }
 
     if ($db_field === "mot_de_passe") {
 
-        // Longueur minimale
-        if (strlen($value) < 8) {
+        // CHANGE: no composition or minimum-length rule; an empty password remains invalid.
+        if ($value === '') {
             echo json_encode([
                 "success" => false,
-                "message" => "Mot de passe trop court"
+                "message" => "Le mot de passe ne peut pas être vide"
             ]);
+            exit;
+        }
+
+        if (strlen($value) > 1024) {
+            http_response_code(400);
+            echo json_encode(["success" => false, "message" => "Mot de passe invalide"]);
             exit;
         }
 
@@ -196,9 +210,9 @@
         - Le nouveau token sera disponible après reload
         ===================================================== */
 
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(24));
+        $csrfToken = rotate_csrf_token();
 
-        echo json_encode(["success" => true]);
+        echo json_encode(["success" => true, "csrf_token" => $csrfToken]);
         exit;
 
     } catch (Throwable $e) {

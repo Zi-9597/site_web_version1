@@ -1,80 +1,40 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    const results = document.getElementById("resultats");
+    if (!results) return;
 
-    const resultsDiv = document.getElementById("resultats");
+    function addText(parent, tag, text) {
+        const element = document.createElement(tag);
+        element.textContent = text;
+        parent.appendChild(element);
+        return element;
+    }
 
-
-    const params = new URLSearchParams(window.location.search);
-    
-    const user_id = params.get("id_user");
-
-    const url =  `/?dest=reche_emploie&id_user=${encodeURIComponent(user_id)}`;
-
-   
-    // (⚠️ adapte si ton routing est différent)
-
-    // ✅ On force la spécialité = 7 (Job Étudiant)
-    const filters = {
-        specialites: ["7"]
-    };
-
-    // ✅ Requête FETCH en JSON
-    fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(filters)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Erreur serveur : ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-
-        resultsDiv.innerHTML = "";
-
-        // ❌ Aucun résultat
-        if (!data.status || data.count === 0) {
-            resultsDiv.innerHTML = "<p>Aucune offre trouvée.</p>";
+    try {
+        const userId = new URLSearchParams(window.location.search).get("id_user");
+        const response = await fetch(`/?dest=reche_emploie&id_user=${encodeURIComponent(userId || "")}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ specialites: ["7"] })
+        });
+        if (!response.ok) throw new Error();
+        const data = await response.json();
+        results.replaceChildren();
+        if (!data.status || !Array.isArray(data.jobs) || data.jobs.length === 0) {
+            addText(results, "p", "Aucune offre trouvée.");
             return;
         }
 
-        // ✅ Génération des cartes
         data.jobs.forEach(job => {
-
-            const card = document.createElement("div");
+            /* CHANGE (XSS): textContent prevents stored offer content becoming HTML. */
+            const card = document.createElement("article");
             card.className = "job-card";
-
-            card.innerHTML = `
-                <h3>${job.titre_offre}</h3>
-
-                <p><strong>Type de contrat :</strong> ${job.type_contrat}</p>
-
-
-                <p>
-                    <strong>Contact :</strong> 
-                    <a href="mailto:${job.email_user}">
-                        ${job.email_user}
-                    </a>
-                </p>
-
-                <p>${job.description || ""}</p>
-
-                ${
-                    job.url_linkedin 
-                        ? `<p><a href="${job.url_linkedin}" target="_blank">Voir l'offre sur LinkedIn</a></p>` 
-                        : ""
-                }
-            `;
-
-            resultsDiv.appendChild(card);
+            addText(card, "h3", job.titre_offre || "Offre sans titre");
+            addText(card, "p", `Type de contrat : ${job.type_contrat || "-"}`);
+            addText(card, "p", job.description || "");
+            results.appendChild(card);
         });
-
-    })
-    .catch(err => {
-        resultsDiv.innerHTML = `<p style="color:red;">❌ ${err.message}</p>`;
-    });
-
+    } catch (_) {
+        results.replaceChildren();
+        addText(results, "p", "La recherche a échoué. Veuillez réessayer.");
+    }
 });

@@ -83,6 +83,11 @@
         <span><a href="/?dest=manage_job"> Gestion des offres </a> </span>
         <span> <a href="/?dest=rech_event"> Participer à un évenement </a> </span>
         <span> <a href="/?dest=aides_etud"> Demander de l'aide </a> </span>
+        <span><a href="https://nextcloud.univ-lille.fr/index.php/s/jSNCSKNnmbn6QR4" target="_blank" rel="noopener noreferrer"> Santé et accompagnements </a> </span>
+        <span><a href="https://nextcloud.univ-lille.fr/index.php/s/dRCkZ4o684tEiYe" target="_blank" rel="noopener noreferrer"> Guide des étudiants étrangers en France </a> </span>
+        <span><a href="https://nextcloud.univ-lille.fr/index.php/s/C5wnSywSostxWPM" target="_blank" rel="noopener noreferrer"> Guide des aides pour les étudiants </a> </span>
+        <span><a href="https://nextcloud.univ-lille.fr/index.php/s/KN2LDi22SAozrPj" target="_blank" rel="noopener noreferrer"> Rapport de stage/alternance des anciens </a> </span>
+
 
 
         <span><a href="https://www.univ-lille.fr/" target="_blank" rel="noopener noreferrer"> Université de Lille </a> </span>

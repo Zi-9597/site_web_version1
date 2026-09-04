@@ -6,21 +6,29 @@
     <!-- ===== INTRO PRINCIPALE : TEXTE + IMAGE ===== -->
     <div class="presentation_intro">
 
-        <!-- ===== BLOC TEXTE (GAUCHE) ===== -->
+        <!-- CHANGE: message d'accueil orienté réseau professionnel et parcours. -->
         <div class="presentation_content">
 
-            <!-- Titre principal -->
+            <p class="hero-eyebrow"><i class="fa-solid fa-circle-nodes"></i> Réseau EEA Université de Lille</p>
             <h1 class="hero-title">
-                Se <span>Retrouver </span> <span>Partager</span> Avancer <span> Ensemble</span>
-
+                Construisons la suite de <span>votre parcours</span>, ensemble.
             </h1>
 
-            <!-- Texte descriptif -->
             <p class="presentation_text">
-               L’association unit étudiants et anciens diplômés autour de valeurs humaines fortes: le partage, la solidarité et la convivialité. 
-               Elle propose des moments de rencontre qui rapprochent, créent du lien et nourrissent un véritable esprit de communauté
+                L'association EEA relie étudiants, diplômés et professionnels pour partager des expériences,
+                découvrir des opportunités et faire grandir une communauté engagée.
             </p>
 
+            <!-- CHANGE: accès directs aux parcours clés, avec les routes existantes. -->
+            <div class="hero-actions">
+                <a class="btn-primary" href="/?dest=inscription">Rejoindre le réseau <i class="fa-solid fa-arrow-right"></i></a>
+                <a class="btn-secondary" href="/?dest=rech_event">Voir les événements</a>
+            </div>
+
+            <div class="hero-trust">
+                <span><i class="fa-solid fa-check"></i> Ouvert aux étudiants et alumni</span>
+                <span><i class="fa-solid fa-check"></i> Gratuit et solidaire</span>
+            </div>
 
         </div>
 
@@ -33,9 +41,7 @@
 
     </div>
 
-    <!-- =========================
-         BARRE DE STATISTIQUES
-    ========================= -->
+    <!-- CHANGE: indicateurs de communauté plus lisibles et orientés impact. -->
     <div class="stats-bar">
 
         <div class="stat-item">
@@ -44,7 +50,7 @@
             </div>
             <div class="stat-text">
                 <span class="stat-number">+500</span>
-                <span class="stat-label">Membres</span>
+                <span class="stat-label">Membres du réseau</span>
             </div>
         </div>
 
@@ -54,7 +60,7 @@
             </div>
             <div class="stat-text">
                 <span class="stat-number">+20</span>
-                <span class="stat-label">Événements</span>
+                <span class="stat-label">Événements par an</span>
             </div>
         </div>
 
@@ -64,14 +70,15 @@
             </div>
             <div class="stat-text">
                 <span class="stat-number">+50</span>
-                <span class="stat-label">Opportunités</span>
+                <span class="stat-label">Opportunités partagées</span>
             </div>
         </div>
 
     </div>
 </section>
 
-<section class="slider-section">
+<!-- CHANGE: présentation éditoriale des deux piliers de l'association. -->
+<section class="slider-section" aria-label="Les actions de l'association">
 
     <!-- FLÈCHE GAUCHE -->
     <button class="slider-arrow left" id="prevSlide">‹</button>
@@ -86,11 +93,11 @@
 
                     <!-- ===== INTRO RÉSEAU ===== -->
                     <div class="section-intro">
-                        <h2>Un réseau professionnel qui ouvre des portes</h2>
+                        <p class="section-kicker">Carrières et mentorat</p>
+                        <h2>Un réseau professionnel qui crée des opportunités</h2>
                         <p>
-                            L’association fait vivre un réseau professionnel dynamique réunissant étudiants et anciens diplômés. En proposant des rencontres avec des entreprises, des forums, 
-                            des visites professionnelles et des échanges avec les alumni, elle accompagne les étudiants dans la découverte du monde du travail et les aide à construire leur avenir professionnel, 
-                            tout en renforçant des liens durables entre les générations.
+                            Des premiers contacts avec les entreprises aux échanges entre promotions, le réseau EEA
+                            accompagne chaque membre dans son évolution académique et professionnelle.
                         </p>
                     </div>
 
@@ -102,10 +109,10 @@
                                 <img src="public/pictures/img_evenements/img_master_1.jpg" alt="Forum Master EEA">
                             </div>
                             <div class="section-text">
-                                <h3>Participation aux forums académiques</h3>
+                                <h3>Forums et orientation</h3>
                                 <p>
-                                    L’association est activement présente lors des forums afin d’accompagner les étudiants, 
-                                    de les informer et de les orienter dans leurs choix académiques et professionnels.
+                                    Des repères concrets pour mieux choisir une spécialisation, préparer un projet et
+                                    rencontrer les personnes qui peuvent l'enrichir.
                                 </p>
                             </div>
                         </div>
@@ -117,8 +124,8 @@
                             <div class="section-text">
                                 <h3>Rencontres avec les entreprises</h3>
                                 <p>
-                                    Des échanges sont organisés avec des entreprises partenaires pour permettre aux 
-                                    étudiants de mieux comprendre le monde professionnel et de découvrir ses opportunités.
+                                    Découvrez les métiers, les environnements de travail et les opportunités proposées par
+                                    les partenaires de l'association.
                                 </p>
                             </div>
                         </div>
@@ -130,8 +137,7 @@
                             <div class="section-text">
                                 <h3>Visites et échanges professionnels</h3>
                                 <p>
-                                    L’association propose des visites d’entreprises et des moments d’échange directs avec des professionnels, 
-                                    offrant une immersion concrète dans les réalités du monde du travail.
+                                    Une immersion dans les réalités du terrain pour compléter les apprentissages de la formation.
                                 </p>
                             </div>
                         </div>
@@ -143,8 +149,8 @@
                             <div class="section-text">
                                 <h3>Rencontres avec les alumni</h3>
                                 <p>
-                                    Des temps de partage privilégiés avec les anciens diplômés permettent d’échanger sur les parcours, de bénéficier de conseils et de 
-                                    créer des opportunités professionnelles dans un esprit de transmission et de solidarité.
+                                    Profitez de retours d'expérience, de conseils de carrière et de liens durables entre diplômés
+                                    et nouvelles générations.
                                 </p>
                             </div>
                         </div>
@@ -160,14 +166,11 @@
 
                     <!-- ===== INTRO ACTIVITÉS ===== -->
                     <div class="section-intro">
-                        <h2>Une vie associative riche et conviviale</h2>
+                        <p class="section-kicker">Communauté et convivialité</p>
+                        <h2>Une vie associative qui rassemble</h2>
                         <p>
-                            
-                            L’association propose tout au long de l’année des activités sportives, culturelles et conviviales destinées aux étudiants, favorisant les rencontres, 
-                            l’intégration des nouveaux arrivants et le partage entre promotions. Ces événements contribuent à créer une ambiance chaleureuse, à renforcer l’esprit 
-                            d’équipe et à offrir aux étudiants un cadre de vie dynamique et épanouissant en dehors des cours.
-                            Par ailleurs, l’association organise également des repas et moments de retrouvailles entre anciens diplômés, offrant l’occasion de se retrouver, 
-                            d’échanger des souvenirs et de maintenir des liens forts au sein de la communauté.
+                            Tout au long de l'année, des activités sportives, culturelles et des retrouvailles alumni
+                            renforcent les liens entre les promotions, bien au-delà des cours.
                         </p>
                     </div>
 
@@ -248,6 +251,7 @@
 </section>
 
 <script>
+    // Comportement du slider conservé : seules la hiérarchie et la présentation ont été modernisées.
     const track = document.getElementById("sliderTrack");
     const dots = document.querySelectorAll(".dot");
     let index = 0;
@@ -274,5 +278,3 @@
         };
     });
 </script>
-
-

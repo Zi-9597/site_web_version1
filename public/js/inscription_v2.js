@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
         membreInput: document.getElementById("membre-assoc"), // Liste déroulante pour le statut de membre
         sectionInput: document.getElementById("filiere-section"), // Liste déroulante pour la filière
         inputFiliere: document.getElementById("autre-filiere"), // Champ texte pour une filière personnalisée
-        telAvailable: document.getElementById("tel-available"), // Case à cocher si le téléphone n'est pas disponible
         mailInput: document.getElementById("mail-input"), // Champ pour l'adresse e-mail
         passwordInput: document.getElementById("mdp-inp"), // Champ pour le mot de passe
         countryInput: document.getElementById("country-born-input"), // Champ pour le pays de naissance
@@ -21,8 +20,19 @@ document.addEventListener('DOMContentLoaded', () => {
         submitButton: document.getElementById("button_submit"), // Bouton de soumission du formulaire
         motTelephone: document.getElementById("bon_num"), // Message d'erreur pour le téléphone
         pMail: document.getElementById("p_mail"), // Message d'erreur pour l'email
-        formElement: document.getElementById("forme_id_anniv"), // Indicateur pour la validation de l'anniversaire
+        formElement: document.getElementById("forme_id_anniv"), // Indicateur pour la validation de l'anniversaire,
+        form : document.getElementById("loginForm"),
+        phoneHidden : document.getElementById("phone_e164")
     };
+
+    // 📞 Initialisation du téléphone international
+    const iti = window.intlTelInput(elements.phoneInput, {
+        initialCountry: "fr",
+        separateDialCode: true,
+        preferredCountries: ["fr", "ma", "es", "be"],
+        utilsScript:
+        "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js"
+    });
 
     // Désactive le bouton de soumission par défaut pour éviter une soumission prématurée.
     elements.submitButton.disabled = true;
@@ -77,35 +87,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * 📞 Validation du numéro de téléphone
-     * - Numéro français uniquement (06 / 07)
-     * - 10 chiffres
-     * - Ignoré si "Téléphone indisponible" est coché
+     * 📞 Validation du numéro de téléphone (international)
+     * - Validation réelle via intl-tel-input
+     * - Compatible tous pays
      */
-    function validatePhone() 
-    {
+    function validatePhone() {
 
-        // 1) Si l'utilisateur indique que le téléphone est indisponible
-        if (elements.telAvailable.checked) {
-            elements.phoneInput.value = "";
-            elements.motTelephone.style.display = "none";
-            return true;
-        }
-
-        // 2) Regex téléphone français
-        const regex = /^(06|07)[0-9]{8}$/;
-
-        // 3) Valeur saisie (sans espaces)
         const value = elements.phoneInput.value.trim();
+        // Champ vide → invalide (ou adapte si facultatif)
+        
 
-        // 4) Vérification de validité
-        const isValid = regex.test(value);
+        // Validation via la lib
+        const isValid = iti.isValidNumber();
+        // Message d’erreur
+        if (isValid) {
+            elements.motTelephone.style.display = "none";
+        }
+        else
+        {
+            //Deux cas possible que le numéro est faux soit l'input est vide soit le numéro n'est pas respecté
+            //On veut afficher ssi le numéro n'est pas respecté
+            
+            elements.motTelephone.style.display = value.length === 0 ? "none" : "block";
+            
+        }
+        // Feedback Bootstrap (optionnel mais propre)
+        elements.phoneInput.classList.toggle("is-invalid", !isValid);
 
-        // 5) Affichage du message d'erreur (si nécessaire)
-        elements.motTelephone.style.display =
-            isValid || value === "" ? "none" : "block";
-
-        // 6) Résultat final
         return isValid;
     }
 
@@ -115,14 +123,14 @@ document.addEventListener('DOMContentLoaded', () => {
  * - Format e-mail valide
  * - Interdit : domaine @univ-lille.fr
  */
-    function validateMail() 
+    async function validateMail() 
     {
 
         // 1) Récupération et nettoyage de la valeur
         const email = elements.mailInput.value.trim();
 
         // 2) Champ vide → pas de message, invalide
-        if (!email) {
+        if (email.length === 0) {
             elements.pMail.innerText = "";
             return false;
         }
@@ -141,6 +149,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (forbiddenDomain.test(email)) {
             elements.pMail.innerText = "Adresse Université de Lille interdite";
+            return false;
+        }
+         // 5) Vérification en base de données (AJAX)
+        try 
+        {
+            const response = await fetch("/?dest=check_mail", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email: email })
+            });
+
+            const data = await response.json();
+            console.log(data.exists)
+            if (data.exists) {
+                elements.pMail.innerText = "Ce compte existe déjà !";
+                return false;
+            }
+
+        } 
+        catch (error) {
+            console.error("Erreur AJAX :", error);
+            elements.pMail.innerText = "Erreur de vérification du mail";
             return false;
         }
 
@@ -175,29 +207,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    /**
-     * Valide le mot de passe
-     * Vérifie que le mot de passe respecte plusieurs critères :
-     * - Au moins 8 caractères
-     * - Contient au moins un chiffre
-     * - Contient des lettres majuscules et minuscules
-     * - Contient au moins un caractère spécial (+, -, !, _, @).
-     */
+    /* CHANGE: accept every character and length; registration requires only a non-empty password. */
     function validatePassword() {
-        const rules = {
-            rule_1: elements.passwordInput.value.length >= 8,
-            rule_2: /\d/.test(elements.passwordInput.value),
-            rule_3: /(?=.*[a-z])(?=.*[A-Z])/.test(elements.passwordInput.value),
-            rule_4: /[+\-!_@]/.test(elements.passwordInput.value),
-        };
-
-        let isValid = true;
-        Object.entries(rules).forEach(([rule, condition]) => {
+        const isValid = elements.passwordInput.value.length > 0;
+        ["rule_1", "rule_2", "rule_3", "rule_4"].forEach((rule) => {
             const element = document.getElementById(rule);
-            element.style.color = condition ? "green" : "red"; // Affiche l'état de chaque règle
-            if (!condition) isValid = false;
+            element.style.color = isValid ? "green" : "#5f6f89";
         });
-
         return isValid;
     }
 
@@ -205,8 +221,8 @@ document.addEventListener('DOMContentLoaded', () => {
      * Valide l'ensemble du formulaire
      * Active ou désactive le bouton de soumission en fonction des résultats des validations.
      */
-    function validateForm() {
-        const valid_mail = validateMail();
+    async function validateForm() {
+        const valid_mail = await validateMail();
         const valid_pass = validatePassword();
         const valid_phone = validatePhone();
         const valid_anniv = validateAnniversaire();
@@ -232,11 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function attachEventListeners() {
         elements.anniversaireInput.addEventListener('input', validateForm);
         elements.phoneInput.addEventListener('input', validateForm);
-        elements.telAvailable.addEventListener('change', () => {
-            elements.phoneInput.disabled = elements.telAvailable.checked; // Désactive le champ téléphone si la case est cochée
-            validateForm();
-        });
-        elements.mailInput.addEventListener('input', validateForm);
+        elements.mailInput.addEventListener('blur', validateForm);
         elements.passwordInput.addEventListener('input', validateForm);
         elements.civiliteChoice.addEventListener('change', validateForm);
         elements.prenomInput.addEventListener('input', validateForm);
@@ -255,16 +267,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    elements.form.addEventListener("submit", (e) => 
+    {
+        // si téléphone invalide → on bloque
+        if (!validatePhone()) {
+            e.preventDefault();
+            return;
+        }
+        // on prépare la donnée AVANT l'envoi POST
+
+        //Variable interlTelInputUtils deouis la bilbiothèque js <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js"></script> l.36 du fihcier inscrription.php
+        elements.phoneHidden.value = iti.getNumber(
+            intlTelInputUtils.numberFormat.E164
+        );
+    });
     /**
      * Réinitialise les champs du formulaire lors du rechargement de la page
      */
-    window.addEventListener('beforeunload', () => {
+    window.addEventListener('pageshow', () => {
         Object.keys(elements).forEach((key) => {
             const element = elements[key];
             if (element instanceof HTMLInputElement) element.value = ""; // Vide les champs texte
             if (element instanceof HTMLSelectElement) element.selectedIndex = 0; // Réinitialise les listes déroulantes
             if (key === "inputFiliere") element.disabled = true; // Désactive le champ filière
-            if (key === "telAvailable") element.checked = false; // Décoche la case téléphone indisponible
         });
     });
 

@@ -13,21 +13,13 @@
     1️⃣ UTILISATEUR CONNECTÉ
     ========================================================= */
 
-    if (!$user) {
-        http_response_code(401);
-        echo json_encode(["success" => false, "message" => "Non authentifié"]);
-        exit;
-    }
+    $user = require_authenticated_user($user);
 
     /* =========================================================
     2️⃣ AUTORISATION : MEMBRE DU BUREAU
     ========================================================= */
 
-    if (empty($user['membre_bureau'])) {
-        http_response_code(403);
-        echo json_encode(["success" => false, "message" => "Accès interdit"]);
-        exit;
-    }
+    require_bureau_member($user);
 
     /* =========================================================
     3️⃣ MÉTHODE HTTP
@@ -55,17 +47,7 @@
     🛡️ 4️⃣ bis — VÉRIFICATION CSRF
     ========================================================= */
 
-    $pikachu_csrf = $data['pikachu_csrf'] ?? '';
-
-    if (
-        empty($_SESSION['csrf_token']) ||
-        empty($pikachu_csrf) ||
-        !hash_equals($_SESSION['csrf_token'], $pikachu_csrf)
-    ) {
-        http_response_code(403);
-        echo json_encode(["success" => false, "message" => "CSRF invalide"]);
-        exit;
-    }
+    require_csrf($data);
 
     /* =========================================================
     5️⃣ VALIDATION DES CHAMPS
@@ -110,15 +92,16 @@
 
     try {
 
-        $ok = EEA_Database::updateEvent($updateData);
+        /* CHANGE (IDOR prevention): the event creator must match the current user. */
+        $ok = EEA_Database::updateOwnedEvent($user['id_membre'], $updateData);
 
         if ($ok) {
-            // 🔁 ROTATION CSRF
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+            // CHANGE (CSRF): return the replacement token for AJAX clients.
+            $csrfToken = rotate_csrf_token();
         }
 
         http_response_code($ok ? 200 : 500);
-        echo json_encode(["success" => (bool)$ok]);
+        echo json_encode(["success" => (bool)$ok, "csrf_token" => $csrfToken ?? null]);
         exit;
 
     } catch (Throwable $e) {

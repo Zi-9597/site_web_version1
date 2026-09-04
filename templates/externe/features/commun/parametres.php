@@ -185,13 +185,14 @@
                                 </div>
                             </div>
 
+                            <!-- CHANGE: password composition rules removed; only a non-empty password is required. -->
                             <div id="det_mdp">
-                                <p>Votre mot de passe doit contenir :</p>
+                                <p>Choisissez un mot de passe personnel que vous retiendrez facilement.</p>
                                 <ul>
-                                    <li id="rule_1">Au minimum 8 caractères</li>
-                                    <li id="rule_2">Des chiffres</li>
-                                    <li id="rule_3">Des lettres (minuscules et majuscules)</li>
-                                    <li id="rule_4">Des caractères spéciaux (+,!,_,-,@) seulement</li>
+                                    <li id="rule_1">Tous les caractères sont acceptés</li>
+                                    <li id="rule_2">Aucune longueur minimale n'est imposée</li>
+                                    <li id="rule_3">Le mot de passe ne doit pas être vide</li>
+                                    <li id="rule_4">La mise à jour est prise en compte immédiatement</li>
                                 </ul>
                             </div>
                         </div>

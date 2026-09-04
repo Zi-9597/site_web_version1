@@ -9,12 +9,14 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title> Acceuil - Ancien EEA</title>
+        <title>Accueil - Association EEA</title>
         <link rel="stylesheet" href="public/css/barre_navigation_v2.css?v=<?= filemtime('public/css/barre_navigation_v2.css') ?>">
         <link rel="shortcut icon" href="public/pictures/logo_v8.jpeg">
         <link rel="stylesheet" href="../../public/css/index.css?v=<?= filemtime('public/css/index.css') ?>">
         <link rel="stylesheet" href="../../public/css/logo_gestion.css">
         <link rel="stylesheet" href="../../public/css/presentation_acceuil.css?v=20251225_2">
+        <!-- CHANGE: refonte visuelle de la page d'accueil sans modifier les classes existantes. -->
+        <link rel="stylesheet" href="public/css/home_network.css?v=<?= filemtime('public/css/home_network.css') ?>">
         <link rel="stylesheet" href="../../public/css/footer.css?v=<?= filemtime('public/css/footer.css') ?>">
         <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
         

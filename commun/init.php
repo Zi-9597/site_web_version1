@@ -1,84 +1,148 @@
 <?php
-    /* ==========================================================
-    INITIALISATION GLOBALE
-    - Sécurité des cookies de session
-    - Démarrage de la session
-    - Chargement de la base de données
-    ========================================================== */
+/*
+ * CHANGE (security bootstrap): this is now the single place for session,
+ * browser-header, JSON-response, CSRF, and authenticated-user rules.
+ * Existing `?dest=` routes continue to include this file unchanged.
+ */
 
-    // Sécurité minimale des cookies de session
-    // → session uniquement via cookies (pas via URL)
-    // → cookie inaccessible en JavaScript
-    ini_set('session.use_only_cookies', 1);
-    ini_set('session.cookie_httponly', 1);
+declare(strict_types=1);
 
-    // (À activer uniquement si le site est en HTTPS)
-    // ini_set('session.cookie_secure', 1);
-
-    // Empêche tout affichage avant l'envoi des headers HTTP
-    //ob_start();
-
-    // Démarrage de la session (UNE seule fois)
+if (session_status() === PHP_SESSION_NONE) {
+    // CHANGE (session security): reject unknown session IDs and disable URL IDs.
+    ini_set('session.use_only_cookies', '1');
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.cookie_httponly', '1');
+    ini_set('session.cookie_secure', '1');
+    ini_set('session.cookie_samesite', 'Strict');
     session_start();
+}
 
-    // Connexion à la base de données
-    // ⚠️ Ce fichier ne doit produire AUCUNE sortie (echo, HTML…)
-    require_once "require_db.php";
+if (!headers_sent()) {
+    // CHANGE (browser security): protect MIME sniffing and clickjacking too.
+    header('X-Content-Type-Options: nosniff');
+    header('Referrer-Policy: strict-origin-when-cross-origin');
+    header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
+    header('Content-Security-Policy: default-src \'self\'; base-uri \'self\'; object-src \'none\'; frame-ancestors \'none\'; form-action \'self\'; img-src \'self\' data:; connect-src \'self\'; script-src \'self\' \'unsafe-inline\' https://cdn.jsdelivr.net https://ajax.googleapis.com https://maxcdn.bootstrapcdn.com; style-src \'self\' \'unsafe-inline\' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com; font-src \'self\' https://fonts.gstatic.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com; upgrade-insecure-requests');
+}
 
-    /* ==========================================================
-    SESSION UTILISATEUR
-    ========================================================== */
+require_once __DIR__ . '/../require_db.php';
 
-    // Utilisateur connecté ou null
-    $user = $_SESSION['user'] ?? null;
+/** CHANGE (XSS prevention): use for every value inserted into HTML. */
+function e($value): string
+{
+    return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+}
 
+/** CHANGE (consistent JSON): endpoints can return safe errors consistently. */
+function json_response(array $data, int $status = 200): void
+{
+    http_response_code($status);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    exit;
+}
+
+function require_post(): void
+{
+    if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
+        json_response(['success' => false, 'message' => 'Méthode non autorisée'], 405);
+    }
+}
+
+function require_authenticated_user(?array $user): array
+{
+    if ($user === null) {
+        json_response(['success' => false, 'message' => 'Utilisateur non authentifié'], 401);
+    }
+
+    return $user;
+}
+
+function is_bureau_member(array $user): bool
+{
+    // Existing deployments may use several bureau titles, so do not hard-code two titles here.
+    return isset($user['membre_bureau']) && trim((string) $user['membre_bureau']) !== '';
+}
+
+function require_bureau_member(?array $user): array
+{
+    $user = require_authenticated_user($user);
+    if (!is_bureau_member($user)) {
+        json_response(['success' => false, 'message' => 'Accès interdit'], 403);
+    }
+
+    return $user;
+}
+
+function require_admin(?array $user): array
+{
+    $user = require_authenticated_user($user);
+    if (!in_array($user['membre_bureau'] ?? '', ['Président', 'Web Admin'], true)) {
+        json_response(['success' => false, 'message' => 'Accès interdit'], 403);
+    }
+
+    return $user;
+}
+
+/**
+ * CHANGE (CSRF compatibility): old clients use pikachu, pikachu_csfr, and
+ * pikachu_csrf. All are accepted temporarily, then checked by one function.
+ */
+function require_csrf(array $input): void
+{
+    $token = $input['pikachu_csrf'] ?? $input['pikachu_csfr'] ?? $input['pikachu'] ?? '';
+    if (!is_string($token) || empty($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $token)) {
+        json_response(['success' => false, 'message' => 'CSRF invalide'], 403);
+    }
+}
+
+function rotate_csrf_token(): string
+{
+    // CHANGE (CSRF): one token generator prevents inconsistent token sizes.
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    return $_SESSION['csrf_token'];
+}
+
+$user = null;
+$sessionUser = $_SESSION['user'] ?? null;
+if (empty($_SESSION['csrf_token'])) {
+    // CHANGE (CSRF): public forms such as login and registration need a token too.
+    rotate_csrf_token();
+}
+if (is_array($sessionUser) && !empty($sessionUser['id_membre'])) {
     /*
-    * Fallback simple :
-    * si une session existe mais est invalide → logout
-    */
-    if ($user !== null) {
-        if (!is_array($user) || empty($user['id_membre'])) {
-            session_unset();
-            session_destroy();
-            header("Location: /?dest=logout");
-            exit;
-        }
+     * CHANGE (authorization): refresh the account from the database so deleted
+     * accounts and changed roles cannot keep using stale session permissions.
+     */
+    $foundUser = EEA_Database::fetc_user_id((string) $sessionUser['id_membre']);
+    if (!$foundUser || !is_array($foundUser) || empty($foundUser['id_membre'])) {
+        $_SESSION = [];
+        session_destroy();
+        header('Location: /?dest=logout');
+        exit;
     }
 
-    /* ==========================================================
-    TIMEOUT D’INACTIVITÉ
-    ========================================================== */
+    $user = [
+        'id_membre' => $foundUser['id_membre'],
+        'prenom' => $foundUser['prenom'],
+        'nom' => $foundUser['nom'],
+        'membre_assoc' => $foundUser['membre_assoc'],
+        'membre_bureau' => $foundUser['membre_bureau'] ?? '',
+        'email' => $foundUser['email'],
+        'telephone' => $foundUser['phone_number'] ?? '',
+        'phone_number' => $foundUser['phone_number'] ?? '',
+    ];
+    $_SESSION['user'] = $user;
 
-    // Durée max d’inactivité (30 minutes)
-    $SESSION_TIMEOUT = 1800;
-
-    if ($user !== null) 
-    {
-
-        // Si last_activity n'existe pas encore (sécurité)
-        if (!isset($_SESSION['last_activity'])) {
-            $_SESSION['last_activity'] = time();
-        }
-
-        // Vérification du timeout
-        if (time() - $_SESSION['last_activity'] > $SESSION_TIMEOUT) {
-            session_unset();
-            session_destroy();
-            header("Location: /?dest=logout");
-            exit;
-        }
-
-        // Mise à jour de l’activité
-        $_SESSION['last_activity'] = time();
+    $timeout = 1800;
+    if (isset($_SESSION['last_activity']) && time() - (int) $_SESSION['last_activity'] > $timeout) {
+        $_SESSION = [];
+        session_destroy();
+        header('Location: /?dest=logout');
+        exit;
     }
+    $_SESSION['last_activity'] = time();
 
-    /* ==========================================================
-    DONNÉES UTILISATEUR UTILES
-    ========================================================== */
+}
 
-    // Nom et prénom (toujours défini, jamais null)
-    $nom_prenom = '';
-    if ($user && isset($user['prenom'], $user['nom'])) {
-        $nom_prenom = trim($user['prenom'] . ' ' . $user['nom']);
-    }
-?>
+$nom_prenom = $user ? trim($user['prenom'] . ' ' . $user['nom']) : '';

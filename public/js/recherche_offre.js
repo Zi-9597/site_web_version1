@@ -1,88 +1,69 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const formElements = {
-        form: document.getElementById("formulaire-offre"),
-        submitBtn: document.getElementById("button_submit"),
+    const form = document.getElementById("formulaire-offre");
+    const submitBtn = document.getElementById("button_submit");
+    const results = document.getElementById("resultats");
+    if (!form || !submitBtn || !results) return;
 
-        // Messages
-        form_code: document.querySelector(".form_code"),
-
-        // Résultats
-        resultsDiv: document.getElementById("resultats")
-    };
-
-    /**
-     * =======================================================
-     * Validation champ "Département" et récupération localisation
-     * =======================================================
-     */
-    /**
-     * =======================================================
-     * Gestion de la soumission du formulaire (recherche offres)
-     * =======================================================
-     */
-    formElements.form.addEventListener("submit", e => {
-        e.preventDefault();
-
-        const params = new URLSearchParams(window.location.search);
-        const data_form = new FormData(formElements.form);
-        const user_id = params.get("id_user");
-
-        const url = `/?dest=reche_emploie&id_user=${encodeURIComponent(user_id)}`;
-
-        fetch(url, {
-            method: "POST",
-            body: data_form
-        })
-            .then(response => {
-                if (!response.ok) throw new Error(`Erreur serveur : ${response.status}`);
-                return response.json();
-            })
-            .then(data => {
-                formElements.resultsDiv.innerHTML = "";
-
-                if (!data.status || data.count === 0) {
-                    formElements.resultsDiv.innerHTML = "<p>Aucune offre trouvée.</p>";
-                    return;
-                }
-
-                data.jobs.forEach(job => {
-                    const card = document.createElement("div");
-                    card.className = "job-card";
-
-                    card.innerHTML = `
-                        <h3>${job.titre_offre}</h3>
-                        <p><strong>Type de contrat :</strong> ${job.type_contrat}</p>
-                        <p><strong>Spécialités :</strong> ${job.specialites || "-"}</p>
-                        <p><strong>Contact :</strong> <a href="mailto:${job.email_user}">${job.email_user}</a></p>
-                        <p>${job.description || ""}</p>
-                        ${job.url_linkedin ? `<p><a href="${job.url_linkedin}" target="_blank">Voir l'offre sur LinkedIn</a></p>` : ""}
-                    `;
-
-                    formElements.resultsDiv.appendChild(card);
-                });
-            })
-            .catch(err => {
-                formElements.resultsDiv.innerHTML = `<p style="color:red;">❌ ${err.message}</p>`;
-            });
-
-            resetFormulaire();
-    });
-
-    /**
-     * =======================================================
-     * Réinitialisation formulaire
-     * =======================================================
-     */
-    function resetFormulaire() {
-        formElements.form.reset();
-        formElements.resultsDiv.innerHTML = "";
-        formElements.submitBtn.disabled = false;
+    function appendText(parent, tagName, text) {
+        const element = document.createElement(tagName);
+        element.textContent = text;
+        parent.appendChild(element);
+        return element;
     }
 
-    // Reset auto avant de quitter la page
-    window.addEventListener("beforeunload", resetFormulaire);
+    function appendJob(job) {
+        /* CHANGE (XSS): database fields are inserted with textContent, never innerHTML. */
+        const card = document.createElement("article");
+        card.className = "job-card";
+        appendText(card, "h3", job.titre_offre || "Offre sans titre");
+        appendText(card, "p", `Type de contrat : ${job.type_contrat || "-"}`);
+        appendText(card, "p", `Spécialités : ${job.specialites || "-"}`);
 
+        if (typeof job.email_user === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(job.email_user)) {
+            const contact = appendText(card, "p", "Contact : ");
+            const link = document.createElement("a");
+            link.href = `mailto:${encodeURIComponent(job.email_user)}`;
+            link.textContent = job.email_user;
+            contact.appendChild(link);
+        }
+        appendText(card, "p", job.description || "");
 
-    // État initial
-    resetFormulaire();
+        try {
+            const linkUrl = new URL(job.url_linkedin);
+            if (linkUrl.protocol === "https:") {
+                const link = document.createElement("a");
+                link.href = linkUrl.href;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.textContent = "Voir l'offre sur LinkedIn";
+                card.appendChild(link);
+            }
+        } catch (_) {
+            // Invalid or absent user URL: do not create a link.
+        }
+        results.appendChild(card);
+    }
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const userId = new URLSearchParams(window.location.search).get("id_user");
+        const url = `/?dest=reche_emploie&id_user=${encodeURIComponent(userId || "")}`;
+        results.replaceChildren();
+        submitBtn.disabled = true;
+
+        try {
+            const response = await fetch(url, { method: "POST", body: new FormData(form) });
+            if (!response.ok) throw new Error("La recherche est indisponible.");
+            const data = await response.json();
+            if (!data.status || !Array.isArray(data.jobs) || data.jobs.length === 0) {
+                appendText(results, "p", "Aucune offre trouvée.");
+            } else {
+                data.jobs.forEach(appendJob);
+            }
+        } catch (_) {
+            appendText(results, "p", "La recherche a échoué. Veuillez réessayer.");
+        } finally {
+            submitBtn.disabled = false;
+        }
+    });
 });

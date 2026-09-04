@@ -5,8 +5,8 @@
     - Protection CSRF + rotation du token
     ============================================================================ */
 
-    require_once "require_db.php";
-    session_start();
+    // CHANGE (authorization): init revalidates the user's current database role.
+    require_once "commun/init.php";
 
     header('Content-Type: application/json');
 
@@ -14,33 +14,13 @@
     1️⃣ VÉRIFICATION DE LA SESSION
     ============================================================ */
 
-    if (
-        empty($_SESSION['user']) ||
-        !is_array($_SESSION['user']) ||
-        empty($_SESSION['user']['id_membre'])
-    ) {
-        http_response_code(401);
-        echo json_encode([
-            'success' => false,
-            'message' => 'Utilisateur non authentifié'
-        ]);
-        exit;
-    }
-
-    $user = $_SESSION['user'];
+    $user = require_authenticated_user($user);
 
     /* ============================================================
     2️⃣ VÉRIFICATION DES DROITS
     ============================================================ */
 
-    if (empty($user['membre_bureau'])) {
-        http_response_code(403);
-        echo json_encode([
-            'success' => false,
-            'message' => 'Accès interdit'
-        ]);
-        exit;
-    }
+    require_bureau_member($user);
 
     /* ============================================================
     3️⃣ MÉTHODE HTTP
@@ -74,20 +54,7 @@
     🛡️ 4️⃣ bis — VÉRIFICATION CSRF
     ============================================================ */
 
-    $pikachu_csfr = $data['pikachu_csfr'] ?? '';
-
-    if (
-        empty($_SESSION['csrf_token']) ||
-        empty($pikachu_csfr) ||
-        !hash_equals($_SESSION['csrf_token'], $pikachu_csfr)
-    ) {
-        http_response_code(403);
-        echo json_encode([
-            'success' => false,
-            'message' => 'CSRF invalide'
-        ]);
-        exit;
-    }
+    require_csrf($data);
 
     /* ============================================================
     5️⃣ VALIDATION DES CHAMPS
@@ -118,6 +85,9 @@
             'message' => 'Contenu trop long'
         ]);
         exit;
+    }
+    if ($lien !== '' && !filter_var($lien, FILTER_VALIDATE_URL)) {
+        json_response(['success' => false, 'message' => 'Lien invalide'], 400);
     }
 
     /* ============================================================

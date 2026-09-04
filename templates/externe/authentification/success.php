@@ -47,21 +47,12 @@
                 <div class="mini-des">
                     <p>
                         Merci d’avoir rejoint l’<b>Association des Étudiants & Anciens (EEA) Lille</b>.<br>
-                        Vous êtes désormais membre officiel et vous bénéficiez des avantages suivants :
+                        Afin de finaliser votre inscription, veuillez confirmer votre adresse e-mail via le message qui vient de vous être envoyé.
+                        <br><br>
+                        Une fois la confirmation effectuée, vous deviendrez membre officiel et pourrez bénéficier des avantages de l’association.
                     </p>
                 </div>
-                <ul>
-                    <li>Un <b>réseau actif</b> d’étudiants et diplômés</li>
-                    <li>Des <b>événements exclusifs</b> : conférences, afterworks, visites d’entreprises</li>
-                    <li>Un <b>accompagnement carrière</b> : stages, alternances, premier emploi</li>
-                    <li>Des <b>séances de révisions collectives</b> pour préparer vos examens</li>
-                    <li>Des <b>réductions et avantages</b> sur certaines activités étudiantes</li>
-                </ul>
-            </div>
-
-            <div class="btn-container">
-                <a href="/" class="btn btn-home"><i class="fas fa-home"></i> Accueil</a>
-                <a href="/?dest=connection" class="btn btn-login"><i class="fas fa-sign-in-alt"></i> Connexion</a>
+                
             </div>
         </div>
     </div>

@@ -14,14 +14,7 @@
     1️⃣ UTILISATEUR CONNECTÉ
     ========================================================= */
 
-    if (!$user) {
-        http_response_code(401);
-        echo json_encode([
-            "success" => false,
-            "message" => "Non authentifié"
-        ]);
-        exit;
-    }
+    $user = require_authenticated_user($user);
 
     /* =========================================================
     2️⃣ MÉTHODE HTTP + JSON
@@ -51,20 +44,7 @@
     🛡️ 2️⃣ bis — VÉRIFICATION CSRF
     ========================================================= */
 
-    $pikachu_csrf = $input['pikachu_csrf'] ?? '';
-
-    if (
-        empty($_SESSION['csrf_token']) ||
-        empty($pikachu_csrf ) ||
-        !hash_equals($_SESSION['csrf_token'], $pikachu_csrf )
-    ) {
-        http_response_code(403);
-        echo json_encode([
-            "success" => false,
-            "message" => "CSRF invalide"
-        ]);
-        exit;
-    }
+    require_csrf($input);
 
     /* =========================================================
     3️⃣ VALIDATION DES DONNÉES
@@ -94,6 +74,9 @@
             "message" => "Champs requis manquants"
         ]);
         exit;
+    }
+    if (mb_strlen($titre) > 255 || mb_strlen($description) > 3000 || ($urlLinkedin !== '' && !filter_var($urlLinkedin, FILTER_VALIDATE_URL))) {
+        json_response(['success' => false, 'message' => 'Données offre invalides'], 400);
     }
 
     if (!is_array($specialites)) {

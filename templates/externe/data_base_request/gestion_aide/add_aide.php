@@ -41,36 +41,14 @@
         exit;
     }
 
-     //Variable permettant de récupéer la CSRF
-    $pikachu = $data["pikachu"] ?? null;
-
-
-    /* ===== CSRF CHECK ===== */
-    if (
-        empty($pikachu) ||
-        empty($_SESSION['csrf_token']) ||
-        !hash_equals($_SESSION['csrf_token'], $pikachu)
-    ) 
-    {
-        http_response_code(403);
-        echo json_encode([
-            'success' => false,
-            'error'   => 'CSRF invalide'
-        ]);
-        exit;
-    }
+    // CHANGE (CSRF): accepts the existing `pikachu` client field via one helper.
+    require_csrf($data);
     /* ==========================================================
     3️⃣ CONTRÔLE DE LA SESSION (OBLIGATOIRE)
     ========================================================== */
 
     // L’utilisateur doit être connecté
-    if (!$user) {
-        echo json_encode([
-            'success' => false,
-            'error'   => 'Connexion requise'
-        ]);
-        exit;
-    }
+    $user = require_authenticated_user($user);
 
     // Accès réservé aux étudiants uniquement
     if (
@@ -101,8 +79,8 @@
 
     if (
         empty($data['type_aide_id']) ||
-        empty($data['sujet']) ||
-        empty($data['message'])
+        trim($data['sujet'] ?? '') === '' ||
+        trim($data['message'] ?? '') === ''
     ) {
         echo json_encode([
             'success' => false,
@@ -139,7 +117,7 @@
     }
 
     // Limite de taille du message (anti-spam basique)
-    if (mb_strlen($data['message']) > 3000) {
+    if (mb_strlen($data['message']) > 2500 || mb_strlen($data['sujet']) > 150) {
         echo json_encode([
             'success' => false,
             'error'   => 'Message trop long'
@@ -169,10 +147,11 @@
         par sécurité */
         if ($ok) 
         {
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(24));
+            $csrfToken = rotate_csrf_token();
         }
         echo json_encode([
-            'success' => (bool)$ok
+            'success' => (bool)$ok,
+            'csrf_token' => $csrfToken ?? null
         ]);
 
     } catch (Throwable $e) {

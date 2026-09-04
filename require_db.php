@@ -10,13 +10,21 @@
 
         private function __construct()
         {
-            $env = parse_ini_file(".env"); 
+            /*
+             * CHANGE (configuration security): resolve `.env` from this project,
+             * not the web server's current directory. Production can provide the
+             * same values through environment variables instead of a file.
+             */
+            $envPath = __DIR__ . '/.env';
+            $env = is_file($envPath) ? (parse_ini_file($envPath) ?: []) : [];
 
-
-            $host = $env["databaseHost"]; 
-            $user = $env["databaseUsername"]; 
-            $password =  $env["databasePassword"]; 
-            $dbname = $env["databaseName"];
+            $host = getenv('DATABASE_HOST') ?: ($env['databaseHost'] ?? '');
+            $user = getenv('DATABASE_USERNAME') ?: ($env['databaseUsername'] ?? '');
+            $password = getenv('DATABASE_PASSWORD') ?: ($env['databasePassword'] ?? '');
+            $dbname = getenv('DATABASE_NAME') ?: ($env['databaseName'] ?? '');
+            if ($host === '' || $user === '' || $password === '' || $dbname === '') {
+                throw new RuntimeException('Configuration de base de données incomplète.');
+            }
             $charset = "utf8mb4"; 
 
             $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
@@ -36,7 +44,9 @@
             
             }catch(PDOException $e)
             {
-                throw new RuntimeException("Problem to connet to the database ... ".$e->getMessage());
+                // CHANGE (information disclosure): never expose PDO details to a browser.
+                error_log('Database connection failed: ' . $e->getMessage());
+                throw new RuntimeException('Connexion à la base de données indisponible.');
             }
 
             
@@ -58,16 +68,54 @@
         }
 
 
-        public static function addSubscriber(array $data):bool
+        public static function addSubscriber(array $data): bool
         {
-
             $pdo = self::getInstance();
-            $sql_add = "INSERT INTO subscribers
-            (id_membre, prenom, nom, section, membre_assoc, membre_bureau, email, phone_number, mot_de_passe, date_naissance, date_inscription, pays, ville, metier, genre) 
-            VALUES 
-            (:id_membre, :prenom, :nom, :section, :membre_assoc, :membre_bureau, :email, :phone_number, :mot_de_passe, :date_naissance, :date_inscription, :pays, :ville, :metier, :genre)";
 
-            $stmt = $pdo->prepare($sql_add); 
+            $sql_add = "
+                INSERT INTO subscribers
+                (
+                    id_membre,
+                    prenom,
+                    nom,
+                    section,
+                    membre_assoc,
+                    membre_bureau,
+                    email,
+                    phone_number,
+                    mot_de_passe,
+                    date_naissance,
+                    date_inscription,
+                    pays,
+                    ville,
+                    metier,
+                    genre,
+                    confirmation_token,
+                    is_validate
+                )
+                VALUES
+                (
+                    :id_membre,
+                    :prenom,
+                    :nom,
+                    :section,
+                    :membre_assoc,
+                    :membre_bureau,
+                    :email,
+                    :phone_number,
+                    :mot_de_passe,
+                    :date_naissance,
+                    :date_inscription,
+                    :pays,
+                    :ville,
+                    :metier,
+                    :genre,
+                    :confirmation_token,
+                    :is_validated
+                )
+            ";
+
+            $stmt = $pdo->prepare($sql_add);
             return $stmt->execute($data);
         }
 
@@ -80,7 +128,30 @@
             $stmt = $pdo->prepare($sql_fetch);
             $stmt->execute(['email' => $mail]);
 
-            return $stmt->fetch();
+            $result =  $stmt->fetch(PDO::FETCH_ASSOC);
+            //Si je trouve l'info par rapport au mail, alors je renvoie le tableau contenant ce mail sinon un tableau vide
+            return $result ?: [];
+        }
+
+        public static function confirmSubscriber(string $token): bool
+        {
+            $pdo = self::getInstance();
+
+            $sql = "
+                UPDATE subscribers
+                    SET is_validate = 1 ,
+                    confirmation_token = NULL
+                WHERE confirmation_token = :token
+                AND is_validate = 0
+                AND date_inscription >= NOW() - INTERVAL 24 HOUR
+            ";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                'token' => $token
+            ]);
+
+            return $stmt->rowCount() === 1;
         }
 
         public static function fetc_user_id(string $id_member): ?array
@@ -123,7 +194,60 @@
             return $stmt->fetchAll();
         }
 
+        public static function isAlreadyRegistered(int $idEvent, string $email): bool
+        {
+            $pdo = self::getInstance();
 
+            $sql = "SELECT 1
+                    FROM evenement_inscriptions
+                    WHERE id_event = :id_event
+                    AND email = :email
+                    LIMIT 1";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                'id_event' => $idEvent,
+                'email'    => $email
+            ]);
+
+            return (bool) $stmt->fetchColumn();
+        }
+
+        public static function addInscription_Event(array $user): bool
+        {
+            $pdo = self::getInstance();
+
+            $sql = "INSERT INTO evenement_inscriptions
+                    (id_event, nom, prenom, email , tel_num)
+                    VALUES
+                    (:id_event, :nom, :prenom, :email , :tel_num)";
+
+            $stmt = $pdo->prepare($sql);
+
+            return $stmt->execute([
+                'id_event' => $user['id_event'],
+                'nom'      => $user['nom'],
+                'prenom'   => $user['prenom'],
+                'email'    => $user['email'],
+                'tel_num'  => $user['tel_num']
+            ]);
+        }
+
+        public static function fetchParticipantsByEventId(int $idEvent): array
+        {
+            $pdo = self::getInstance();
+
+            $sql = "SELECT nom, prenom, email, tel_num, date_inscription
+                    FROM evenement_inscriptions
+                    WHERE id_event = :id_event
+                    ORDER BY date_inscription DESC";
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute(['id_event' => $idEvent]);
+
+            // Retourne un tableau de lignes (associatif)
+            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        }
         public static function addJob(array $data , array $specialitie):bool
         {
             $pdo = self::getInstance();
@@ -238,6 +362,11 @@
 
         public static function update_user_info($id, $field, $value) {
             $pdo = self::getInstance();
+            // CHANGE (SQL safety): the database layer enforces the column whitelist too.
+            $allowedFields = ['email', 'mot_de_passe', 'section', 'phone_number', 'ville', 'metier'];
+            if (!in_array($field, $allowedFields, true)) {
+                throw new InvalidArgumentException('Champ utilisateur non autorisé.');
+            }
             $sql = "UPDATE subscribers SET $field = :value WHERE id_membre = :id";
             $stmt = $pdo->prepare($sql);
 
@@ -556,6 +685,28 @@
             ]);
         }
 
+        public static function updateOwnedEvent(string $id_membre, array $data): bool
+        {
+            $pdo = self::getInstance();
+            /* CHANGE (IDOR prevention): the owner is part of the UPDATE predicate. */
+            $stmt = $pdo->prepare(
+                'UPDATE evenements
+                 SET nom_event = :nom, date_event = :date_event, desc_event = :desc_event, url_form = :url_form
+                 WHERE id_event = :id_event AND id_membre = :id_membre'
+            );
+
+            $stmt->execute([
+                ':nom' => $data['nom_event'],
+                ':date_event' => $data['date_event'],
+                ':desc_event' => $data['desc_event'],
+                ':url_form' => $data['url_form'],
+                ':id_event' => $data['id_event'],
+                ':id_membre' => $id_membre,
+            ]);
+
+            return $stmt->rowCount() === 1;
+        }
+
         public static function removeEvent(int $id_event): bool
         {
             $pdo = self::getInstance();
@@ -569,6 +720,23 @@
             } catch (Exception $e) {
                 throw new RuntimeException("Erreur suppression event : " . $e->getMessage());
             }
+        }
+
+        public static function removeOwnedEvent(int $id_event, string $id_membre): bool
+        {
+            $pdo = self::getInstance();
+            /* CHANGE (IDOR prevention): a bureau member may delete only their own event. */
+            $stmt = $pdo->prepare('DELETE FROM evenements WHERE id_event = :id AND id_membre = :id_membre');
+            $stmt->execute([':id' => $id_event, ':id_membre' => $id_membre]);
+            return $stmt->rowCount() === 1;
+        }
+
+        public static function eventExists(int $id_event): bool
+        {
+            $pdo = self::getInstance();
+            $stmt = $pdo->prepare('SELECT 1 FROM evenements WHERE id_event = :id LIMIT 1');
+            $stmt->execute([':id' => $id_event]);
+            return (bool) $stmt->fetchColumn();
         }
         public static function fetch_actualites(?int $actu_id = null): array
         {
@@ -905,7 +1073,4 @@
 
 
         
-
-
-
 

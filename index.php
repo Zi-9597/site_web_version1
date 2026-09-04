@@ -24,6 +24,9 @@
       "inscription"    => "templates/externe/authentification/inscription.php",
       "add_subscriber" => "templates/externe/data_base_request/add_subscriber.php",
       "success"        => "templates/externe/authentification/success.php",
+      "confirmation_inscription" => "templates/externe/authentification/confirmation_inscription.php",
+      "confirmed"      => "templates/externe/authentification/succes_token.php",
+      "erreur_inscription" => "templates/externe/authentification/echec_inscription.php",
 
       /* =========================
          CONNEXION
@@ -37,6 +40,7 @@
       "acceuil"        => "templates/externe/features/commun/accueil_interface.php", // page par défaut
       "actualite"      => "templates/externe/features/commun/actualite_interface.php",
       "get_actualites" => "templates/externe/data_base_request/fetch_actualites.php",
+      
 
       /* =========================
          GOODIES
@@ -49,6 +53,8 @@
       ========================= */
       "rech_event"     => "templates/externe/features/commun/evenements_interface.php",
       "get_events"     => "templates/externe/data_base_request/fetch_events.php",
+      "add_inscris"   => "templates/externe/data_base_request/gestion_event/add_inscris.php",
+      "get_participants" => "templates/externe/data_base_request/gestion_event/fetch_inscris.php",
 
       /* =========================
          AIDES (ÉTUDIANTS)
@@ -131,6 +137,12 @@
          DÉCONNEXION
       ========================= */
       "logout"         => "templates/externe/authentification/logout.php",
+
+      /* =========================
+         CHECKER L'EMAIL LORS DE L'INSCRITPION
+      ========================= */
+      "check_mail"    => "templates/externe/data_base_request/fetch_same_email.php",
+
 
 
       "mention_legale"   => "commun/mention_legale.php"

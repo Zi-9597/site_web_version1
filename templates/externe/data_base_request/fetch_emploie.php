@@ -14,14 +14,7 @@
     ========================================================= */
 
     // init.php garantit : session + timeout + cohérence minimale
-    if (!$user) {
-        http_response_code(401);
-        echo json_encode([
-            "success" => false,
-            "message" => "Utilisateur non authentifié"
-        ]);
-        exit;
-    }
+    $user = require_authenticated_user($user);
 
     /* =========================================================
     2️⃣ VALIDATION DU PARAMÈTRE

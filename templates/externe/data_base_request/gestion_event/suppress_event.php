@@ -12,27 +12,13 @@
     1️⃣ UTILISATEUR CONNECTÉ
     ========================================================= */
 
-    if (!$user) {
-        http_response_code(401);
-        echo json_encode([
-            "success" => false,
-            "message" => "Utilisateur non authentifié"
-        ]);
-        exit;
-    }
+    $user = require_authenticated_user($user);
 
     /* =========================================================
     2️⃣ AUTORISATION : MEMBRE DU BUREAU UNIQUEMENT
     ========================================================= */
 
-    if (empty($user['membre_bureau'])) {
-        http_response_code(403);
-        echo json_encode([
-            "success" => false,
-            "message" => "Accès interdit"
-        ]);
-        exit;
-    }
+    require_bureau_member($user);
 
     /* =========================================================
     3️⃣ MÉTHODE HTTP
@@ -70,17 +56,7 @@
     5️⃣ VÉRIFICATION CSRF
     ========================================================= */
 
-    if (
-        empty($_SESSION['csrf_token']) ||
-        !hash_equals($_SESSION['csrf_token'], $input['pikachu_csrf'])
-    ) {
-        http_response_code(403);
-        echo json_encode([
-            "success" => false,
-            "message" => "CSRF invalide"
-        ]);
-        exit;
-    }
+    require_csrf($input);
 
     /* =========================================================
     6️⃣ VALIDATION ID ÉVÈNEMENT
@@ -105,16 +81,17 @@
 
     try {
 
-        $ok = EEA_Database::removeEvent($idEvent);
+        /* CHANGE (IDOR prevention): include the creator in the DELETE condition. */
+        $ok = EEA_Database::removeOwnedEvent($idEvent, $user['id_membre']);
 
         if ($ok) {
-            // 🔁 Rotation du token après action sensible
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+            $csrfToken = rotate_csrf_token();
         }
 
         http_response_code($ok ? 200 : 500);
         echo json_encode([
-            "success" => (bool)$ok
+            "success" => (bool)$ok,
+            "csrf_token" => $csrfToken ?? null
         ]);
         exit;
 
