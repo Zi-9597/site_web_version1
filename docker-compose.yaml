@@ -1,6 +1,6 @@
 services:
 
-  nginx-web: 
+  nginx-web:
     image: nginx:alpine
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
@@ -9,11 +9,44 @@ services:
       - "8080:80"
     depends_on:
       - php
+
   php:
     image: image-php
-    build: 
-      context: ./docker/php/
+    build:
+      context: ./docker/php
       dockerfile: Dockerfile
     volumes:
       - ./:/var/www/html
-  
+    depends_on:
+      - mariadb-server
+
+  mariadb-server:
+    image: mariadb:10.1
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/sql/association-eea.sql:/docker-entrypoint-initdb.d/association-eea.sql:ro
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${databasePassword}
+      MYSQL_DATABASE: ${databaseName}
+      MYSQL_USER: ${databaseUsername}
+      MYSQL_PASSWORD: ${databasePassword}
+  phpmyadmin: 
+    image: phpmyadmin/phpmyadmin:5.2.3
+    restart: unless-stopped
+    ports:
+      - "8001:80"
+    environment:
+      PMA_HOST: mariadb-server
+      PMA_PORT: 3306
+      PMA_USER: ${databaseUsername}
+      PMA_PASSWORD: ${databasePassword}
+    depends_on:
+      - mariadb-server
+    
+
+
+
+
+volumes:
+  mysql_data:

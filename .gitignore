@@ -1,1 +1,2 @@
 .env
+docker/sql/association-eea.sql
