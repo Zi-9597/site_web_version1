@@ -1,9 +1,6 @@
 .env
-<<<<<<< HEAD
 docker/sql/association-eea.sql
-=======
 .env.*
 !.env.example
 /vendor/
 /var/log/
->>>>>>> dev_branch
