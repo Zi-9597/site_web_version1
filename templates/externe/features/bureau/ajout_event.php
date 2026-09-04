@@ -1,7 +1,7 @@
 <?php require_once "commun/init.php" ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,12 +69,11 @@
       <!-- Bandeau titre + description -->
       <div class="descritpion-evenement">
           <div class="titre_h1">
-              <h1>Ajouter un événement</h1>
+        <h1>Créer un événement</h1>
           </div>
           <div class="descirption-courte">
-              <p>Ce formulaire vous permet d’ajouter un nouvel événement au sein de l’association.</p>
-              <p>Veuillez renseigner le <strong>nom</strong>, la <strong>date</strong>, le <strong>lieu</strong>, ainsi qu’une <strong>description</strong> détaillée.</p>
-              <p>Vous pouvez aussi choisir une <strong>catégorie</strong> (sport, culture, formation, etc.) pour mieux organiser les activités.</p>
+              <p>Publiez un nouveau rendez-vous pour les membres de l'association.</p>
+              <p>Indiquez un nom clair, la date, le lien d'inscription et les informations essentielles pour faciliter la participation.</p>
           </div>
       </div>
 

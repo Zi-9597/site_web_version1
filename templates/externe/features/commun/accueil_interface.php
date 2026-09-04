@@ -9,6 +9,8 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
+        <!-- CHANGE: enables the responsive homepage layout on phones and tablets. -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Accueil - Association EEA</title>
         <link rel="stylesheet" href="public/css/barre_navigation_v2.css?v=<?= filemtime('public/css/barre_navigation_v2.css') ?>">
         <link rel="shortcut icon" href="public/pictures/logo_v8.jpeg">

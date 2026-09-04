@@ -7,7 +7,7 @@
 -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -97,24 +97,22 @@
    
     <!-- ================= TITRE ================= -->
     <div class="title-box">
-        <h1>Participer aux Événements</h1>
+        <h1>Événements de l'association</h1>
         <p style="font-size:20px; margin-top:10px; font-family:'Nunito';">
-            Retrouvez tous les événements organisés par l’association.
-            Cliquez sur le bouton pour consulter les détails ou accéder au lien
-            d’inscription associé.
+            Retrouvez les prochains rendez-vous du réseau EEA et consultez les informations utiles avant de confirmer votre participation.
         </p>
     </div>
 
     <!-- ================= FILTRE ================= -->
     <div class="box-with-title">
-        <span class="box-title">Filtre des événements</span>
+        <span class="box-title">Trouver un événement</span>
 
         <div class="filtre-membre">
-            <span class="titre-fm">Filtre Événement</span>
+            <span class="titre-fm">Recherche</span>
 
             <div class="filtre-membre-grid">
                 <div class="filter-item">
-                    <label for="search-nom-event">Nom de l’événement :</label>
+                    <label for="search-nom-event">Rechercher par nom</label>
                     <input
                         type="text"
                         id="search-nom-event"
@@ -134,7 +132,7 @@
                 <tr>
                     <th>Nom de l’événement</th>
                     <th>Date</th>
-                    <th class="col-modifier">Participer</th>
+                    <th class="col-modifier">Inscription</th>
 
                 </tr>
             </thead>
@@ -148,7 +146,7 @@
                     <td>
                         <button class="btn-change" 
                             data-id="<?= htmlspecialchars($e["id_event"]) ?>">
-                            📝 Participer
+                            Participer
                         </button>
                         
                     </td>

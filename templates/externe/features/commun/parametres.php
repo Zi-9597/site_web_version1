@@ -7,7 +7,7 @@
 -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <!-- Paramétrage standard du document -->
     <meta charset="UTF-8"> <!-- Encodage UTF-8 -->

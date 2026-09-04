@@ -7,7 +7,7 @@
 -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -100,7 +100,7 @@
 
     <!-- Titre de la page -->
     <div class="title-box">
-        <h1>Recherche d’Offres d’Emploi</h1>
+        <h1>Opportunités professionnelles</h1>
         <p style="font-size:20px; margin-top:10px; font-family:'Nunito';">
             Explorez les jobs étudiants et les offres de <strong>stage</strong>, <strong>alternance</strong> et
             <strong>emploi (CDI/CDD)</strong> proposées par les membres et partenaires de l’association.
@@ -113,25 +113,25 @@
         <!-- Bloc des filtres -->
    <!-- ===== BLOC GLOBAL : FILTRES + ACTION ===== -->
     <div class="box-with-title">
-        <span class="box-title">Filtre des offres</span>
+        <span class="box-title">Affiner votre recherche</span>
 
         <!-- ==== PARTIE FILTRE ==== -->
         <div class="filtre-membre">
-            <span class="titre-fm">Filtre Offre</span>
+            <span class="titre-fm">Mots-clés et contrat</span>
 
             <div class="filtre-membre-grid">
 
                 <!-- Prénom -->
                 <div class="filter-item">
-                    <label for="search-titre">Nom Offre :</label>
+                    <label for="search-titre-offre">Titre ou mot-clé</label>
                     <input type="text" id="search-titre-offre" placeholder="Rechercher le nom de l'offre...">
                 </div>
 
                 <!-- Section -->
                 <div class="filter-item">
-                    <label for="filiere-type">Type d'offre :</label>
+                    <label for="filiere-section">Type de contrat</label>
                     <select id="filiere-section">
-                        <option value="">Tous type d'offres</option>
+                        <option value="">Tous les types de contrat</option>
                         <option value="Stage">Stage</option>
                         <option value="CDD/CDI">CDD/CDI</option>
                         <option value="Alternance">Alternance</option>
@@ -144,7 +144,7 @@
 
         <!-- ================= FILTRE SPÉCIALITÉS ================= -->
         <div class="filtre-membre">
-            <span class="titre-fm">Filtre par spécialité</span>
+            <span class="titre-fm">Domaines de spécialité</span>
 
             <div class="specialites-grid">
                 <label>
