@@ -1,7 +1,8 @@
 <?php
     header('Content-Type: application/json');
 
-    require_once "require_db.php";
+    // CHANGE (configuration): use the shared bootstrap and its fixed project paths.
+    require_once "commun/init.php";
 
     /* ==================================================
     VÉRIFICATION REQUÊTE

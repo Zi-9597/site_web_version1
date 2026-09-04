@@ -1,116 +1,65 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
     const inputDate = document.getElementById("evenmt_date");
-    const btnSubmit = document.getElementById("button_submit");
+    const submitButton = document.getElementById("button_submit");
     const infoText = document.getElementById("forme_id_event");
-    const event_form = document.getElementById("formulaire-evenement");
-    const resultsDiv = document.getElementById("resultats");
+    const form = document.getElementById("formulaire-evenement");
+    const results = document.getElementById("resultats");
+    if (!inputDate || !submitButton || !infoText || !form || !results) return;
 
+    const addText = (parent, tag, text) => {
+        const element = document.createElement(tag);
+        element.textContent = text;
+        parent.appendChild(element);
+        return element;
+    };
 
-    event_form.addEventListener("submit", function(e) {
-
-            e.preventDefault(); // empêche le rechargement
-
-            const formData = new FormData(event_form);
-            const params_url = new URLSearchParams(window.location.search);
-            const id_web = params_url.get("id_user");
-
-            const url = `/?dest=fetch_data&id_user=${encodeURIComponent(id_web)}`;
-            fetch(url , {
-            method: "POST",
-            body: formData
-            })
-            .then(response => {
-            if (!response.ok) throw new Error("Erreur serveur " + response.status);
-            return response.json(); 
-            })
-            .then(data => {
-            resultsDiv.innerHTML = "";
-
-            if (data.length === 0) {
-                resultsDiv.innerHTML = "<p>Aucun événement trouvé.</p>";
+    form.addEventListener("submit", async event => {
+        event.preventDefault();
+        const userId = new URLSearchParams(window.location.search).get("id_user");
+        results.replaceChildren();
+        try {
+            const response = await fetch(`/?dest=fetch_data&id_user=${encodeURIComponent(userId || "")}`, {
+                method: "POST",
+                body: new FormData(form)
+            });
+            if (!response.ok) throw new Error();
+            const events = await response.json();
+            if (!Array.isArray(events) || events.length === 0) {
+                addText(results, "p", "Aucun événement trouvé.");
                 return;
             }
-
-            data.forEach(ev => {
-                const card = document.createElement("div");
+            events.forEach(item => {
+                /* CHANGE (XSS): render event data as text, not HTML. */
+                const card = document.createElement("article");
                 card.className = "event-card";
-                card.innerHTML = `
-                    <h3>${ev.nom_event}</h3>
-                    <p><strong>Date :</strong> ${ev.date_event}</p>
-                    <p>${ev.desc_event ?? ""}</p>
-                    ${ev.url_form ? `<p><a href="${ev.url_form}" target="_blank">🔗 Formulaire</a></p>` : ""}
-                `;
-                resultsDiv.appendChild(card);
+                addText(card, "h3", item.nom_event || "Événement sans nom");
+                addText(card, "p", `Date : ${item.date_event || "-"}`);
+                addText(card, "p", item.desc_event || "");
+                results.appendChild(card);
             });
-            event_form.reset();
-            })
-            .catch(err => {
-            resultsDiv.innerHTML = `<p style="color:red;">❌ ${err.message}</p>`;
-            });
-        });
-   
-    // bouton et message désactivés au départ
-    btnSubmit.disabled = false;
-    infoText.style.display = "none";
+        } catch (_) {
+            addText(results, "p", "La recherche a échoué. Veuillez réessayer.");
+        }
+    });
 
-    function validateDate() 
-    {
+    function validateDate() {
         const value = inputDate.value.trim();
-        const regex = /^\d{2}\/\d{2}\/\d{4}$/; // format jj/mm/aaaa
-
-        // Si champ vide → bouton reste actif (pas de blocage)
-        if (value.length === 0) {
+        const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(value);
+        if (!value) {
             infoText.style.display = "none";
-            btnSubmit.disabled = false;
+            submitButton.disabled = false;
             return;
         }
-
-        // Toujours afficher si l'utilisateur tape quelque chose
-        infoText.style.display = "block";
-
-        // Vérifie le format
-        if (!regex.test(value)) {
-            btnSubmit.disabled = true;
+        if (!match) {
+            infoText.style.display = "block";
+            submitButton.disabled = true;
             return;
         }
-
-        const [day, month, year] = value.split("/").map(Number);
-        const date = new Date(year, month - 1, day);
-
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        // Vérifie validité + >= aujourd’hui
-        if (
-            date.getFullYear() === year &&
-            date.getMonth() === month - 1 &&
-            date.getDate() === day &&
-            date >= today
-        ) {
-            infoText.style.display = "none"; // cache si tout est bon
-            btnSubmit.disabled = false;
-        } else {
-            infoText.style.display = "block"; // montre si mauvais
-            btnSubmit.disabled = true;
-        }
+        const date = new Date(Number(match[3]), Number(match[2]) - 1, Number(match[1]));
+        const valid = date.getFullYear() === Number(match[3]) && date.getMonth() === Number(match[2]) - 1 && date.getDate() === Number(match[1]);
+        infoText.style.display = valid ? "none" : "block";
+        submitButton.disabled = !valid;
     }
 
-    // Vérifie à chaque saisie
     inputDate.addEventListener("input", validateDate);
-
-
-    
-
-     /**
-     * ⚡ Quand on recharge ou revient en arrière → réinitialisation
-    */
-    window.addEventListener("pageshow", function () {
-        event_form.reset();
-        btnSubmit.disabled = false;
-        infoText.style.display = "none";
-
-    });
 });
-
-
-   

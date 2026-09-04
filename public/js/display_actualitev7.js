@@ -87,11 +87,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 descEl.style.whiteSpace = "pre-line";
 
                 // Lien complémentaire (optionnel)
-                if (data.lien_actu && data.lien_actu.trim() !== "") {
-                    linkEl.href = data.lien_actu;
+                try {
+                    const url = new URL(data.lien_actu);
+                    if (url.protocol !== "https:") throw new Error("Unsafe URL");
+                    // CHANGE (URL safety): only render validated HTTPS links from content records.
+                    linkEl.href = url.href;
+                    linkEl.rel = "noopener noreferrer";
                     linkEl.textContent = "Consulter le lien pour plus d’informations";
                     linkBox.style.display = "block";
-                } else {
+                } catch (_) {
                     linkBox.style.display = "none";
                 }
 

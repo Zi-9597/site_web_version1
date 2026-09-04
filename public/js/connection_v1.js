@@ -28,7 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function refreshButtonState() {
     const emailOk = isEmailValid(emailInput.value);
-    const passOk = passInput.value.trim().length >= 4;
+    // CHANGE: login accepts all existing non-empty passwords without a client-side length restriction.
+    const passOk = passInput.value.length > 0;
     submitBtn.disabled = !(emailOk && passOk);
   }
 

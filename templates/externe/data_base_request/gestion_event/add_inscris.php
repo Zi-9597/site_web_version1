@@ -13,14 +13,7 @@
     1️⃣ UTILISATEUR CONNECTÉ
     ========================================================= */
 
-    if (!$user) {
-        http_response_code(401);
-        echo json_encode([
-            "success" => false,
-            "message" => "Utilisateur non authentifié"
-        ]);
-        exit;
-    }
+    $user = require_authenticated_user($user);
 
     /* =========================================================
     2️⃣ MÉTHODE HTTP
@@ -58,17 +51,7 @@
     4️⃣ VÉRIFICATION CSRF
     ========================================================= */
 
-    if (
-        empty($_SESSION['csrf_token']) ||
-        !hash_equals($_SESSION['csrf_token'], $input['pikachu_csrf'])
-    ) {
-        http_response_code(403);
-        echo json_encode([
-            "success" => false,
-            "message" => "CSRF invalide"
-        ]);
-        exit;
-    }
+    require_csrf($input);
 
     /* =========================================================
     5️⃣ VALIDATION ID ÉVÈNEMENT
@@ -86,6 +69,9 @@
     }
 
     $idEvent = (int) $idEvent;
+    if (!EEA_Database::eventExists($idEvent)) {
+        json_response(['success' => false, 'message' => 'Événement introuvable'], 404);
+    }
 
     /* =========================================================
     6️⃣ UTILISATEUR (SESSION)
@@ -125,13 +111,13 @@
         ]);
 
         if ($ok) {
-            // 🔁 Rotation CSRF après action sensible
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+            $csrfToken = rotate_csrf_token();
         }
 
         http_response_code($ok ? 200 : 500);
         echo json_encode([
-            "success" => (bool) $ok
+            "success" => (bool) $ok,
+            "csrf_token" => $csrfToken ?? null
         ]);
         exit;
 

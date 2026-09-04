@@ -14,28 +14,15 @@
         /* ============================================================
         🔐 1) UTILISATEUR CONNECTÉ
         ============================================================ */
-        if (!$user) {
-            http_response_code(401);
-            echo json_encode([
-                'success' => false,
-                'error' => 'Non authentifié'
-            ]);
-            exit;
-        }
+        $user = require_authenticated_user($user);
 
         /* ============================================================
         🔐 2) AUTORISATION STRICTE : PRÉSIDENT / WEB ADMIN
         ============================================================ */
-        if (
-            empty($user['membre_bureau']) ||
-            !in_array($user['membre_bureau'], ['Président', 'Web Admin'], true)
-        ) {
-            http_response_code(403);
-            echo json_encode([
-                'success' => false,
-                'error' => 'Accès interdit'
-            ]);
-            exit;
+        require_admin($user);
+
+        if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') {
+            json_response(['success' => false, 'error' => 'Méthode non autorisée'], 405);
         }
 
         /* ============================================================
@@ -54,20 +41,7 @@
         /* ============================================================
         🛡️ 3️⃣ bis — VÉRIFICATION CSRF
         ============================================================ */
-        $pikachu_csrf = $data['pikachu_csrf'] ?? '';
-
-        if (
-            empty($_SESSION['csrf_token']) ||
-            empty($pikachu_csrf) ||
-            !hash_equals($_SESSION['csrf_token'], $pikachu_csrf)
-        ) {
-            http_response_code(403);
-            echo json_encode([
-                'success' => false,
-                'error'   => 'CSRF invalide'
-            ]);
-            exit;
-        }
+        require_csrf($data);
 
         $id_member = trim($data['id_member']);
         $action    = trim($data['action'] ?? '');
@@ -141,6 +115,16 @@
                 'error'   => 'Prénom et nom obligatoires'
             ]);
             exit;
+        }
+        $allowedAssoc = ['Étudiant/e', 'Alumni/e'];
+        $allowedBureau = ['', 'Président', 'Web Admin'];
+        if (
+            !in_array($payload['assoc'], $allowedAssoc, true) ||
+            !in_array($payload['bureau'], $allowedBureau, true) ||
+            !filter_var($payload['email'], FILTER_VALIDATE_EMAIL) ||
+            mb_strlen($payload['prenom']) > 100 || mb_strlen($payload['nom']) > 100
+        ) {
+            json_response(['success' => false, 'error' => 'Données membre invalides'], 400);
         }
 
         /* ============================================================

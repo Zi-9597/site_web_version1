@@ -13,27 +13,13 @@
     1️⃣ UTILISATEUR CONNECTÉ
     ============================================================ */
 
-    if (!$user) {
-        http_response_code(401);
-        echo json_encode([
-            'success' => false,
-            'message' => 'Utilisateur non authentifié'
-        ]);
-        exit;
-    }
+    $user = require_authenticated_user($user);
 
     /* ============================================================
     2️⃣ AUTORISATION : MEMBRE DU BUREAU UNIQUEMENT
     ============================================================ */
 
-    if (empty($user['membre_bureau'])) {
-        http_response_code(403);
-        echo json_encode([
-            'success' => false,
-            'message' => 'Accès interdit'
-        ]);
-        exit;
-    }
+    require_bureau_member($user);
 
     /* ============================================================
     3️⃣ MÉTHODE HTTP
@@ -71,20 +57,7 @@
     🛡️ 4️⃣ bis — VÉRIFICATION CSRF
     ============================================================ */
 
-    $pikachu_csrf = $data['pikachu_csrf'] ?? '';
-
-    if (
-        empty($_SESSION['csrf_token']) ||
-        empty($pikachu_csrf) ||
-        !hash_equals($_SESSION['csrf_token'], $pikachu_csrf)
-    ) {
-        http_response_code(403);
-        echo json_encode([
-            'success' => false,
-            'message' => 'CSRF invalide'
-        ]);
-        exit;
-    }
+    require_csrf($data);
 
     $aide_id = (int) $data['aide_id'];
 

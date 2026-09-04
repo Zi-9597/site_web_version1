@@ -9,11 +9,12 @@
 
 
 
-    // Chargement de la base et de la classe EEA_Database
-    include_once "require_db.php";
+    // CHANGE (consistent headers/session): use the shared application bootstrap.
+    require_once "commun/init.php";
+    header('Content-Type: application/json; charset=utf-8');
 
     // Sécurisation de l’ID
-    $actuId = isset($_GET['id_actu']) ? (int) $_GET['id_actu'] : null;
+    $actuId = isset($_GET['id_actu']) && ctype_digit((string) $_GET['id_actu']) ? (int) $_GET['id_actu'] : null;
 
     if ($actuId === null || $actuId <= 0) {
         echo json_encode([

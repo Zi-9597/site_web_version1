@@ -16,14 +16,7 @@
     1️⃣ UTILISATEUR CONNECTÉ
     ========================================================= */
 
-    if (!$user) {
-        http_response_code(401);
-        echo json_encode([
-            "success" => false,
-            "message" => "Utilisateur non authentifié"
-        ]);
-        exit;
-    }
+    $user = require_authenticated_user($user);
 
     /* =========================================================
     2️⃣ MÉTHODE HTTP
@@ -46,20 +39,7 @@
     - Le formulaire DOIT renvoyer le même token
     ========================================================= */
 
-    $csrf_client = $_POST['pikachu_csrf'] ?? '';
-
-    if (
-        empty($csrf_client) ||
-        empty($_SESSION['csrf_token']) ||
-        !hash_equals($_SESSION['csrf_token'], $csrf_client)
-    ) {
-        http_response_code(403);
-        echo json_encode([
-            "success" => false,
-            "message" => "CSRF invalide"
-        ]);
-        exit;
-    }
+    require_csrf($_POST);
 
     /* =========================================================
     4️⃣ DONNÉES FORMULAIRE
@@ -82,6 +62,20 @@
             "message" => "Champs obligatoires manquants"
         ]);
         exit;
+    }
+    $allowedTypes = ['Job Étudiant', 'Stage', 'Alternance', 'CDD', 'CDI'];
+    if (
+        mb_strlen($titre) > 255 || mb_strlen($description) > 3000 ||
+        !in_array($type_contrat, $allowedTypes, true) ||
+        ($linkedin !== '' && !filter_var($linkedin, FILTER_VALIDATE_URL))
+    ) {
+        json_response(['success' => false, 'message' => 'Données offre invalides'], 400);
+    }
+    $specialites = array_values(array_unique(array_filter(array_map('intval', $specialites), function ($id) {
+        return $id >= 1 && $id <= 7;
+    })));
+    if (empty($specialites)) {
+        json_response(['success' => false, 'message' => 'Spécialité invalide'], 400);
     }
 
     /* =========================================================

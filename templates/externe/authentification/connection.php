@@ -1,3 +1,4 @@
+<?php require_once 'commun/init.php'; ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -45,6 +46,8 @@
          FORMULAIRE CONNEXION
     ========================== -->
     <form id="loginConn" novalidate>
+        <!-- CHANGE (CSRF): protects against login CSRF without changing the endpoint route. -->
+        <input type="hidden" name="pikachu_csrf" value="<?= e($_SESSION['csrf_token']) ?>">
 
         <div class="form_total">
 

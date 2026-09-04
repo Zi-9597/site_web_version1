@@ -168,3 +168,11 @@ p {
         font-size: 18px;
     }
 }
+
+/* CHANGE: pied de page institutionnel et plus lisible. */
+.bas_reseau { width: 100%; margin: 0; background: #0d2146; color: #dce8fa; }
+.logo_footer { justify-content: center; gap: clamp(30px, 8vw, 100px); padding: 30px 7%; background: #102a58; border-bottom: 1px solid rgba(220, 232, 250, 0.14); }
+.u_assoc_foot { width: min(120px, 22%); }.u_lille_foot { width: min(260px, 45%); }.logo_uassoc_foot, .logo_ulille_foot { max-height: 76px; object-fit: contain; }
+.rejoindre { gap: 14px; padding: 32px 20px 24px; }.rejoindre p { color: #fff; font-size: 1rem; font-weight: 700; }.reseau_footer { width: min(260px, 75%); justify-content: center; gap: 13px; }.reseau_footer a { width: 40px; height: 40px; background: rgba(255,255,255,0.1); }.reseau_footer svg { width: 19px; height: 19px; color: #fff; }.reseau_footer a:hover { background: #1d5fd1; }
+.info_assoc { padding: 18px 7% 28px; }.sub_info_assoc { justify-content: center; gap: 12px 30px; }.sub_info_assoc a { color: #dce8fa; font-size: 0.88rem; font-weight: 600; }.sub_info_assoc a:hover { color: #f3a32b; }
+@media (max-width: 700px) { .logo_footer { gap: 20px; }.rejoindre p { font-size: 0.95rem; } }

@@ -17,14 +17,7 @@
     1️⃣ UTILISATEUR CONNECTÉ
     ========================================================= */
 
-    if (!$user) {
-        http_response_code(401);
-        echo json_encode([
-            "success" => false,
-            "message" => "Non authentifié"
-        ]);
-        exit;
-    }
+    $user = require_authenticated_user($user);
 
     /* =========================================================
     2️⃣ MÉTHODE HTTP
@@ -58,20 +51,7 @@
     4️⃣ VÉRIFICATION CSRF
     ========================================================= */
 
-    $csrf_pikachu = $input['pikachu_csrf'] ?? '';
-
-    if (
-        empty($_SESSION['csrf_token']) ||
-        empty($csrf_pikachu) ||
-        !hash_equals($_SESSION['csrf_token'], $csrf_pikachu)
-    ) {
-        http_response_code(403);
-        echo json_encode([
-            "success" => false,
-            "message" => "CSRF invalide"
-        ]);
-        exit;
-    }
+    require_csrf($input);
 
     /* =========================================================
     5️⃣ VALIDATION ID OFFRE

@@ -13,27 +13,13 @@
     1️⃣ UTILISATEUR CONNECTÉ
     ========================================================= */
 
-    if (!$user) {
-        http_response_code(401);
-        echo json_encode([
-            "status"  => "error",
-            "message" => "Utilisateur non authentifié"
-        ]);
-        exit;
-    }
+    $user = require_authenticated_user($user);
 
     /* =========================================================
     2️⃣ MEMBRE DU BUREAU UNIQUEMENT
     ========================================================= */
 
-    if (empty($user['membre_bureau'])) {
-        http_response_code(403);
-        echo json_encode([
-            "status"  => "error",
-            "message" => "Accès interdit"
-        ]);
-        exit;
-    }
+    require_bureau_member($user);
 
     /* =========================================================
     3️⃣ MÉTHODE HTTP
@@ -52,20 +38,7 @@
     🛡️ 4️⃣ VÉRIFICATION CSRF
     ========================================================= */
 
-    $pikachu_client = $_POST['pikachu_csrf'] ?? '';
-
-    if (
-        empty($_SESSION['csrf_token']) ||
-        empty($pikachu_client) ||
-        !hash_equals($_SESSION['csrf_token'], $pikachu_client)
-    ) {
-        http_response_code(403);
-        echo json_encode([
-            "status"  => "error",
-            "message" => "CSRF invalide"
-        ]);
-        exit;
-    }
+    require_csrf($_POST);
 
     /* =========================================================
     5️⃣ RÉCUPÉRATION DES DONNÉES
@@ -99,10 +72,11 @@
     8️⃣ FORMATAGE DATE ÉVÉNEMENT
     ========================================================= */
 
-    $d = DateTime::createFromFormat('d/m/Y', $date_event);
-    $date_event = $d
-        ? $d->format('Y-m-d 00:00:00')
-        : (new DateTime())->format('Y-m-d 00:00:00');
+    $d = DateTime::createFromFormat('!d/m/Y', $date_event);
+    if (!$d || $d->format('d/m/Y') !== $date_event) {
+        json_response(['status' => 'error', 'message' => 'Date invalide'], 400);
+    }
+    $date_event = $d->format('Y-m-d 00:00:00');
 
     /* =========================================================
     9️⃣ DATE DE CRÉATION

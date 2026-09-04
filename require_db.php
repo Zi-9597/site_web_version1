@@ -10,13 +10,21 @@
 
         private function __construct()
         {
-            $env = parse_ini_file(".env"); 
+            /*
+             * CHANGE (configuration security): resolve `.env` from this project,
+             * not the web server's current directory. Production can provide the
+             * same values through environment variables instead of a file.
+             */
+            $envPath = __DIR__ . '/.env';
+            $env = is_file($envPath) ? (parse_ini_file($envPath) ?: []) : [];
 
-
-            $host = $env["databaseHost"]; 
-            $user = $env["databaseUsername"]; 
-            $password =  $env["databasePassword"]; 
-            $dbname = $env["databaseName"];
+            $host = getenv('DATABASE_HOST') ?: ($env['databaseHost'] ?? '');
+            $user = getenv('DATABASE_USERNAME') ?: ($env['databaseUsername'] ?? '');
+            $password = getenv('DATABASE_PASSWORD') ?: ($env['databasePassword'] ?? '');
+            $dbname = getenv('DATABASE_NAME') ?: ($env['databaseName'] ?? '');
+            if ($host === '' || $user === '' || $password === '' || $dbname === '') {
+                throw new RuntimeException('Configuration de base de données incomplète.');
+            }
             $charset = "utf8mb4"; 
 
             $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
@@ -36,7 +44,9 @@
             
             }catch(PDOException $e)
             {
-                throw new RuntimeException("Problem to connet to the database ... ".$e->getMessage());
+                // CHANGE (information disclosure): never expose PDO details to a browser.
+                error_log('Database connection failed: ' . $e->getMessage());
+                throw new RuntimeException('Connexion à la base de données indisponible.');
             }
 
             
@@ -352,6 +362,11 @@
 
         public static function update_user_info($id, $field, $value) {
             $pdo = self::getInstance();
+            // CHANGE (SQL safety): the database layer enforces the column whitelist too.
+            $allowedFields = ['email', 'mot_de_passe', 'section', 'phone_number', 'ville', 'metier'];
+            if (!in_array($field, $allowedFields, true)) {
+                throw new InvalidArgumentException('Champ utilisateur non autorisé.');
+            }
             $sql = "UPDATE subscribers SET $field = :value WHERE id_membre = :id";
             $stmt = $pdo->prepare($sql);
 
@@ -670,6 +685,28 @@
             ]);
         }
 
+        public static function updateOwnedEvent(string $id_membre, array $data): bool
+        {
+            $pdo = self::getInstance();
+            /* CHANGE (IDOR prevention): the owner is part of the UPDATE predicate. */
+            $stmt = $pdo->prepare(
+                'UPDATE evenements
+                 SET nom_event = :nom, date_event = :date_event, desc_event = :desc_event, url_form = :url_form
+                 WHERE id_event = :id_event AND id_membre = :id_membre'
+            );
+
+            $stmt->execute([
+                ':nom' => $data['nom_event'],
+                ':date_event' => $data['date_event'],
+                ':desc_event' => $data['desc_event'],
+                ':url_form' => $data['url_form'],
+                ':id_event' => $data['id_event'],
+                ':id_membre' => $id_membre,
+            ]);
+
+            return $stmt->rowCount() === 1;
+        }
+
         public static function removeEvent(int $id_event): bool
         {
             $pdo = self::getInstance();
@@ -683,6 +720,23 @@
             } catch (Exception $e) {
                 throw new RuntimeException("Erreur suppression event : " . $e->getMessage());
             }
+        }
+
+        public static function removeOwnedEvent(int $id_event, string $id_membre): bool
+        {
+            $pdo = self::getInstance();
+            /* CHANGE (IDOR prevention): a bureau member may delete only their own event. */
+            $stmt = $pdo->prepare('DELETE FROM evenements WHERE id_event = :id AND id_membre = :id_membre');
+            $stmt->execute([':id' => $id_event, ':id_membre' => $id_membre]);
+            return $stmt->rowCount() === 1;
+        }
+
+        public static function eventExists(int $id_event): bool
+        {
+            $pdo = self::getInstance();
+            $stmt = $pdo->prepare('SELECT 1 FROM evenements WHERE id_event = :id LIMIT 1');
+            $stmt->execute([':id' => $id_event]);
+            return (bool) $stmt->fetchColumn();
         }
         public static function fetch_actualites(?int $actu_id = null): array
         {
@@ -1019,7 +1073,4 @@
 
 
         
-
-
-
 

@@ -207,29 +207,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    /**
-     * Valide le mot de passe
-     * Vérifie que le mot de passe respecte plusieurs critères :
-     * - Au moins 8 caractères
-     * - Contient au moins un chiffre
-     * - Contient des lettres majuscules et minuscules
-     * - Contient au moins un caractère spécial (+, -, !, _, @).
-     */
+    /* CHANGE: accept every character and length; registration requires only a non-empty password. */
     function validatePassword() {
-        const rules = {
-            rule_1: elements.passwordInput.value.length >= 8,
-            rule_2: /\d/.test(elements.passwordInput.value),
-            rule_3: /(?=.*[a-z])(?=.*[A-Z])/.test(elements.passwordInput.value),
-            rule_4: /[+\-!_@]/.test(elements.passwordInput.value),
-        };
-
-        let isValid = true;
-        Object.entries(rules).forEach(([rule, condition]) => {
+        const isValid = elements.passwordInput.value.length > 0;
+        ["rule_1", "rule_2", "rule_3", "rule_4"].forEach((rule) => {
             const element = document.getElementById(rule);
-            element.style.color = condition ? "green" : "red"; // Affiche l'état de chaque règle
-            if (!condition) isValid = false;
+            element.style.color = isValid ? "green" : "#5f6f89";
         });
-
         return isValid;
     }
 

@@ -72,15 +72,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    // Mot de passe
+    // CHANGE: a profile password may use any characters; only an empty value is rejected.
     function validatePassword() {
         const pwd = fields.password.value;
-        const ok =
-            pwd.length >= 8 &&
-            /\d/.test(pwd) &&
-            /[a-z]/.test(pwd) &&
-            /[A-Z]/.test(pwd) &&
-            /[+\-!_@]/.test(pwd);
+        const ok = pwd.length > 0;
         buttons.password.disabled = !ok;
     }
 

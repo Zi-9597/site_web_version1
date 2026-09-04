@@ -5,9 +5,9 @@
 
 
 
-    require "commun/PHPMailer/src/Exception.php";
-    require "commun/PHPMailer/src/PHPMailer.php";
-    require "commun/PHPMailer/src/SMTP.php"; 
+    require_once __DIR__ . "/commun/PHPMailer/src/Exception.php";
+    require_once __DIR__ . "/commun/PHPMailer/src/PHPMailer.php";
+    require_once __DIR__ . "/commun/PHPMailer/src/SMTP.php";
 
     class EEA_Mailer
     {
@@ -20,26 +20,31 @@
         // Configuration des données du mail de l'associatiion EEEA
         private function __construct()
         {
-            $env = parse_ini_file(".env"); 
-
-
-            $smpt = $env["smtp_univ"]; 
-            $mail = $env["mail_eea"]; 
-            $password =  $env["password_mail"]; 
+            /* CHANGE (configuration security): use fixed project paths and allow
+             * production to inject SMTP secrets through process environment. */
+            $env = is_file(__DIR__ . '/.env') ? (parse_ini_file(__DIR__ . '/.env') ?: []) : [];
+            $smtp = getenv('SMTP_HOST') ?: ($env['smtp_univ'] ?? '');
+            $mail = getenv('SMTP_USERNAME') ?: ($env['mail_eea'] ?? '');
+            $password = getenv('SMTP_PASSWORD') ?: ($env['password_mail'] ?? '');
+            if ($smtp === '' || $mail === '' || $password === '') {
+                throw new RuntimeException('Configuration SMTP incomplète.');
+            }
 
 
             $this->mailer = new PHPMailer(true); 
             $this->mailer->isSMTP();
-            $this->mailer->Host = $smpt;
+            $this->mailer->Host = $smtp;
 
             $this->mailer->SMTPAuth = true;
             $this->mailer->Username = $mail;
             $this->mailer->Password = $password;
             $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $this->mailer->Port = 587;
+            $this->mailer->SMTPDebug = 0; // CHANGE: never disclose SMTP traffic in production.
+            $this->mailer->Timeout = 15;
             $this->mailer->CharSet = 'UTF-8';
             // Expéditeur par défaut
-            $this->mailer->setFrom($env["mail_eea"], "Association Ancien et Étudiant EEEA");
+            $this->mailer->setFrom($mail, "Association Ancien et Étudiant EEEA");
         }
 
         public static function getInstance()
@@ -57,6 +62,9 @@
         {
             try 
             {
+                if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
+                    return false;
+                }
                 // Nettoie les destinataires précédemment ajoutés
                 // (important si la même instance envoie plusieurs mails)
                 $this->mailer->clearAddresses();
@@ -69,12 +77,12 @@
                     "Bienvenue à l'association des anciens & étudiants EEEA – Université de Lille";
 
                 // Chargement du template HTML du mail
-                $html = file_get_contents("templates/externe/mailer/mail_welcome.php");
+                $html = file_get_contents(__DIR__ . "/templates/externe/mailer/mail_welcome.php");
 
                 // Remplacement des variables dynamiques dans le template
                 $html = str_replace(
                     ['{{NAME}}', '{{LAST_NAME}}' , '{{TOKEN}}'],
-                    [$name, $last_name , $token],
+                    [htmlspecialchars($name, ENT_QUOTES, 'UTF-8'), htmlspecialchars($last_name, ENT_QUOTES, 'UTF-8'), rawurlencode($token)],
                     $html
                 );
 

@@ -4,8 +4,8 @@
      *  ➜ Accès autorisé à TOUS les utilisateurs connectés
      ************************************************************/
 
-    // Chargement de la base et de la classe EEA_Database
-    include_once "require_db.php";
+    // CHANGE (consistent headers/session): use the shared application bootstrap.
+    require_once "commun/init.php";
     header("Content-Type: application/json");
 
 

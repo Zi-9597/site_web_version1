@@ -6,21 +6,13 @@
     1️⃣ UTILISATEUR CONNECTÉ
     ========================================================= */
 
-    if (!$user) {
-        http_response_code(401);
-        echo json_encode(["success" => false, "message" => "Non authentifié"]);
-        exit;
-    }
+    $user = require_authenticated_user($user);
 
     /* =========================================================
     2️⃣ AUTORISATION : MEMBRE DU BUREAU
     ========================================================= */
 
-    if (empty($user['membre_bureau'])) {
-        http_response_code(403);
-        echo json_encode(["success" => false, "message" => "Accès interdit"]);
-        exit;
-    }
+    require_bureau_member($user);
 
 
     /* =========================================================
@@ -51,6 +43,10 @@
     }
 
     $idEvent = (int) $idEvent;
+    // CHANGE (privacy/IDOR): participant contact data is visible only to the event owner.
+    if (empty(EEA_Database::fetch_events($user['id_membre'], $idEvent))) {
+        json_response(['success' => false, 'message' => 'Événement introuvable'], 404);
+    }
 
     /* =========================================================
     5️⃣ RÉCUPÉRATION DES PARTICIPANTS
@@ -78,4 +74,3 @@
     }
 
 ?>
-

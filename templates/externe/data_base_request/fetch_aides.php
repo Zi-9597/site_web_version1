@@ -7,41 +7,21 @@
     - Retourne : données complètes de l’aide
     ============================================================================ */
 
-    require_once "require_db.php";
-    session_start();
+    // CHANGE (authorization): refresh the account and role from the database.
+    require_once "commun/init.php";
 
     header('Content-Type: application/json');
 
     /* ============================================================
     🔐 1) VÉRIFICATION DE LA SESSION
     ============================================================ */
-    if (
-        empty($_SESSION['user']) ||
-        !is_array($_SESSION['user']) ||
-        empty($_SESSION['user']['id_membre'])
-    ) {
-        http_response_code(401);
-        echo json_encode([
-            'success' => false,
-            'message' => 'Utilisateur non authentifié'
-        ]);
-        exit;
-    }
-
-    $user = $_SESSION['user'];
+    $user = require_authenticated_user($user);
 
     /* ============================================================
     🔐 2) VÉRIFICATION DES DROITS
     ➜ Autorisés : Président & Membres du bureau
     ============================================================ */
-    if (empty($user['membre_bureau'])) {
-        http_response_code(403);
-        echo json_encode([
-            'success' => false,
-            'message' => 'Accès interdit'
-        ]);
-        exit;
-    }
+    require_bureau_member($user);
 
     /* ============================================================
     🔎 3) VALIDATION DE L’IDENTIFIANT AIDE (GET)

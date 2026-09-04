@@ -1,96 +1,28 @@
 <?php
-    header('Content-Type: application/json');
+/* CHANGE (login security): use the shared secure session and CSRF bootstrap. */
+require_once 'commun/init.php';
+require_post();
+require_csrf($_POST);
 
-    /* ==================================================
-    CONFIGURATION COOKIE DE SESSION (AVANT session_start)
-    ================================================== */
+$email = strtolower(trim($_POST['email'] ?? ''));
+$password = $_POST['password'] ?? '';
+if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $password === '') {
+    json_response(['success' => false, 'message' => 'Erreur de connexion'], 400);
+}
 
-    // Accepter la session UNIQUEMENT via cookies (pas URL)
-    ini_set('session.use_only_cookies', 1);
-
-    // Empêche JavaScript d'accéder au cookie de session
-    ini_set('session.cookie_httponly', 1);
-
-    /* ==================================================
-    DÉMARRAGE DE LA SESSION
-    ================================================== */
-
-    session_start();
-
-    require_once "require_db.php";
-
-    /* ==================================================
-    VÉRIFICATION REQUÊTE
-    ================================================== */
-
-    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-        echo json_encode(["success" => false, "message" => "Requête invalide"]);
-        exit;
+try {
+    $userDb = EEA_Database::fetc_user_mail($email);
+    if (!$userDb || empty($userDb['mot_de_passe']) || !password_verify($password, $userDb['mot_de_passe']) || (int) $userDb['is_validate'] !== 1) {
+        json_response(['success' => false, 'message' => 'Erreur de connexion'], 401);
     }
 
-    /* ==================================================
-    DONNÉES UTILISATEUR
-    ================================================== */
-
-    $mail     = trim($_POST['email'] ?? '');
-    $password = $_POST['password'] ?? '';
-
-    if ($mail === '' || $password === '') {
-        echo json_encode(["success" => false, "message" => "Champs manquants"]);
-        exit;
-    }
-
-    /* ==================================================
-    AUTHENTIFICATION
-    ================================================== */
-
-    $userDb = EEA_Database::fetc_user_mail($mail);
-
-    if (
-    !$userDb
-    || empty($userDb['mot_de_passe'])
-    || !password_verify($password, $userDb['mot_de_passe'])
-    || (int)$userDb['is_validate'] !== 1
-    ) 
-    {
-        echo json_encode([
-            "success" => false,
-            "message" => "Erreur de connexion"
-        ]);
-        exit;
-    }
-
-
-    /* ==================================================
-    CONNEXION RÉUSSIE
-    ================================================== */
-
-    // Protection contre la session fixation
+    // CHANGE (session fixation): replace the visitor session after successful login.
     session_regenerate_id(true);
-
-    // Création de la session utilisateur
-    $_SESSION['user'] = [
-        'id_membre'     => $userDb['id_membre'],
-        'id'            => $userDb['id'],
-        'prenom'        => $userDb['prenom'],
-        'nom'           => $userDb['nom'],
-        'membre_assoc'  => $userDb['membre_assoc'],
-        'membre_bureau' => $userDb['membre_bureau'] ?? null,
-        'email'         => $userDb['email'],
-        'telephone'     => $userDb['phone_number']
-    ];
-
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(24));
-    // Création de l'activité
+    $_SESSION['user'] = ['id_membre' => $userDb['id_membre']];
     $_SESSION['last_activity'] = time();
-
-    /* ==================================================
-    RÉPONSE AJAX
-    ================================================== */
-
-    echo json_encode([
-        "success"  => true,
-        "redirect" => "/?dest=acceuil"
-    ]);
-    exit;
-?>
+    rotate_csrf_token();
+    json_response(['success' => true, 'redirect' => '/?dest=acceuil']);
+} catch (Throwable $exception) {
+    error_log('Login failed: ' . $exception->getMessage());
+    json_response(['success' => false, 'message' => 'Erreur serveur'], 500);
+}
