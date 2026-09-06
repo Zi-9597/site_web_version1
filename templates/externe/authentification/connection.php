@@ -52,11 +52,8 @@
         <div class="form_total">
 
             <div class="descritpion-inscription">
-                <h1>
-                    Connectez-vous à la page de l’association
-                    des anciens et étudiants de l’EEA
-                    avec votre adresse mail
-                </h1>
+                <h1>Bienvenue dans le réseau EEA</h1>
+                <p class="auth-intro">Retrouvez votre communauté, ses opportunités et ses événements.</p>
             </div>
 
            <div class="form_connection">

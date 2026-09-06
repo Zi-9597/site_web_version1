@@ -91,15 +91,32 @@ body::after { right: -17rem; bottom: 8%; background: #18a89d; }
     height: 100dvh;
     padding: 28px 18px;
     border-right: 1px solid rgba(146, 176, 215, 0.25);
-    background: linear-gradient(160deg, rgba(8, 28, 55, 0.98), rgba(17, 66, 112, 0.98));
+    /* The amber and teal radial accents make the drawer feel like an EEA community space. */
+    background:
+        radial-gradient(circle at 88% 92%, rgba(242, 168, 59, 0.9), transparent 25%),
+        radial-gradient(circle at 8% 18%, rgba(0, 166, 166, 0.45), transparent 28%),
+        linear-gradient(160deg, #071b35 0%, #123f73 62%, #155f9b 100%);
     box-shadow: 20px 0 55px rgba(4, 17, 34, 0.3);
 }
 
 .nav_2 > span { min-height: 48px; }
 .nav_2 > span > a {
+    display: flex;
+    align-items: center;
+    gap: 11px;
     color: rgba(239, 247, 255, 0.85);
     font-size: 0.95rem;
     font-weight: 700;
+}
+
+/* Consistent markers make long navigation lists easier to scan. */
+.nav_2 > span:not(.reseau_sociaux) > a::before {
+    width: 7px;
+    height: 7px;
+    content: "";
+    border-radius: 50%;
+    background: var(--eea-amber);
+    box-shadow: 0 0 0 4px rgba(242, 168, 59, 0.14);
 }
 
 .nav_2 > span > a:hover,
@@ -133,7 +150,21 @@ body::after { right: -17rem; bottom: 8%; background: #18a89d; }
 .accueil_presentation::before,
 .accueil_presentation::after { display: none; }
 .presentation_intro { max-width: 1240px; gap: clamp(38px, 6vw, 90px); }
-.hero-eyebrow, .section-kicker { color: var(--eea-teal); }
+.hero-eyebrow, .section-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    padding: 8px 12px;
+    border: 1px solid rgba(0, 166, 166, 0.22);
+    border-radius: 999px;
+    color: #087f84;
+    background: rgba(223, 250, 248, 0.78);
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
+}
 .hero-title {
     max-width: 690px;
     color: var(--eea-ink);
@@ -160,6 +191,21 @@ body::after { right: -17rem; bottom: 8%; background: #18a89d; }
 .section-bloc { border-color: var(--eea-line); background: rgba(255, 255, 255, 0.75); box-shadow: var(--eea-shadow); }
 .section-intro h2, .section-text h3 { color: var(--eea-navy); }
 .section-text { border-color: var(--eea-line); background: rgba(248, 251, 255, 0.78) !important; }
+.section-item { position: relative; }
+.section-item::after {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 10px;
+    height: 10px;
+    content: "";
+    border: 3px solid var(--eea-amber);
+    border-radius: 50%;
+    background: #fff;
+}
+.section-item:hover .section-image img { transform: scale(1.025); }
+.section-image { overflow: hidden; border-radius: 24px; }
+.section-image img { transition: transform 0.35s ease; }
 .slider-arrow { background: var(--eea-navy); }.slider-arrow:hover { background: var(--eea-teal); }
 .dot.active { background: var(--eea-teal); }
 
@@ -185,6 +231,19 @@ body::after { right: -17rem; bottom: 8%; background: #18a89d; }
 .descirption-courte p,
 .descritpion-inscription p,
 .descritpion-evenement p { color: #d7eaff; }
+
+.title-box::before {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 6px 10px;
+    border: 1px solid rgba(205, 243, 255, 0.3);
+    border-radius: 999px;
+    color: #a7f3ec;
+    content: "RÉSEAU EEA · LILLE";
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+}
 
 .annonces-wrapper {
     overflow: hidden;
@@ -219,6 +278,7 @@ body::after { right: -17rem; bottom: 8%; background: #18a89d; }
 }
 
 .annonce-card:hover { background: #fff; box-shadow: 0 18px 32px rgba(17, 53, 94, 0.14); }
+.annonce-card:hover .btn-lire-plus { border-color: var(--eea-blue); background: var(--eea-blue); color: #fff; }
 .card-date { color: var(--eea-teal); font-size: 0.78rem; letter-spacing: 0.07em; text-transform: uppercase; }
 .card-title { color: var(--eea-navy); font-size: clamp(1.25rem, 2vw, 1.55rem); }
 .card-text { color: #52708e; font-size: 1rem; }
@@ -248,11 +308,53 @@ body::after { right: -17rem; bottom: 8%; background: #18a89d; }
 .container-formulaire .descritpion-inscription,
 .container-formulaire .descritpion-evenement,
 .form_total .descritpion-inscription { width: 100%; margin: 0 0 28px; }
-.titre_h1 { padding: clamp(24px, 4vw, 38px); background: transparent; }
-.descirption-courte { padding: 0 38px 30px; background: transparent; }
+.container-formulaire { padding: clamp(24px, 3.5vw, 46px); }
+.form_total { padding: clamp(24px, 4vw, 44px); margin: clamp(42px, 6vw, 76px) auto; }
+
+/* Shorter editorial headings make authentication pages welcoming, not overwhelming. */
+.descritpion-inscription::before,
+.descritpion-evenement::before {
+    align-self: center;
+    margin-top: 26px;
+    padding: 7px 12px;
+    border: 1px solid rgba(183, 232, 255, 0.3);
+    border-radius: 999px;
+    color: #d9f8f4;
+    content: "COMMUNAUTÉ EEA · LILLE";
+    font-size: 0.73rem;
+    font-weight: 900;
+    letter-spacing: 0.11em;
+}
+
+.titre_h1 { padding: 16px clamp(24px, 4vw, 46px) 12px; background: transparent; }
+.descritpion-inscription h1,
+.descritpion-evenement h1,
+.form_total .descritpion-inscription h1 {
+    max-width: 750px;
+    margin: 0 auto;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+}
+
+.descirption-courte { padding: 0 clamp(24px, 4vw, 46px) 30px; background: transparent; }
+.descirption-courte > p {
+    max-width: 700px;
+    margin: 0 auto 12px;
+    font-size: clamp(1rem, 1.4vw, 1.16rem);
+    line-height: 1.55;
+}
 .descirption-courte ul { max-width: 760px; margin: 0 auto; }
-.descirption-courte li { position: relative; padding: 5px 0 5px 22px; color: #d7eaff; line-height: 1.5; }
+.descirption-courte li { position: relative; padding: 5px 0 5px 22px; color: #d7eaff; font-size: 1rem; line-height: 1.5; }
 .descirption-courte li::before { position: absolute; left: 0; content: "✓"; color: #5eead4; font-weight: 900; }
+
+.auth-intro {
+    max-width: 480px;
+    margin: 12px auto 2px;
+    color: #d7eaff;
+    font-size: 1rem;
+    line-height: 1.5;
+}
 
 .formulaire-element,
 #naissance-date,
@@ -266,6 +368,20 @@ body::after { right: -17rem; bottom: 8%; background: #18a89d; }
     border-radius: 14px;
     background: rgba(248, 251, 255, 0.88);
 }
+
+#formulaire-id-inscription { gap: 16px; margin-bottom: 30px; }
+.formulaire-element:not(#naissance-date, #tel-form, #password-form),
+#naissance-date,
+#tel-form,
+#password-form,
+#email,
+#mdp { padding: 16px 18px; }
+
+label { font-size: 0.98rem; font-weight: 800; }
+input:not([type="checkbox"]):not([type="radio"]), textarea, select { font-size: 1.05rem; }
+#det_mdp { font-size: 0.92rem; line-height: 1.42; }
+#det_mdp > p { margin: 0 0 4px; font-size: 0.94rem; }
+#det_mdp > ul { margin: 0; font-size: 0.88rem; }
 
 .formulaire-element:focus-within,
 #naissance-date:focus-within,
@@ -305,6 +421,10 @@ input:not([type="checkbox"]):not([type="radio"]):focus, textarea:focus, select:f
     background: linear-gradient(135deg, var(--eea-blue), #1f56bb);
     box-shadow: 0 10px 20px rgba(23, 105, 224, 0.2);
 }
+
+.button_submit { min-height: 72px; margin-bottom: 12px; }
+.button_submit > button,
+#button_submit { min-height: 50px; font-size: 1rem; letter-spacing: 0.01em; }
 
 #button_submit:hover:enabled,
 .form-actions button:hover,
@@ -367,6 +487,23 @@ input:not([type="checkbox"]):not([type="radio"]):focus, textarea:focus, select:f
     box-shadow: 0 10px 24px rgba(17, 53, 94, 0.07);
 }
 
+/* Category pills distinguish networking opportunities from association events at a glance. */
+.event-card::before,
+.job-card::before {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 5px 9px;
+    border-radius: 999px;
+    color: #087f84;
+    background: #dffaf8;
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+}
+
+.event-card::before { content: "ÉVÉNEMENT"; }
+.job-card::before { content: "OPPORTUNITÉ"; }
+
 .event-card h3,
 .job-card h3 { color: var(--eea-navy); font-size: 1.25rem; }
 .event-card p,
@@ -412,6 +549,14 @@ tbody tr:hover { background: #ecf5ff; }
     .hero-title { font-size: clamp(2.25rem, 11vw, 3.2rem); }
     .title-box, .descritpion-inscription, .descritpion-evenement, .title-h1 { border-radius: 18px; }
     .descirption-courte { padding: 0 24px 24px; }
+    .descritpion-inscription::before,
+    .descritpion-evenement::before { margin-top: 20px; font-size: 0.65rem; }
+    .descritpion-inscription h1,
+    .descritpion-evenement h1,
+    .form_total .descritpion-inscription h1 { font-size: clamp(1.65rem, 8vw, 2.15rem); }
+    .auth-intro { font-size: 0.94rem; }
+    #password-form { align-items: flex-start; }
+    #det_mdp { width: 100%; }
     .annonce-card { padding: 21px 20px; }
     .container-formulaire, .form_total, .aide-form, .box-with-title { border-radius: 18px; }
     #tel-form .iti input#phone { padding-left: 84px !important; }

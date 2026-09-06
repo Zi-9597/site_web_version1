@@ -49,10 +49,10 @@
             <!-- Section de description -->
             <div class="descritpion-inscription">
                 <div class="titre_h1">
-                    <h1>Rejoignez l’association Étudiant-Anciens EEA et créez votre espace adhérent</h1>
+                    <h1>Votre réseau EEA commence ici</h1>
                 </div>
                 <div class='descirption-courte'>
-                    <p>En ouvrant votre compte <strong>Étudiant-Anciens EEA</strong>, vous accédez à de nombreux avantages :</p>
+                    <p>Étudiants, alumni et professionnels : créez votre espace et développez votre réseau.</p>
                     <ul>
                         <li>Accédez à des offres exclusives de stages, d’alternance, d’emplois et de jobs étudiants</li>
                         <li>Découvrez et participez aux événements organisés (activités, sorties, rencontres professionnelles...)</li>
