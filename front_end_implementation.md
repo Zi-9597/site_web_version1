@@ -179,3 +179,28 @@ La page d'accueil a été modernisée pour présenter l'association EEA comme un
 
 - Le bouton « Rejoindre l'association » ne s'affiche que pour un visiteur non connecté.
 - Un adhérent connecté voit uniquement l'accès aux événements, évitant de lui proposer de rejoindre une association dont il est déjà membre.
+
+## Correctifs de navigation et de formulaire
+
+### `commun/barre_navigation.php`
+
+- Les liens « Connexion » et « Inscription » du panneau latéral public ont été retirés car ils dupliquaient les actions déjà présentes dans l'en-tête fixe.
+- Cette suppression empêche le bouton d'inscription d'être coupé au bas du panneau sur les écrans de faible hauteur.
+
+### `public/css/eea_design_system.css`
+
+- Les liens de l'en-tête et du panneau latéral utilisent maintenant une taille homogène et plus lisible.
+- Le bloc « Suivez l'association » est centré, placé avant les liens de navigation et ses icônes sont agrandies.
+- Les champs e-mail et mot de passe de connexion ont une zone cliquable plus grande, avec des icônes et une typographie renforcées.
+- Le bandeau de connexion utilise le titre plus court « Bienvenue sur EEA » afin de conserver une présentation claire et aérée.
+- Le libellé, l'icône, le sélecteur de pays et le champ de téléphone sont alignés dans un même groupe visuel.
+- Les commentaires CSS expliquent les règles de lisibilité, l'ordre du bloc social et l'alignement du téléphone.
+
+### `public/js/inscription_v2.js`
+
+- Les noms de tous les pays de la liste téléphonique sont convertis en français avec `Intl.DisplayNames` du navigateur.
+- Cette traduction conserve le fonctionnement de `intl-tel-input`, les indicatifs internationaux et la sélection de pays existante.
+
+### `templates/externe/authentification/connection.php`
+
+- Le titre du bandeau est devenu « Bienvenue sur EEA » pour éviter un retour à la ligne inutile et améliorer l'équilibre visuel de la page.
