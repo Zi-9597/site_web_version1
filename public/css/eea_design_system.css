@@ -1,0 +1,418 @@
+/* Shared visual system loaded after page-specific legacy styles. */
+:root {
+    --eea-ink: #0a1d37;
+    --eea-navy: #102c52;
+    --eea-blue: #1769e0;
+    --eea-teal: #00a6a6;
+    --eea-amber: #f2a83b;
+    --eea-surface: rgba(255, 255, 255, 0.88);
+    --eea-line: rgba(142, 168, 205, 0.45);
+    --eea-muted: #59708e;
+    --eea-shadow: 0 22px 55px rgba(10, 29, 55, 0.13);
+}
+
+body {
+    min-width: 320px;
+    color: var(--eea-ink);
+    /* Radial layers provide visible depth while keeping page content readable. */
+    background:
+        radial-gradient(circle 600px at -8% 12%, rgba(23, 105, 224, 0.25), transparent 70%),
+        radial-gradient(circle 500px at 104% 24%, rgba(0, 166, 166, 0.21), transparent 68%),
+        radial-gradient(circle 520px at 50% 94%, rgba(242, 168, 59, 0.18), transparent 70%),
+        linear-gradient(145deg, #e7edf6 0%, #f5f8fc 46%, #eaf1f9 100%);
+    background-attachment: fixed;
+}
+
+body::before,
+body::after {
+    position: fixed;
+    z-index: -1;
+    width: 30rem;
+    height: 30rem;
+    content: "";
+    border-radius: 50%;
+    filter: blur(48px);
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+/* Fixed blurred circles keep the background decorative without affecting layout. */
+body::before { top: 22%; left: -18rem; background: #347ee5; }
+body::after { right: -17rem; bottom: 8%; background: #18a89d; }
+
+/* Header and navigation */
+.nav_1 {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(151, 177, 212, 0.45);
+    background: rgba(248, 251, 255, 0.82);
+    box-shadow: 0 10px 28px rgba(10, 29, 55, 0.06);
+    backdrop-filter: blur(18px);
+}
+
+.menu_nav_1 { min-height: 72px; }
+.rubrique_1 { min-height: 72px; gap: 28px; }
+.list_nav_1 { gap: 8px; }
+.list_nav_1 li a {
+    padding: 10px 14px;
+    color: #36516f;
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.list_nav_1 li a:hover,
+.list_nav_1 li a:focus-visible {
+    color: var(--eea-blue);
+    background: rgba(23, 105, 224, 0.09);
+    box-shadow: none;
+    transform: none;
+}
+
+.container_conn_insc div a {
+    min-height: 40px;
+    color: var(--eea-navy);
+    font-size: 0.86rem;
+    font-weight: 800;
+}
+
+.container_conn_insc #inscri a {
+    color: #fff;
+    background: linear-gradient(135deg, var(--eea-blue), #2457b7);
+    box-shadow: 0 8px 18px rgba(23, 105, 224, 0.23);
+}
+
+.container_conn_insc #inscri a:hover { color: #fff; background: var(--eea-navy); }
+#container_dash_id { width: 40px; height: 40px; border: 1px solid var(--eea-line); }
+#container_dash_id div { background: var(--eea-navy); }
+
+.nav_2 {
+    width: min(410px, 92vw);
+    height: 100dvh;
+    padding: 28px 18px;
+    border-right: 1px solid rgba(146, 176, 215, 0.25);
+    background: linear-gradient(160deg, rgba(8, 28, 55, 0.98), rgba(17, 66, 112, 0.98));
+    box-shadow: 20px 0 55px rgba(4, 17, 34, 0.3);
+}
+
+.nav_2 > span { min-height: 48px; }
+.nav_2 > span > a {
+    color: rgba(239, 247, 255, 0.85);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.nav_2 > span > a:hover,
+.nav_2 > span > a:focus-visible {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: none;
+    transform: translateX(3px);
+}
+
+.nav_2 .reseau_sociaux { gap: 10px; }
+.nav_2 .reseau_sociaux a {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 50%;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.nav_2 .reseau_sociaux a:hover { color: #fff; background: var(--eea-teal); }
+.overlay { background: rgba(5, 20, 41, 0.56); backdrop-filter: blur(4px); }
+
+/* Homepage: compact, career-focused presentation */
+.accueil_presentation {
+    padding: clamp(54px, 7vw, 96px) 6% 72px;
+    background: transparent;
+}
+
+.accueil_presentation::before,
+.accueil_presentation::after { display: none; }
+.presentation_intro { max-width: 1240px; gap: clamp(38px, 6vw, 90px); }
+.hero-eyebrow, .section-kicker { color: var(--eea-teal); }
+.hero-title {
+    max-width: 690px;
+    color: var(--eea-ink);
+    font-size: clamp(2.4rem, 4.5vw, 4.2rem);
+    line-height: 1.04;
+}
+
+.hero-title span { color: var(--eea-blue); }
+.presentation_text { font-size: clamp(1rem, 1.3vw, 1.13rem); color: #496480; }
+.btn-primary {
+    background: linear-gradient(135deg, var(--eea-blue), #1e4fbb);
+    box-shadow: 0 14px 30px rgba(23, 105, 224, 0.24);
+}
+
+.btn-secondary { border-color: #aac5e6; color: var(--eea-navy); background: rgba(255, 255, 255, 0.6); }
+.btn-primary:hover, .btn-secondary:hover { transform: translateY(-3px); }
+.presentation_image img { border-radius: 26px; box-shadow: var(--eea-shadow); }
+.presentation_image::before { background: linear-gradient(150deg, var(--eea-teal), var(--eea-blue)); opacity: 0.23; }
+.stats-bar { border-color: var(--eea-line); background: rgba(255, 255, 255, 0.78); box-shadow: var(--eea-shadow); }
+.stat-icon { background: linear-gradient(135deg, rgba(23, 105, 224, 0.13), rgba(0, 166, 166, 0.15)); }
+.stat-icon i { color: var(--eea-blue); }
+.stat-number { color: var(--eea-navy); }
+.stat-label { color: var(--eea-muted); }
+.section-bloc { border-color: var(--eea-line); background: rgba(255, 255, 255, 0.75); box-shadow: var(--eea-shadow); }
+.section-intro h2, .section-text h3 { color: var(--eea-navy); }
+.section-text { border-color: var(--eea-line); background: rgba(248, 251, 255, 0.78) !important; }
+.slider-arrow { background: var(--eea-navy); }.slider-arrow:hover { background: var(--eea-teal); }
+.dot.active { background: var(--eea-teal); }
+
+/* Content cards, news and catalogue pages */
+.title-box,
+.descritpion-inscription,
+.descritpion-evenement,
+.title-h1 {
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at 88% 16%, rgba(0, 166, 166, 0.46), transparent 30%),
+        linear-gradient(135deg, #0a1d37, #123e70);
+    box-shadow: 0 20px 46px rgba(10, 29, 55, 0.2);
+}
+
+.title-box h1,
+.descritpion-inscription h1,
+.descritpion-evenement h1,
+.title-h1 h1 { color: #fff; }
+.title-box p,
+.descirption-courte p,
+.descritpion-inscription p,
+.descritpion-evenement p { color: #d7eaff; }
+
+.annonces-wrapper {
+    overflow: hidden;
+    border: 1px solid var(--eea-line);
+    border-radius: 24px;
+    background: rgba(248, 251, 255, 0.78);
+    background-image: none;
+    box-shadow: var(--eea-shadow);
+}
+
+.annonces-wrapper::before { background: rgba(243, 248, 255, 0.68); }
+.annonces-container { max-height: none; padding: clamp(20px, 4vw, 40px); }
+.annonce-card {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 16px;
+    padding: 24px 26px;
+    border: 1px solid rgba(157, 184, 218, 0.42);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 10px 24px rgba(17, 53, 94, 0.07);
+}
+
+.annonce-card::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 4px;
+    content: "";
+    background: linear-gradient(var(--eea-blue), var(--eea-teal));
+}
+
+.annonce-card:hover { background: #fff; box-shadow: 0 18px 32px rgba(17, 53, 94, 0.14); }
+.card-date { color: var(--eea-teal); font-size: 0.78rem; letter-spacing: 0.07em; text-transform: uppercase; }
+.card-title { color: var(--eea-navy); font-size: clamp(1.25rem, 2vw, 1.55rem); }
+.card-text { color: #52708e; font-size: 1rem; }
+.btn-lire-plus {
+    border-color: rgba(23, 105, 224, 0.36);
+    border-radius: 999px;
+    color: var(--eea-blue);
+    font-weight: 800;
+}
+
+.btn-lire-plus:hover { border-color: var(--eea-blue); background: var(--eea-blue); color: #fff; }
+
+/* Forms, event and job publishing interfaces */
+.container-formulaire,
+.form_total,
+.aide-form,
+.box-with-title {
+    border-color: var(--eea-line);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: var(--eea-shadow);
+    backdrop-filter: blur(12px);
+}
+
+.container-formulaire { max-width: 1080px; }
+.form_total { max-width: 680px; }
+.container-formulaire .descritpion-inscription,
+.container-formulaire .descritpion-evenement,
+.form_total .descritpion-inscription { width: 100%; margin: 0 0 28px; }
+.titre_h1 { padding: clamp(24px, 4vw, 38px); background: transparent; }
+.descirption-courte { padding: 0 38px 30px; background: transparent; }
+.descirption-courte ul { max-width: 760px; margin: 0 auto; }
+.descirption-courte li { position: relative; padding: 5px 0 5px 22px; color: #d7eaff; line-height: 1.5; }
+.descirption-courte li::before { position: absolute; left: 0; content: "✓"; color: #5eead4; font-weight: 900; }
+
+.formulaire-element,
+#naissance-date,
+#tel-form,
+#password-form,
+#email,
+#mdp,
+.zone-info,
+.form-group {
+    border-color: #d5e1f0;
+    border-radius: 14px;
+    background: rgba(248, 251, 255, 0.88);
+}
+
+.formulaire-element:focus-within,
+#naissance-date:focus-within,
+#tel-form:focus-within,
+#password-form:focus-within,
+#email:focus-within,
+#mdp:focus-within {
+    border-color: var(--eea-blue);
+    box-shadow: 0 0 0 4px rgba(23, 105, 224, 0.1);
+}
+
+.formulaire-element i,
+#email i,
+#mdp i { color: var(--eea-teal); }
+label { color: #294563; }
+input:not([type="checkbox"]):not([type="radio"]), textarea, select {
+    border-color: #c5d6ea;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--eea-ink);
+}
+
+input:not([type="checkbox"]):not([type="radio"]):focus, textarea:focus, select:focus {
+    border-color: var(--eea-blue);
+    box-shadow: 0 0 0 3px rgba(23, 105, 224, 0.12);
+}
+
+#button_submit,
+.form-actions button,
+.change-btn,
+.action-box-single button,
+.modal-btn-save,
+.btn-change,
+.btn-display,
+.btn-make-ancien,
+.btn-change-inscri,
+.btn-participate {
+    background: linear-gradient(135deg, var(--eea-blue), #1f56bb);
+    box-shadow: 0 10px 20px rgba(23, 105, 224, 0.2);
+}
+
+#button_submit:hover:enabled,
+.form-actions button:hover,
+.change-btn:hover,
+.action-box-single button:hover,
+.modal-btn-save:hover,
+.btn-change:hover,
+.btn-display:hover,
+.btn-make-ancien:hover,
+.btn-change-inscri:hover,
+.btn-participate:hover { background: var(--eea-navy); }
+
+.specialites-grid input:checked + span,
+.types-grid input:checked + span { border-color: var(--eea-blue); background: #e7f0ff; color: var(--eea-navy); }
+
+/* intl-tel-input needs an explicit layout because the global form rules otherwise cover its flag button. */
+#tel-form #container-phone { width: 100%; }
+#tel-form .iti { width: 100%; display: block; }
+#tel-form .iti input#phone { width: 100%; padding-left: 88px !important; }
+#tel-form .iti__flag-container { z-index: 2; }
+#tel-form .iti__selected-flag {
+    min-width: 72px;
+    border-right: 1px solid #d5e1f0;
+    border-radius: 9px 0 0 9px;
+    background: #edf5ff;
+}
+
+/* The emoji fallback prevents an empty flag area when the third-party flag sprite cannot load. */
+#tel-form .iti__selected-flag .iti__flag { display: none; }
+#tel-form .iti__selected-flag::before {
+    margin-right: 7px;
+    content: attr(data-flag);
+    font-size: 1.05rem;
+    line-height: 1;
+}
+
+#tel-form .iti__selected-flag:hover,
+#tel-form .iti__selected-flag[aria-expanded="true"] { background: #dcecff; }
+#tel-form .iti__country-list { border: 1px solid #c5d6ea; border-radius: 12px; box-shadow: var(--eea-shadow); }
+#tel-form .iti__country.iti__highlight { background: #edf5ff; }
+
+/* Tables, managers and dialogs */
+.box-with-title { padding: clamp(22px, 4vw, 38px); }
+.box-title { color: var(--eea-navy); }
+.filtre-membre { border-color: var(--eea-line); background: rgba(247, 251, 255, 0.8); }
+.container-resultats {
+    border: 1px solid var(--eea-line);
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: var(--eea-shadow);
+}
+
+.container-resultats h1 { color: var(--eea-navy); border-bottom-color: var(--eea-teal); }
+.event-card,
+.job-card {
+    border: 1px solid var(--eea-line);
+    border-left: 5px solid var(--eea-teal);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 10px 24px rgba(17, 53, 94, 0.07);
+}
+
+.event-card h3,
+.job-card h3 { color: var(--eea-navy); font-size: 1.25rem; }
+.event-card p,
+.job-card p { color: var(--eea-muted); font-size: 0.95rem; }
+.event-card:hover,
+.job-card:hover { box-shadow: 0 17px 30px rgba(17, 53, 94, 0.14); }
+table { border-color: var(--eea-line); background: rgba(255, 255, 255, 0.86); }
+thead, .modal-header { background: linear-gradient(135deg, var(--eea-ink), var(--eea-navy)); }
+tbody tr:hover { background: #ecf5ff; }
+.modal-overlay { background: rgba(5, 20, 41, 0.62); backdrop-filter: blur(6px); }
+.modal-content { border-color: var(--eea-line); border-radius: 20px; overflow: hidden; }
+
+/* Footer and contact socials: strong contrast without needing hover. */
+.bas_reseau { margin-top: 72px; background: linear-gradient(135deg, #081d38, #123e70); }
+.footer-partners { background: rgba(248, 251, 255, 0.92); }
+.footer-partners > p { color: var(--eea-navy); }
+.rejoindre p { color: #fff; }
+.reseau_footer a,
+.reseaux-sociaux .reseau_footer a {
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.reseau_footer svg,
+.reseaux-sociaux .reseau_footer svg { color: #fff; }
+.reseau_footer a:hover,
+.reseaux-sociaux .reseau_footer a:hover { background: var(--eea-teal); }
+.reseaux-sociaux {
+    padding: 22px;
+    border: 1px solid var(--eea-line);
+    border-radius: 18px;
+    background: linear-gradient(135deg, #0d315d, #12547d);
+    box-shadow: 0 14px 30px rgba(10, 29, 55, 0.15);
+}
+
+.reseaux-sociaux p { color: #fff; }
+.reseaux-sociaux .reseau_footer { width: auto; justify-content: flex-start; gap: 12px; }
+
+@media (max-width: 700px) {
+    .nav_1, .menu_nav_1, .rubrique_1 { min-height: 64px; }
+    .accueil_presentation { padding: 42px 18px 52px; }
+    .presentation_intro { gap: 34px; }
+    .hero-title { font-size: clamp(2.25rem, 11vw, 3.2rem); }
+    .title-box, .descritpion-inscription, .descritpion-evenement, .title-h1 { border-radius: 18px; }
+    .descirption-courte { padding: 0 24px 24px; }
+    .annonce-card { padding: 21px 20px; }
+    .container-formulaire, .form_total, .aide-form, .box-with-title { border-radius: 18px; }
+    #tel-form .iti input#phone { padding-left: 84px !important; }
+}

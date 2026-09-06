@@ -34,6 +34,22 @@ document.addEventListener('DOMContentLoaded', () => {
         "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js"
     });
 
+    // Keep the country marker visible even when the external flag sprite is unavailable.
+    // The plugin stores the selected ISO country code; convert it into the matching flag emoji.
+    const selectedFlag = document.querySelector("#tel-form .iti__selected-flag");
+    const updateCountryFlag = () => {
+        const countryCode = iti.getSelectedCountryData().iso2;
+        if (!selectedFlag || !countryCode) return;
+
+        selectedFlag.dataset.flag = String.fromCodePoint(
+            ...countryCode.toUpperCase().split("").map((letter) => 127397 + letter.charCodeAt(0))
+        );
+    };
+
+    // Set the default French flag immediately, then keep it synchronized with the country menu.
+    updateCountryFlag();
+    elements.phoneInput.addEventListener("countrychange", updateCountryFlag);
+
     // Désactive le bouton de soumission par défaut pour éviter une soumission prématurée.
     elements.submitButton.disabled = true;
     /**
