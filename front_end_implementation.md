@@ -164,3 +164,18 @@ La page d'accueil a été modernisée pour présenter l'association EEA comme un
 - `commun/footer.php` documente le chargement commun de cette feuille de style.
 - `public/js/inscription_v2.js` documente le comportement de secours du drapeau du téléphone.
 - `public/css/eea_design_system.css` documente les choix visuels non évidents de la barre latérale et des cartes de réseau.
+
+## Ajustement de lisibilité et navigation sociale
+
+### `public/css/eea_design_system.css`
+
+- La taille de base, les libellés, champs, cartes, liens de pied de page et textes de présentation ont été augmentés afin de garantir une lecture confortable.
+- Les bandeaux d'inscription et de connexion disposent maintenant de davantage d'espace intérieur, de titres plus grands et d'un texte secondaire moins serré.
+- La barre latérale est défilable et ses liens ont une taille plus importante pour faciliter l'utilisation sur téléphone et ordinateur.
+- Les réseaux sociaux du panneau latéral sont placés avant les liens de navigation, avec le titre « Suivez l'association » et des boutons plus grands. Ils restent donc visibles dès l'ouverture du panneau, même lorsque la liste de liens est longue.
+- Des commentaires CSS documentent la raison du placement des réseaux sociaux et l'espacement renforcé des bandeaux d'authentification.
+
+### `commun/acceuil_pres.php`
+
+- Le bouton « Rejoindre l'association » ne s'affiche que pour un visiteur non connecté.
+- Un adhérent connecté voit uniquement l'accès aux événements, évitant de lui proposer de rejoindre une association dont il est déjà membre.
