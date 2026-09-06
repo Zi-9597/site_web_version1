@@ -138,8 +138,29 @@ La page d'accueil a été modernisée pour présenter l'association EEA comme un
 - Ajout d'un affichage de secours pour le drapeau du pays dans le sélecteur de téléphone international.
 - Le drapeau est calculé à partir du code pays choisi et se met à jour lors d'un changement de pays, même si l'image de drapeau fournie par la dépendance externe ne peut pas être chargée.
 
+### Affinage de l'expérience communauté et réseau
+
+#### `templates/externe/authentification/inscription.php`
+
+- Le titre a été raccourci en « Votre réseau EEA commence ici » afin de réduire la hauteur du bandeau et de clarifier la promesse de la page.
+- Le texte d'introduction présente désormais explicitement les étudiants, alumni et professionnels.
+
+#### `templates/externe/authentification/connection.php`
+
+- Le titre de connexion est devenu « Bienvenue dans le réseau EEA ».
+- Ajout d'une phrase de contexte sur la communauté, les opportunités et les événements, sans modifier le formulaire ni ses identifiants JavaScript.
+
+#### `public/css/eea_design_system.css`
+
+- La barre latérale utilise maintenant un dégradé bleu nuit, bleu, turquoise et une touche ambre, avec des marqueurs de navigation plus faciles à parcourir.
+- Les bandeaux inscription et connexion ont des titres plus compacts, un badge communauté et une meilleure hiérarchie des textes.
+- Les libellés, champs et indications de mot de passe sont agrandis et espacés pour être plus lisibles.
+- Les cartes d'événements et d'opportunités reçoivent des étiquettes de catégorie, tandis que les cartes de l'accueil gagnent un mouvement d'image discret au survol.
+- Les commentaires CSS expliquent la logique des accents de la barre latérale, des marqueurs de navigation et des étiquettes de catégorie.
+
 ## Commentaires de maintenance
 
 - `public/css/eea_design_system.css` commence par un commentaire qui précise son rôle de système visuel partagé.
 - `commun/footer.php` documente le chargement commun de cette feuille de style.
 - `public/js/inscription_v2.js` documente le comportement de secours du drapeau du téléphone.
+- `public/css/eea_design_system.css` documente les choix visuels non évidents de la barre latérale et des cartes de réseau.
