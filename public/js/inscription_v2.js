@@ -34,6 +34,20 @@ document.addEventListener('DOMContentLoaded', () => {
         "https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js"
     });
 
+    // The library ships English country names; use the browser French region names in its existing menu.
+    const localizeCountryNames = () => {
+        if (!Intl.DisplayNames) return;
+
+        const frenchRegions = new Intl.DisplayNames(["fr"], { type: "region" });
+        document.querySelectorAll("#tel-form .iti__country").forEach((country) => {
+            const name = country.querySelector(".iti__country-name");
+            const countryCode = country.dataset.countryCode;
+            if (name && countryCode) name.textContent = frenchRegions.of(countryCode.toUpperCase());
+        });
+    };
+
+    localizeCountryNames();
+
     // Keep the country marker visible even when the external flag sprite is unavailable.
     // The plugin stores the selected ISO country code; convert it into the matching flag emoji.
     const selectedFlag = document.querySelector("#tel-form .iti__selected-flag");

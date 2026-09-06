@@ -52,7 +52,7 @@
         <div class="form_total">
 
             <div class="descritpion-inscription">
-                <h1>Bienvenue dans le réseau EEA</h1>
+                <h1>Bienvenue sur EEA</h1>
                 <p class="auth-intro">Retrouvez votre communauté, ses opportunités et ses événements.</p>
             </div>
 
