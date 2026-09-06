@@ -19,10 +19,12 @@
                 opportunités utiles à chaque étape de leur parcours.
             </p>
 
-            <!-- CHANGE: accès directs aux parcours clés, avec les routes existantes. -->
+            <!-- Visitors can join the association; members only need access to their next event. -->
             <div class="hero-actions">
+                <?php if (empty($user)): ?>
                 <a class="btn-primary" href="/?dest=inscription">Rejoindre l'association <i class="fa-solid fa-arrow-right"></i></a>
-                <a class="btn-secondary" href="/?dest=rech_event">Découvrir les événements</a>
+                <?php endif; ?>
+                <a class="btn-secondary" href="/?dest=rech_event">Voir les événements</a>
             </div>
 
             <div class="hero-trust">
