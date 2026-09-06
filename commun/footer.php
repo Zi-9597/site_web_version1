@@ -1,3 +1,5 @@
+<!-- This common footer is rendered by every page, making it the shared stylesheet entry point. -->
+<link rel="stylesheet" href="public/css/eea_design_system.css?v=<?= filemtime('public/css/eea_design_system.css') ?>">
 <!-- CHANGE: footer regrouped into clear institutional, social and legal areas. -->
 <footer class="bas_reseau">
     <div class="footer-partners">

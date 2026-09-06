@@ -116,3 +116,30 @@ La page d'accueil a été modernisée pour présenter l'association EEA comme un
 - Demandes d'aide et gestion des demandes.
 - Filtres de recherche, tableaux d'administration, boutons d'action et fenêtres modales.
 - Barre latérale et navigation mobile conservent leurs scripts et classes existants, avec la présentation professionnelle déjà ajoutée dans `barre_navigation_v2.css`.
+
+## Mise à jour visuelle globale
+
+### `public/css/eea_design_system.css`
+
+- Ajout d'une feuille de style partagée, chargée après les styles historiques afin d'harmoniser toutes les interfaces sans modifier leurs routes, données ou sélecteurs JavaScript.
+- Nouvelle identité visuelle : bleu nuit `#0A1D37`, bleu d'action `#1769E0`, turquoise `#00A6A6` et ambre `#F2A83B`.
+- Arrière-plan global plus contrasté avec des dégradés et halos circulaires bleus, turquoise et ambre floutés.
+- Refonte de la navigation, du panneau latéral, des boutons, cartes, tableaux, filtres, modales, formulaires et états interactifs.
+- Les cartes d'actualité, d'événement et d'opportunité disposent désormais de bordures d'accent, d'une hiérarchie typographique plus claire et d'ombres plus sobres.
+- Les liens des réseaux sociaux ont des surfaces contrastées et leurs icônes restent visibles sans survol, y compris sur les pages de contact.
+- Ajout de règles responsives spécifiques pour les petits écrans.
+
+### `commun/footer.php`
+
+- Chargement unique de `eea_design_system.css` dans le composant de pied de page commun à toutes les pages.
+
+### `public/js/inscription_v2.js`
+
+- Ajout d'un affichage de secours pour le drapeau du pays dans le sélecteur de téléphone international.
+- Le drapeau est calculé à partir du code pays choisi et se met à jour lors d'un changement de pays, même si l'image de drapeau fournie par la dépendance externe ne peut pas être chargée.
+
+## Commentaires de maintenance
+
+- `public/css/eea_design_system.css` commence par un commentaire qui précise son rôle de système visuel partagé.
+- `commun/footer.php` documente le chargement commun de cette feuille de style.
+- `public/js/inscription_v2.js` documente le comportement de secours du drapeau du téléphone.
